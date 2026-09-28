@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Import Head -->
+    <%- include('../layout/head') -%>
+  </head>
+  <body>
+    <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="position-relative mb-3">
+              <div class="row g-3 justify-content-between">
+                <div class="col-auto">
+                  <h1 class="app-page-title mb-0">Interview Reminder</h1>
+                </div>
+                <div class="col-auto"></div>
+              </div>
+            </div>
+            <%if(oldValues.interviewData){ 
+              if(oldValues.interviewData.length > 0){
+               oldValues.interviewData.forEach(element=>{%>
+            <div class="app-card app-card-notification shadow-sm mb-4 card-neumorphic">
+              <div class="app-card-header px-4 py-3">
+                <div class="row g-3 align-items-center">
+                  <div class="col-12 col-lg-auto text-center text-lg-left"></div>
+                  <!--//col-->
+                  <div class="col-12 col-lg-auto text-center text-lg-left">
+                    <h4 class="notification-title mb-1">
+                      <%= element.interviewUser.name%>
+                    </h4>
+                    <div class="notification-type mb-2">
+                      <span class="badge bg-info">
+                        <%= element.interviewUser.email %>
+                      </span>
+                    </div>
+                    <ul class="notification-meta list-inline mb-0">
+                      <li class="list-inline-item">
+                        <%= element.interviewUser.contactNumber %>
+                      </li>
+                    </ul>
+                  </div>
+                  <!--//col-->
+                  <div class="col text-right">
+                    <a class="btn btn-success btn-green-neumorpic"
+                      href="/admin/interview/<%= element.interviewUser._id %>/edit"
+                      style="border-radius: 0">
+                      Update Profile
+                    </a>
+                  </div>
+                  <!--//col-->
+                </div>
+                <!--//row-->
+              </div>
+              <!--//app-card-header-->
+              <div class="app-card-body p-4">
+                <div class="col text-left">
+                  <div class="notification-content">
+                    Technology :<%= element.interviewUser.technology %>
+                  </div>
+                </div>
+                <div class="col text-right">
+                  <div class="notification-content empAttendanceType">
+                    <%= oldValues.moment(element.createdAt).fromNow(); %>
+                  </div>
+                </div>
+              </div>
+              <!--//app-card-body-->
+            </div>
+            <!--//app-card-->
+            <%}) }else{%>
+            <h5 style="color: gray">
+              <strong>No more data to display.</strong>
+            </h5>
+            <%} }%>
+          </div>
+          <!--//container-fluid-->
+        </div>
+        <!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div>
+      <!--//app-wrapper-->
+    </div>
+    <%- include('../layout/script') -%>
+  </body>
+</html>

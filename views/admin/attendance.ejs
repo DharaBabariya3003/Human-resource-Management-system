@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<style>
+	td.details-control {
+    background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center !important;
+    cursor: pointer;
+	}
+	tr.shown td.details-control {
+			background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center !important;
+	}	   
+	.hideTd {
+		display: none;
+	}
+	</style>
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">	
+	<div class="app-wrapper">   	
+	  <div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+				<div class="row g-3 mb-4 align-items-center justify-content-between">
+					<span id="overtimeCheckUserId" class="hideOverTimeMinutes"></span>
+					<span id="checkStatus" class="hideOverTimeMinutes"></span>
+					<input type="hidden" id="holidayStatus" value="<%= oldValues.isHoliday%>">
+					<div class="col-auto">
+						<h1 class="app-page-title mb-0">Attendance<span style="color: green;"> ( Total employees:					
+							<span id="totalPresentEmployee"></span>)
+						</span></h1>
+					</div>
+				  <div class="col-auto ">						       
+						<div class="item-label"><strong></strong>
+						</div>
+					</div>
+				  <div class="col-auto">
+						<div class="page-utilities">
+						  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+								<div class="col-auto">
+									<select class="form-select empAttendanceType" id="selectedOption" aria-label="Default select example" >
+										<option value="all">All</option>
+										<option value="overTimeRecord">Overtime Record</option>
+									</select>
+								</div>		
+							  <div class="col-auto">
+									<input type="date" id="attendanceDate" name="attendanceDate" min="1900-01-01" max="<%if(oldValues.maxDateOfDatePicker){%><%= oldValues.maxDateOfDatePicker%><%}%>" 
+									class="form-control" onchange="attendanceDateChangeHandler(event)" value=<%if(oldValues.attendanceDate){%><%= oldValues.attendanceDate%><%}%>>
+								</div>								
+							</div>
+					  </div><!--//table-utilities-->
+				  </div><!--//col-auto-->
+			  </div><!--//row-->
+			  <div class="tab-content" id="orders-table-tab-content">
+			    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+						<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+							<div class="app-card-body">
+								<span id="attendanceLogsRecord" class="hideOverTimeMinutes"> <%= oldValues.attendanceLogs %> </span>
+								<span id="attendanceLogCapture" class="hideOverTimeMinutes"> <%= oldValues.attendanceLogCapture %> </span>
+								<table class="table app-table-hover mb-0 text-left" id="exampleeTable" width="100%">
+									<thead>	
+									  <tr>										
+											<th class="cell" style="display: none;"></th>
+											<th class="cell" style="display: none;"></th>
+											<th class="cell">Employee Code</th>
+											<th class="cell">Name</th>
+											<th class="cell">In Time</th>
+											<th class="cell">Out Time</th>
+											<th class="cell">Over Time(In Minutes)</th>
+											<th class="cell">Extra Minutes</th>
+											<th class="cell">Total Time</th>
+											<th class="cell">Mode</th>
+											<th class="cell"></th>
+											<th class="cell"></th>			
+											<th class="cell"></th>
+											<th class="cell">
+												<div class="form-check" style="margin-top: 10px;">
+													<input class="form-check-input salaryInfoToolTip" type="checkbox" id="ckbCheckAll">
+													<label class="form-check-label salaryInfoToolTip" for="ckbCheckAll">
+														Select All
+												 </label>
+												</div>
+											</th>
+											<th class="cell">
+												<button class="btn btn-outline-primary btn-round-purple-neumorpic" onclick="$.fn.addExtraMinues(null,false);">
+													<i class="fas fa-check"></i>
+												</button>
+											</th>
+										</tr>
+									</thead>	
+									<tbody id="tableId">
+										
+									</tbody>
+								</table>							    
+						  </div><!--//app-card-body-->		
+						</div><!--//app-card-->
+			    </div><!--//tab-pane-->			   
+				</div><!--//tab-content-->
+		  </div><!--//container-fluid-->
+	  </div><!--//app-content-->
+		<%- include('../layout/footer') -%>   
+	</div><!--//app-wrapper-->   
+</div>
+<%- include('../layout/script') -%>  
+<script src="/js/attendance.js"></script>	
+<script src="/js/attendanceDatetable.js"></script>
+
+<script>
+	$(function () {
+		var table;
+    $("#selectedOption").change(function(){	
+      table.ajax.reload(null, false);
+    });
+		$.fn.overTimeCheckFunction = function(id,status){		
+			$("#overtimeCheckUserId").text(id);
+			$("#checkStatus").text(status);
+			table.ajax.reload(null, false);
+		}
+		$.fn.setExtraMinutesFunc = function(){		
+			table.ajax.reload(null, false);
+		}
+		
+		table = $("#exampleeTable").DataTable({
+			"autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'asc' ]],
+			"serverSide": true,
+			"ordering": false,
+			"serverMethod": 'get',
+			'ajax': {
+				'url': '/admin/api/attendanceTable',			
+				'data': function (data) {					
+          var selectedOption = $('#selectedOption').val();
+					var selectedDate = $('#attendanceDate').val();
+					var overtimeCheckUserId = $('#overtimeCheckUserId').text();
+					var checkStatus = $('#checkStatus').text();
+          data.selectedOption = selectedOption;
+					data.selectedDate = selectedDate;
+					data.overtimeCheckUserId = overtimeCheckUserId;
+					data.checkStatus = checkStatus;				
+        }
+			},  
+			"columns": [{
+				data: null,
+				className: 'hideTd',
+				"defaultContent": "-"		
+			},{
+				data: null,
+				className: "userID hideTd",
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+									return `<span>${row.user._id}</span>`;
+				}	
+			},{
+				data: null,
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+									return `${row.user.attendanceCode}`;
+				}
+			}, {
+				data: null,
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+									return `${row.user.firstName+" "+row.user.middleName+" "+row.user.lastName}`;
+				}
+			}, {
+				data: "startTime",
+				"className": "startTimeClass",
+				"defaultContent": "-",
+				"render":function(data, type, row){											
+									let inTime =	convertIntime(row.startTime);
+									return `<span>  ${inTime} </span>`;
+				}	
+			},{
+				data: "endTime",
+				"className": "endTimeClass",
+				"defaultContent": "-",
+				"render":function(data, type, row){											
+									let outTime =	convertOuttime(row.endTime);
+									return `<span>  ${outTime} </span>`;
+				}	
+			},{
+				data: "overTime",
+				"defaultContent": "-"
+			},{
+				data: "extraMinutes",
+				"defaultContent": "-"
+			},{
+				data: "totalTime",
+				"className": "totalTimeClass",
+				"defaultContent": "-",	
+				"render":function(data, type, row){											
+									let totalTime =	convertTotaltime(row.totalTime, row.endTime, row.startTime);
+									return `<span>  ${totalTime} </span>`;
+				}	
+			},{
+					data: "attendanceType",
+					"defaultContent": "-",
+					"render":function(data, type, row){
+						return `<strong class="modeFontColor">  ${row.attendanceType} </strong>`;
+					}
+				},{
+				data: "",
+				"defaultContent": "-"	,
+				"className": "details-control",
+				"render" : function(data, type, row){
+									return "";
+				},
+			},{
+				data: "",
+				"defaultContent": "-"	,
+				"render" : function(data, type, row){							
+									let selectedDate = document.getElementById("attendanceDate").value;	
+									return `<a href="/admin/attendance/${row.user._id}%>/show?selectedDate=${selectedDate}" class="btn btn-outline-primary btn-round-blue-neumorpic" data-toggle="tooltip" title="View" style="border-radius: 0%;">
+										<i class="fas fa-eye"></i>
+									</a>`
+				}
+			},{	
+						data: "",
+						"render":function (data, type, row) {
+							var selectedDate = $('#attendanceDate').val();
+							const dayOfWeek = moment(selectedDate).day();
+							var status =row.user.overtime;
+							var holidayStatus = $('#holidayStatus').val();
+							
+							
+							var columnData;
+							if(status){//Give OT
+								if(row.overTime){
+									if(row.overtimeCheckout){
+										columnData = `
+										<div class="form-check overTimeCheckBox">
+											<input class="form-check-input" type="checkbox" value="" checked  onclick="$.fn.overTimeCheckFunction('${row._id}','unChecked');">
+											<label class="form-check-label" for="flexCheckDefault">
+												Overtime
+											</label>
+										</div>
+									`				
+									}else{
+										columnData = `
+										<div class="form-check overTimeCheckBox">
+											<input class="form-check-input" type="checkbox" onclick="$.fn.overTimeCheckFunction('${row._id}','checked');" >
+											<label class="form-check-label" for="flexCheckDefault">
+												Overtime
+											</label>
+										</div>
+									`				
+									}
+								}else{
+									if(dayOfWeek == 0 || holidayStatus == 'true'){
+											if(row.overtimeCheckout){
+												columnData = `
+												<div class="form-check overTimeCheckBox">
+													<input class="form-check-input" type="checkbox" value="" checked  onclick="$.fn.overTimeCheckFunction('${row._id}','unChecked');">
+													<label class="form-check-label" for="flexCheckDefault">
+														Overtime
+													</label>
+												</div>
+											`
+											}else{
+												columnData = `
+												<div class="form-check overTimeCheckBox">
+													<input class="form-check-input" type="checkbox" onclick="$.fn.overTimeCheckFunction('${row._id}','checked');" >
+													<label class="form-check-label" for="flexCheckDefault">
+														Overtime
+													</label>
+												</div>
+											`				
+											}
+									}else{
+										columnData = `
+									 	<div class="form-check overTimeCheckBox">
+											<input class="form-check-input" type="checkbox" disabled>
+											<label class="form-check-label" for="flexCheckDisabled">
+												Overtime
+											</label>
+										</div>
+									`
+									}
+								}
+							}else{
+								if(row.overtimeCheckout){
+									columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled checked >
+										<label class="form-check-label overTimeFontColor" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`
+								}else{
+								columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled  >
+										<label class="form-check-label overTimeFontColor" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`
+								}
+							}
+							return columnData;
+						},            
+				},{
+				data: "",
+				"defaultContent": "-"	,
+				"render" : function(data, type, row){
+					var extraMinColumn;
+					if(row.extraMinutes){
+						extraMinColumn = `
+						<div class="form-check overTimeCheckBox">
+						<input class="form-check-input salaryInfoToolTip extraMinuteCheckBox" type="checkbox" value="${row._id}" id="${row._id}" checked
+						onclick="$.fn.unCheckExtraMinFun('${row._id}','${row.extraMinutes}');">
+						<label class="form-check-label salaryInfoToolTip" for="${row._id}">
+								Extra minutes
+						</label>
+						</div>`
+					}else{
+						extraMinColumn = `
+						<div class="form-check overTimeCheckBox">
+						<input class="form-check-input salaryInfoToolTip extraMinuteCheckBox" type="checkbox" value="${row._id}" id="${row._id}">
+						<label class="form-check-label salaryInfoToolTip" for="${row._id}">
+								Extra minutes
+						</label>
+						</div>`
+					}
+					return extraMinColumn;
+				}
+			},{
+				data: "",
+				"defaultContent": "-"	,
+				"render" : function(data, type, row){
+					return `<button class="btn btn-outline-primary btn-round-purple-neumorpic" style="padding: 12px !important;margin-left: 14px;margin-top: 5px;" onclick="$.fn.addExtraMinuesForSingleAttendance('${row._id}');">
+													<i class="fas fa-check" style="width:10px !important;"></i>
+												</button>`;
+				}
+			}
+			],
+
+			"fnRowCallback": function(nRow, aData, iDisplayIndex) {
+				var oSettings = table.settings()[0];
+				$("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+				return nRow;
+			},
+			"fnDrawCallback": function () {				
+				let rowCount = $("#exampleeTable tr").length;					
+				rowCount = this.api().page.info().recordsTotal;				
+	 			document.getElementById("totalPresentEmployee").textContent = rowCount;
+			}
+		});
+
+		$('#exampleeTable').on('click', 'td.details-control', function () {    
+      var tr = $(this).closest('tr');    
+			let a = document.getElementById("attendanceLogsRecord").textContent;												
+			let b =  tr.find(".userID").text(); 			
+			let c = document.getElementById("attendanceLogCapture").textContent;						
+			a = JSON.parse(a);    			
+			var row = table.row(tr);       
+			let selectedDate = document.getElementById("attendanceDate").value;									
+      if (row.child.isShown()) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+      } else {
+          // Open this row
+          row.child(format(a,b,c,selectedDate)).show(); 
+          tr.addClass('shown');
+      }
+  	});		
+	});
+
+	function format(attendancelogs,attendance,attendanceLogCapture,selectedDate) {
+  let a = 0;	
+  let j = 0;
+  let start = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;background-color:#f6f8fe;width: 100%;"%>';
+  let end = '</table>';
+	let flag = 0;
+	let convert =	JSON.parse(JSON.stringify(attendanceLogCapture));
+	attendanceLogCapture = JSON.parse(convert);
+	
+  for(i=0;i < attendancelogs.length;i++){   
+		let startCapture;
+		let endCapture;
+		for(let j = 0; j < attendanceLogCapture.length; j++){			
+			if((attendanceLogCapture[j].attendanceLogId == attendancelogs[i]._id) && attendanceLogCapture[j].captureType == "Entry"){				
+				startCapture = attendanceLogCapture[j].key;
+			}else if((attendanceLogCapture[j].attendanceLogId == attendancelogs[i]._id) && attendanceLogCapture[j].captureType == "Exit"){
+				endCapture = attendanceLogCapture[j].key;
+			}
+		}
+		if(!startCapture){
+			startCapture = "/assets/images/no-capture.png";
+		}	
+		if(!endCapture){
+			endCapture = "/assets/images/no-capture.png";
+		}
+		
+		
+		let logDate = moment(attendancelogs[i].createdAt).format('YYYY-MM-DD');		
+    if(((attendancelogs[i].user).trim() === attendance.trim()) && (logDate === selectedDate)){
+      let totalTime = "-";    
+      let printEndTime = '-';
+      let lateReason ="-";      
+      let leaveReason="-";
+      let overtimeReason="-";
+			let updateReson ="-";
+			
+			if(attendancelogs[i].updateRecord[0]){
+        updateReson = attendancelogs[i].updateRecord[0].updateReason;
+        for(let j = 1;j < attendancelogs[i].updateRecord.length ;j++)
+        {
+          updateReson = updateReson +"<br>"+ attendancelogs[i].updateRecord[j].updateReason;
+        }      
+      }
+      if(attendancelogs[i].lateReason){ 
+        lateReason = attendancelogs[i].lateReason;
+			}
+			if(attendancelogs[i].leaveReason){
+        leaveReason = attendancelogs[i].leaveReason;
+      }
+      if(attendancelogs[i].overtimeReason){
+        overtimeReason = attendancelogs[i].overtimeReason;
+      }
+      if(attendancelogs[i].endTime) {
+        printEndTime = interviewTimeToHours(getLocalTime(attendancelogs[i].endTime));
+        let endTime,startTime;
+				if(attendancelogs[i].attendanceMode.trim() == 'Card'){
+					startTime = moment.duration(getUtcHnM(attendancelogs[i].startTime), "HH:mm ");
+					endTime = moment.duration(getUtcHnM(attendancelogs[i].endTime), "HH:mm ");
+					let diff = endTime.subtract(startTime);
+					let diffH = diff.hours(); 
+					let diffM = diff.minutes();
+					totalTime =  diffH + ":" + diffM;
+				}else{
+					endTime = moment(attendancelogs[i].endTime);
+					startTime = moment(attendancelogs[i].startTime);
+					let minuteDiffBtnLog = endTime.diff(startTime, 'minutes');
+					let minutesToHours = ((Math.floor(minuteDiffBtnLog / 60) + ':' + minuteDiffBtnLog % 60));
+					totalTime =  minutesToHours;
+				}
+      }
+      if(flag == 0){
+        a = 
+        `<tr>
+            <th><strong>Sr No.</strong></th>
+            <th><strong>In Time</strong></th>
+            <th><strong>Out Time</strong></th>
+            <th><strong>Total Time</strong></th>
+            <th><strong>Late Reason</strong></th>
+            <th><strong>Leave Reason</strong></th>
+            <th><strong>Overtime Reason</strong></th>
+            <th><strong>Updated Reason</strong></th>
+						<th><strong>Action</strong></th>
+						<th><strong>Entry</strong></th>
+						<th><strong>Exit</strong></th>
+				</tr>  
+        <tr style="border-bottom:1px solid gray">
+            <td><strong>${(j=j+1)}</strong></td>
+            <td>${interviewTimeToHours(getLocalTime(attendancelogs[i].startTime))}</td> 
+            <td>${printEndTime}</td>            
+            <td>${formatTotalTime(totalTime)}</td>
+            <td>${lateReason}</td>
+            <td>${leaveReason}</td> 
+            <td>${overtimeReason}</td> 
+            <td>${updateReson}</td>
+						<td> <button type="button" onclick='updateAttendnaceLogs(${JSON.stringify(attendancelogs[i]._id)})' class="btn btn-outline-success btn-round-green-neumorpic" data-toggle="tooltip" title="Edit" style="border-radius: 0%;" data-id=id><i class="fas fa-edit"></i></button> </td> 
+						<td>
+							<a data-fancybox="gallery" href="${startCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${startCapture}"/>	
+							</a>
+						</td>
+						<td>
+							<a data-fancybox="gallery" href="${endCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${endCapture}"/>	
+							</a>
+						</td></tr>
+						`        
+        flag = 1;      
+      }else{
+        a = a +
+        `<tr style="border-bottom:2px solid gray">
+            <td><strong>${(j=j+1)}</strong></td>
+            <td>${interviewTimeToHours(getLocalTime(attendancelogs[i].startTime))}</td>
+            <td>${printEndTime}</td>
+            <td>${formatTotalTime(totalTime)}</td>
+            <td>${lateReason}</td>
+            <td>${leaveReason}</td>
+            <td>${overtimeReason}</td> 
+            <td>${updateReson}</td>
+            <td> <button type="button" onclick='updateAttendnaceLogs(${JSON.stringify(attendancelogs[i]._id)})' class="btn btn-outline-success btn-round-green-neumorpic" data-toggle="tooltip" title="Edit" style="border-radius: 0%;" data-id=id><i class="fas fa-edit"></i></button> </td> 
+						<td>
+							<a data-fancybox="gallery" href="${startCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${startCapture}"/>	
+							</a>
+						</td>
+						<td>
+							<a data-fancybox="gallery" href="${endCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${endCapture}"/>	
+							</a>
+						</td></tr>
+						`
+      }      
+    }
+  }
+  if(a == 0) return start + "<h6><strong>No logs found...</strong></h6>" + end;
+  let finalTable = start + a + end;
+  return finalTable;
+}
+
+function convertIntime(intime){
+	let result ;
+	if(intime){	
+		var s = intime.trim();		
+		if(s !== "-"){
+			result= (interviewTimeToHours(getLocalTime(s)));
+		}else{
+			result = "-";
+		}
+	}else{
+		result = "-";
+	}
+	return result;
+	
+}
+function convertOuttime(outtime){
+	let result ;
+	if(outtime){
+		var e = outtime.trim();	
+		if(e !== "-"){
+			result= (interviewTimeToHours(getLocalTime(e)));
+		}else{
+			result = "-";
+		}
+	}else{
+		result = "-";
+	}
+	
+	return result;
+}
+function convertTotaltime(totaltime, endTime, inTime){	
+	let result;
+	let startLocalTime;
+	//for inTime
+	if(inTime){
+		var s = inTime.trim();			
+		if(s !== "-"){
+			startLocalTime = getLocalTime(s);		
+		}
+	}
+	
+	//for outTime	
+	let e ;
+	if(endTime){
+		e = endTime.trim();	
+		if(e !== "-"){
+			e = (interviewTimeToHours(getLocalTime(e)));
+		}else{
+			e = "-";
+		}
+	}else{
+		e = "-";
+	}
+	
+	//for totalTime
+	let t = totaltime.trim();
+	var hours,minutes;
+			if(t !== "-"){
+				if(e !== "-"){
+				t=t.split(":");
+
+				if(t[0].length==1){	
+					hours = format_two_digits(parseInt(t[0]));
+				}else{
+					hours = t[0];
+				}
+
+				if(t[1].length==1){
+					minutes = format_two_digits(parseInt(t[1]));
+				}else{
+					minutes = t[1];
+				}
+			  result = (hours+":"+minutes)
+				}else{
+					let currentDate = moment(inTime).isSame(moment(), 'day');
+					if(currentDate){
+						let currentTime = moment().format("HH:mm");
+						let workingHourss = getTimeDiffTotalMinutes(startLocalTime,currentTime);
+						result = workingHourss;
+					}else{
+						return "-";
+					}
+				}
+			}else{
+				result = '-';
+			}
+			return result;
+}
+// Check all checkbox.
+$("#ckbCheckAll").click(function () {
+	$(".extraMinuteCheckBox").prop('checked', $(this).prop('checked'));
+});
+
+// check for positive number.
+function isNumberKey(evt){
+  var charCode = (evt.which) ? evt.which : evt.keyCode
+  return !(charCode > 31 && (charCode < 48 || charCode > 57));
+}
+
+//Uncheck extra minutes.
+$.fn.unCheckExtraMinFun = function(id, extraMinutes){
+	swal({
+    // title: "Do you want to wipe out the given extra minutes?",
+    text: `Do you wants to wipe out the given ${extraMinutes} extra minutes?`,
+    icon: "warning",
+    buttons: ["No, cancel it!", "Yes, I am sure!"],
+  }).then(function (isConfirm) {
+    if (isConfirm) {
+      $.ajax({
+				url : `/admin/attendance/unset-extra-minutes?attendanceId=${id}`,
+				type:'GET',
+				success: function (data, textStatus, xhr) {  
+					$.fn.setExtraMinutesFunc();
+				}, 
+			});
+    }else{
+			$.fn.setExtraMinutesFunc();
+		}
+  });
+}
+
+// add ExtraMinues For Single Attendance.
+$.fn.addExtraMinuesForSingleAttendance = function(attendanceId){
+	let checkStatus = $('#'+attendanceId).is(':checked');
+	if(checkStatus){
+		$.fn.addExtraMinues(attendanceId,true);
+	}else{
+		swal({
+			text: `You have not selected any user.`,
+			icon: "warning",
+			dangerMode: true,
+		});
+	}
+}
+
+// Get minute and reason, if everything is proper then call API.
+$.fn.addExtraMinues = function(checkBoxId,attendanceLengthStatus){
+	var attendanceDate = $("#attendanceDate").val();
+	var selectedUsers = [];
+	if(attendanceLengthStatus){
+		selectedUsers.push(checkBoxId);
+	}else{
+		$('.extraMinuteCheckBox:checkbox:checked').each(function() {
+			selectedUsers.push($(this).val());
+		});
+	}
+	
+	var extraMinutesVal,extraMinutesReasonVal;
+
+	Swal.fire({
+  html: `<input class="form-control" id="extraMinutes" maxlength="4" onkeypress="return isNumberKey(event);" placeholder="Minutes"  type="text"><br>
+	<input type="text" id="extraMinutesReason" class="form-control" placeholder="Reason"/>`,
+	showCancelButton: true,
+	title: 'Add Minutes',
+	confirmButtonText: 'Save',
+	confirmButtonColor: '#37a729',
+	cancelButtonColor: '#d15858',
+	preConfirm: () => {
+		var extraMinutes = $("#extraMinutes").val();
+		extraMinutesVal = extraMinutes;
+		var extraMinutesReason = $("#extraMinutesReason").val();
+		extraMinutesReasonVal = extraMinutesReason;
+
+		//  Check for given condition.
+		if(!extraMinutes || (Number(extraMinutes) <= 0)){
+			Swal.showValidationMessage('Minutes must be greater than Zero.')
+		}else if(!extraMinutesReason){
+			Swal.showValidationMessage('Reason of extra given minute is mandatory.')
+		}else if(selectedUsers.length == 0){
+			Swal.showValidationMessage('You have not selected any user.')
+		}else if((moment(new Date(attendanceDate)).isSame(new Date(), "day")) || (moment(new Date(attendanceDate)).isAfter(new Date(), "day"))){
+			Swal.showValidationMessage("Date cannot be today's or future.")
+		}
+
+    }
+	}).then((result) => {
+		if (result.isConfirmed) {
+			// Call API to add extra minutes for user.
+			var userData = {
+				extraMinutes: extraMinutesVal,
+				extraMinutesReason: extraMinutesReasonVal,
+				attendanceId: selectedUsers
+			}
+			
+			$.ajax({    
+				url : `/admin/attendance/extra-minutes`,
+				type: 'POST',
+				contentType: 'application/json',
+				data : JSON.stringify(userData),
+				success: function (data, textStatus, xhr) {
+					if(data.loginUser.trim() == 'HR'){
+						toastr.error('HR can not add minutes for themself.');
+					}else{
+						toastr.success('Added !!!');
+					}
+					$.fn.setExtraMinutesFunc();
+				},  
+			});
+		}
+	});
+}
+</script>
+</body>
+</html>
+
+
+<!----------------------------------------->
+<div class="modal fade" id="popUpEditLogWindow" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				
+				<h4 class="modal-title w-100 text-left" id="myModalLabel"><b>Edit Document Details</b></h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="row g-4 settings-section">
+					<div class="col-12 col-md-12">
+						<div class="app-card app-card-settings shadow-sm p-4">
+							<div class="app-card-body">
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>																
+		</div>
+	</div>
+</div>
+
+
+
+

@@ -1,0 +1,24 @@
+exports.sendJson = function sendJson(statusCode = 200, response) {
+  var status = statusCode >= 200 && statusCode < 300 ? true : false;
+
+  if (!(typeof response == "object" && response.message && response.data)) {
+    response =
+      typeof response == "string"
+        ? { status, message: response }
+        : { status, data: response };
+  }
+  return this.status(statusCode).json(response);
+};
+
+exports.sendRender = function sendRender(
+  template,
+  success = null,
+  error = null,
+  oldValues = null
+) {
+  let response = {};
+  response.success = success;
+  response.error = error;
+  response.oldValues = oldValues;
+  return this.render(template, response);
+};

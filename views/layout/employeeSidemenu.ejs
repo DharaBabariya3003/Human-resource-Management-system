@@ -1,0 +1,125 @@
+<div id="app-sidepanel" class="app-sidepanel sidepanel-hidden"> 
+  <div id="sidepanel-drop" class="sidepanel-drop"></div>
+    <div class="sidepanel-inner d-flex flex-column">
+      <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+			<div class="app-branding p1-0" style="margin: 0;padding: 5px 0;background: #dc0000;">
+        <a class="app-logo d-block text-center" href="#">
+          <img height="45" width="135" src="/assets/images/background/bigscal-logo.png" alt="Bigscal - Outsource Software Development Services">
+        </a>  
+      </div>
+        <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+          <ul class="app-menu list-unstyled accordion" id="menu-accordion">
+            <li class="nav-item <%if(oldValues.sideTab == 'userProfile'){%> activeTab <%}%>">
+              <a class="nav-link <%if(oldValues.sideTab == 'userProfile'){%> empActiveTab <%}%>" href="/admin">
+                <span class="nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                	</svg>
+              	</span>
+              	<span class="nav-link-text">Profile</span>
+              </a>    
+            </li>
+            <li class="nav-item has-submenu">
+							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+							<a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-1" aria-expanded="false" aria-controls="submenu-1">
+								<span class="nav-icon">
+									<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+									</svg>
+								</span>
+								<span class="nav-link-text">Attendance</span>
+								<span class="submenu-arrow">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+									</svg>
+								</span><!--//submenu-arrow-->
+							</a><!--//nav-link-->
+							<div id="submenu-1" class="collapse submenu submenu-1 <% if(oldValues.sideTab == 'usershowAttendenceDetail' || oldValues.sideTab == 'userLeaveAttendenceDetail'){%> submenu submenu-9 collapse show" <%}%>" data-parent="#menu-accordion">
+								<ul class="submenu-list list-unstyled">
+									<li class="submenu-item <%if(oldValues.sideTab == 'usershowAttendenceDetail'){%> activeTab <%}%>" id=""><a class="submenu-link <%if(oldValues.sideTab == 'usershowAttendenceDetail'){%> empActiveTab <%}%>" href="/dashboard/attendanceDetails">Attendance Details</a></li>
+									<li class="submenu-item <%if(oldValues.sideTab == 'userLeaveAttendenceDetail'){%> activeTab <%}%>" id=""><a class="submenu-link <%if(oldValues.sideTab == 'userLeaveAttendenceDetail'){%> empActiveTab <%}%>" href="/dashboard/leaveDetails">Attendance Leave Details</a></li>          
+								</ul>
+							</div>
+						</li><!--//nav-item-->
+						<%
+              let currentYear=new Date().getFullYear();
+            %> 
+            <li class="nav-item has-submenu">
+							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+							<a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-3" aria-expanded="false" aria-controls="submenu-3">
+								<span class="nav-icon">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+									</svg>
+								</span>
+								<span class="nav-link-text">Leave Request</span>
+								<span class="submenu-arrow">
+									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+									</svg>
+								</span><!--//submenu-arrow-->
+							</a><!--//nav-link-->
+							<div id="submenu-3" class="collapse submenu submenu-3 <% if(oldValues.sideTab == 'sendLeaveRequest' || oldValues.sideTab == 'leaveRequestStatus'|| oldValues.sideTab == 'leaveRequestHistory'){%> submenu submenu-9 collapse show" <%}%>" data-parent="#menu-accordion">
+								<ul class="submenu-list list-unstyled">
+									<li class="submenu-item <%if(oldValues.sideTab == 'sendLeaveRequest'){%> activeTab <%}%>"><a class="submenu-link <%if(oldValues.sideTab == 'sendLeaveRequest'){%> empActiveTab <%}%>" href="/dashboard/leaveRequest">Send Leave Request</a></li>
+                  <li class="submenu-item <%if(oldValues.sideTab == 'leaveRequestStatus'){%> activeTab <%}%>"><a class="submenu-link <%if(oldValues.sideTab == 'leaveRequestStatus'){%> empActiveTab <%}%>" href="/dashboard/approveLeaveRequest">Leave Request Status</a></li>
+                  <li class="submenu-item <%if(oldValues.sideTab == 'leaveRequestHistory'){%> activeTab <%}%>"><a class="submenu-link <%if(oldValues.sideTab == 'leaveRequestHistory'){%> empActiveTab <%}%>" href="/dashboard/leaveRequest/history/?year=<%= currentYear %>&option=All">Leave Request History</a></li>          
+								</ul>
+							</div>
+						</li><!--//nav-item-->  
+            <li class="nav-item <%if(oldValues.sideTab == 'userHolidays'){%> activeTab <%}%>">
+              <a class="nav-link <%if(oldValues.sideTab == 'userHolidays'){%> empActiveTab <%}%>" href="/dashboard/holidays">
+                <span class="nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </span>
+                <span class="nav-link-text">Holidays</span>
+              </a>    
+            </li>
+            <li class="nav-item <%if(oldValues.sideTab == 'userNotifications'){%> activeTab <%}%>" onclick="$.fn.empNotificationClickedFunc('notificationPage');">
+              <a class="nav-link <%if(oldValues.sideTab == 'userNotifications'){%> empActiveTab <%}%>" href="/dashboard/notification">
+                <span class="nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </span>
+                <span class="nav-link-text">Notifications</span><span id="sideMenuNotification"></span>
+              </a>    
+						</li>
+						<li class="nav-item <%if(oldValues.sideTab == 'interview'){%> activeTab <%}%>">
+              <a class="nav-link <%if(oldValues.sideTab == 'interview'){%> empActiveTab <%}%>" href="/dashboard/interview">
+                <span class="nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </span>
+                <span class="nav-link-text">Interview schedule</span>
+              </a>    
+            </li>
+            <li class="nav-item <%if(oldValues.sideTab == 'assets'){%> activeTab <%}%>">
+              <a class="nav-link <%if(oldValues.sideTab == 'assets'){%> empActiveTab <%}%>" href="/dashboard/assets">
+                <span class="nav-icon">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                  </svg>
+                </span>
+                <span class="nav-link-text">Assets</span>
+              </a>    
+            </li>            
+            <li class="nav-item">
+            	<a class="nav-link" href="/auth/logout">
+                <span class="nav-icon">
+                	<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  	<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                	</svg>
+                </span>
+                <span class="nav-link-text">Log Out</span>
+            	</a>    
+            </li>
+          </ul><!--//app-menu-->
+        </nav><!--//app-nav-->
+    	</div>
+		</div>

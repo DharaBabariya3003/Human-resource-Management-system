@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+	<style>
+    .hideTd{
+			display: none;
+		}
+  </style>
+</head>
+<body>
+	<%- include('../layout/header') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<div class="row g-3 mb-4 align-items-center justify-content-between">
+							<div class="col-auto">
+								<h1 class="app-page-title mb-0">Left Employees</h1>
+							</div>
+							<div class="col-auto">
+								<div class="page-utilities">
+									<div class="row g-2 justify-content-start justify-content-md-end align-items-center"></div><!--//row-->
+								</div><!--//table-utilities-->
+							</div><!--//col-auto-->
+						</div><!--//row-->
+						<div class="tab-content" id="orders-table-tab-content">
+							<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+								<div class="app-card-body">
+									<table id="matchData" class="table app-table-hover mb-0 text-left">
+										<thead>
+											<tr>
+												<th class="cell" style="display: none;">Sr No</th>
+												<th class="cell">Employee Code</th>
+												<th class="cell">First Name</th>
+												<th class="cell">Middle Name</th>
+												<th class="cell">Last Name</th>
+												<th class="cell">Email-ID</th>
+												<th class="cell">Contact Number</th>
+												<th class="cell">Vehical Number</th>
+												<th class="cell">Action</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div><!--//app-card-body-->
+							</div><!--//app-card-->
+						</div><!--//tab-content-->
+					</div><!--//container-fluid-->
+				</div><!--//app-content-->
+				<%- include('../layout/footer') -%>
+			</div><!--//app-wrapper-->
+		</div>
+		<%- include('../layout/script') -%>
+		<script src="/js/deleteEmployee.js"></script>
+		<script src="/js/restoreEmployee.js"></script>
+
+		<script>
+			$(function () {
+				var table;
+			
+				table = $("#matchData").DataTable({
+					"autoWidth": false,
+					"scrollX": true,
+					"order": [[ 0, 'asc' ]],
+					"serverSide": true,
+					"ordering": false,
+					"serverMethod": 'get',
+					'ajax': {
+						'url': '/admin/api/leftEmployeeTable',
+					},
+					"columns": [{
+						data: "",
+						className: 'hideTd',
+						"defaultContent": "-"
+					},{
+						data: "attendanceCode",
+						"defaultContent": "-"
+					}, {
+						data: "firstName",
+						"defaultContent": "-"
+					}, {
+						data: "middleName",
+						"defaultContent": "-"
+					},{
+						data: "lastName",
+						"defaultContent": "-"
+					},{
+						data: "email",
+						"defaultContent": "-"
+					},{
+						data: "contactNumber",
+						"defaultContent": "-"
+					},{
+						data: "vehicalNumber",
+						"defaultContent": "-"
+					},
+					{
+							data: "_id",
+              "render": function (data, type, row) {
+                    return `<a href="/admin/leftEmployees/view/<%= 'profile' %>/${row._id}%>"
+															class="btn btn-outline-primary btn-round-blue-neumorpic" style="border-radius: 0%;margin-right: 5%;" data-toggle="tooltip" title="View Employee Details" >
+															<i class="fas fa-eye"></i>
+														</a> 
+														<a onclick="deleteEmployee('${row._id}')"><button type="button"
+																class="btn btn-outline-danger btn-round-red-neumorpic" style="border-radius: 0%;margin-right: 5%;" data-toggle="tooltip" title="Permanently Delete">
+																<i class="fas fa-trash"></i>
+															</button></a>
+															<a onclick="restoreEmployee('${row._id}')"><button type="button"
+																class="btn btn-outline-success btn-ellipse-green-neumorpic" style="border-radius: 0%;" data-toggle="tooltip" title="Rejoin Employee">
+																<strong>Rejoin</strong>
+															</button></a>	`;
+              }
+        	}],
+					"fnRowCallback": function(nRow, aData, iDisplayIndex) {
+						var oSettings = table.settings()[0];
+						$("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+						return nRow;
+					}
+				});
+			});
+		</script>
+
+</body>
+</html>

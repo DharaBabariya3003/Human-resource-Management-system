@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+<script src="/assets/jQuery/timepickerjs.min.js"></script>
+<script src="/assets/jQuery/timepicker.min.js"></script>
+</head>	
+<body>
+<%if(oldValues){
+	if(oldValues.old){
+		if(oldValues.old.loginUserRoleName && oldValues.old.loginUserRoleName == 'HR Recruiter'){%>
+			<%- include('../layout/employeeHeader') -%>
+		<%}else{%>
+			<%- include('../layout/header') -%>
+		<%}
+	}else{
+		if(oldValues.loginUserRoleName && oldValues.loginUserRoleName == 'HR Recruiter'){%>
+			<%- include('../layout/employeeHeader') -%>
+		<%}else{%>
+			<%- include('../layout/header') -%>
+		<%}
+	}
+}%>
+
+<div class="app">
+	<div class="app-wrapper">    
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+			<div class="container-xl">			    
+				<h1 class="app-page-title">Add Interview Details</h1>
+				<hr class="mb-4">
+				<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+					<div class="app-card-body">
+						<div class="col-12 col-lg-12">
+							<div class="app-card-body px-4 w-100">
+								<form method="POST" action=<%if(oldValues){
+									if(oldValues.old){
+										if(oldValues.old.loginUserRoleName && oldValues.old.loginUserRoleName == 'HR Recruiter' ){%>
+											<%= "/dashboard/interview/create" %>
+										<%}else{%>
+											<%= "/admin/interview/create" %>
+										<%}
+									}else{
+										if(oldValues.loginUserRoleName && oldValues.loginUserRoleName == 'HR Recruiter'){%>
+											<%= "/dashboard/interview/create" %>
+										<%}else{%>
+											<%= "/admin/interview/create" %>
+										<%}
+									}
+								}%>>
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Full name <span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input name="name" class="form-control" placeholder="Full name" required  type="text" value=<%if(oldValues.old)
+															{%>
+																<%- JSON.stringify(oldValues.old.payload.name) %>
+															<%}%>>
+															</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>											
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Address / Location <span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input name="address"  class="form-control" placeholder="Address" required type="text" value=<%if(oldValues.old)
+															{%>																
+																<%- JSON.stringify(oldValues.old.payload.address) %>
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>		
+										</div><!--//row-->
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Previous company name</strong></div>
+														<div class="item-data">
+															<input class="form-control" name="previousCompanyName" placeholder="Previous company name"  type="text" value=<%if(oldValues.old)
+															{%>
+																<%- JSON.stringify(oldValues.old.payload.previousCompanyName) %>
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Qualification <span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input name="qualification" class="form-control" placeholder="Qualification" required type="text" value=<%if(oldValues.old){%>
+																<%- JSON.stringify(oldValues.old.payload.qualification) %>
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>		
+										</div><!--//row-->
+									</div><!--//item-->	
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Technology </strong></div>
+														<div class="item-data">
+															<input name="technology" class="form-control" placeholder="Technology" type="text" value=<%if(oldValues.old){%>
+																<%- JSON.stringify(oldValues.old.payload.technology) %>
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-6">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Contact number <span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input name="contactNumber" onkeypress="return isNumberKey(event);" maxlength="10" class="form-control" type="text" required placeholder="Contact number" value=<%if(oldValues.old){%>
+																<%- JSON.stringify(oldValues.old.payload.contactNumber) %>
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>	
+										</div>
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-4">
+												<div class="col-auto">
+												<div class="mb-3">
+													<div class="item-label"><strong>Birth date</strong></div>
+													<div class="item-data">
+														<input name="dateOfBirth" class="form-control" type="text" readonly id="dateOfBirth" value=<%if(oldValues.old){%>
+															<%= oldValues.old.payload.dateOfBirth %>
+														<%}%>>
+													</div> <!-- form-group// -->
+													<script>
+														$('#dateOfBirth').datepicker({uiLibrary: 'bootstrap5',format: 'dd-mm-yyyy',footer:true,modal:true });
+														$("#dateOfBirth").on("focus", function() {																
+															$(".dateOfBirth .clock").click()
+														});
+													</script>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+												<div class="mb-3">
+													<div class="item-label"><strong>Email ID</strong></div>
+													<div class="item-data">
+														<input name="email" class="form-control restrictSpace" placeholder="Email ID" type="email" value=<%if(oldValues.old){%>
+															<%= oldValues.old.payload.email %>
+														<%}%> >
+													</div> <!-- form-group// -->	
+												</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Interview mode</strong></div>
+														<div class="item-data">
+															<select name="interviewMode" class="form-control form-select">
+																<option value="Offline" 
+																<%if(oldValues.old)
+																{%>
+																	<%if(oldValues.old.payload.interviewMode=='Offline')
+																	{%>
+																		<%= 'selected'%>
+																	<%}%>
+																<%}%>>Offline</option>
+																<option value="Online" 
+																<%if(oldValues.old)
+																{%>
+																	<%if(oldValues.old.payload.interviewMode=='Online')
+																	{%>
+																		<%= 'selected'%>
+																	<%}%>
+																<%}%>>Online</option>
+															</select>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>		
+										</div><!--//row-->
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Year of experience</strong></div>
+														<div class="item-data">
+															<input name="yearOfExperience" onkeypress='return event.charCode == 46 || (event.charCode >= 48 && event.charCode <= 57)' maxlength="3" class="form-control" type="text" placeholder="Year of experience" value=<%if(oldValues.old)
+															{%>
+																<%- JSON.stringify(oldValues.old.payload.yearOfExperience) %>
+															<%}else{%>
+																'0'
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Current salary</strong></div>
+														<div class="item-data">
+															<input name="currentSalary" class="form-control" maxlength="5" onkeypress="return isNumberKey(event);" placeholder="Current salary"  type="text" value=<%if(oldValues.old)
+															{%>
+																<%= oldValues.old.payload.currentSalary %>
+															<%}else{%>
+																'0'
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Expected salary</strong></div>
+														<div class="item-data">
+															<input name="expectedSalary" class="form-control" maxlength="5" onkeypress="return isNumberKey(event);" placeholder="Expected salary" type="text" value=<%if(oldValues.old)
+															{%>
+																<%= oldValues.old.payload.expectedSalary %>
+															<%}else{%>
+																'0'
+															<%}%>>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>		
+										</div><!--//row-->
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between">
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Interview date and time <span class="requiredField">*</span></strong></div>
+														<div class="item-data interviewTime">
+															<input type="text" class="form-control" name="interviewTime" readonly  id="interviewTime" value=<%if(oldValues.old){%>
+																<%- JSON.stringify(oldValues.old.payload.interviewTime) %>
+															<%}%>>															
+															<script>
+																$('#interviewTime').datetimepicker(
+																	{uiLibrary: 'bootstrap5',
+																	format: 'dd-mm-yyyy hh:MM TT',
+																	footer:true,modal:true 
+																});
+																$("#interviewTime").on("focus", function() {																
+																	$(".interviewTime .clock").click()
+																});
+															</script>
+														
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>		
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Call date</strong></div>
+														<div class="item-data">
+															<input name="callDate" class="form-control" type="text" readonly id="callDate" value=<%if(oldValues.old){%>
+																<%= oldValues.old.payload.callDate %>
+															<%}%> >
+															<script>
+																$('#callDate').datepicker({uiLibrary: 'bootstrap5',format: 'dd-mm-yyyy',footer:true,modal:true });
+																$("#callDate").on("focus", function() {																
+																	$(".callDate .clock").click()
+																});
+															</script>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Technical round:<span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input  type="hidden" name="technicalRoundUser" id="technicalRoundUser" value=<%if(oldValues){
+																if(oldValues.old){%>
+																	<%= oldValues.old.payload.technicalRoundUser %>
+																<%}else{
+																 if(oldValues.payload){%>
+																	<%= oldValues.payload.technicalRoundUser %>
+																 <%}
+																}
+															}%>
+															>
+															<input list="encodings" name="technicalRoundUserName" type="text" id="technicalRoundUserName" required placeholder="Technical Round User Name" class="form-control form-select" value=<%if(oldValues){
+																if(oldValues.old){%>
+																	<%- JSON.stringify(oldValues.old.payload.technicalRoundUserName) %>
+																<%}else{
+																 if(oldValues.payload){%>
+																	<%- JSON.stringify(oldValues.payload.technicalRoundUserName) %>
+																 <%}
+																}
+															}%>
+															>
+															<datalist id="encodings">
+																	<%if(oldValues){
+																		if(oldValues.old){
+																			if(oldValues.old.technicalRound){
+																				if(oldValues.old.technicalRound.length>0){
+																					oldValues.old.technicalRound.forEach(element=>{
+																						if(element.firstName && element.lastName){%>
+																							<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																						<%}
+																					})
+																				}
+																			}
+																		}else{
+																			if(oldValues.technicalRound){
+																				if(oldValues.technicalRound.length>0){
+																					oldValues.technicalRound.forEach(element=>{
+																						if(element.firstName && element.lastName){%>
+																							<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																						<%}
+																					})
+																				}
+																			}
+																		}
+																	}%>
+																
+															</datalist>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>													
+										</div>
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>HR round:<span class="requiredField">*</span></strong></div>
+														<div class="item-data">
+															<input  type="hidden" name="hrRoundUser" id="hrRoundUser" value=<%if(oldValues){
+																if(oldValues.old){%>
+																	<%= oldValues.old.payload.hrRoundUser %>
+																<%}else{
+																 if(oldValues.payload){%>
+																	<%= oldValues.payload.hrRoundUser %>
+																 <%}
+																}
+															}%>
+															>
+															<input list="hrEncodings" name="hrRoundUserName" type="text" id="hrRoundUserName" required placeholder="HR Round User Name" class="form-control form-select" value=<%if(oldValues){
+																if(oldValues.old){%>
+																	<%- JSON.stringify(oldValues.old.payload.hrRoundUserName) %>
+																<%}else{
+																 if(oldValues.payload){%>
+																	<%- JSON.stringify(oldValues.payload.hrRoundUserName) %>
+																 <%}
+																}
+															}%>
+															>
+															<datalist id="hrEncodings">
+																	<%if(oldValues){
+																		if(oldValues.old){
+																			if(oldValues.old.hrRound){
+																				if(oldValues.old.hrRound.length>0){
+																					oldValues.old.hrRound.forEach(element=>{
+																						if(element.firstName && element.lastName){%>
+																							<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																						<%}
+																					})
+																				}
+																			}
+																		}else{
+																			if(oldValues.hrRound){
+																				if(oldValues.hrRound.length>0){
+																					oldValues.hrRound.forEach(element=>{
+																						if(element.firstName && element.lastName){%>
+																							<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																						<%}
+																					})
+																				}
+																			}
+																		}
+																	}%>
+																
+															</datalist>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>Reference User:</strong></div>
+														<div class="item-data">
+															<input  type="hidden" name="referenceUser" id="referenceUser" value=<%if(oldValues){
+																if(oldValues.old && oldValues.old.payload.referenceUser){%>
+																	<%= oldValues.old.payload.referenceUser %>
+																<%}else{
+																 if(oldValues.payload && oldValues.payload.referenceUser){%>
+																	<%= oldValues.payload.referenceUser %>
+																 <%}
+																}
+															}%>
+															>
+															<input list="referenceEncodings" name="referenceUserName" type="text" id="referenceUserName" placeholder="Reference User Name" class="form-control form-select" value=<%if(oldValues){
+																if(oldValues.old && oldValues.old.payload.referenceUserName){%>
+																	<%- JSON.stringify(oldValues.old.payload.referenceUserName) %>
+																<%}else{
+																 if(oldValues.payload && oldValues.payload.referenceUserName){%>
+																	<%- JSON.stringify(oldValues.payload.referenceUserName) %>
+																 <%}
+																}
+															}%>
+															>
+															<datalist id="referenceEncodings">
+																<%if(oldValues){
+																	if(oldValues.old){
+																		if(oldValues.old.technicalRound){
+																			if(oldValues.old.technicalRound.length>0){
+																				oldValues.old.technicalRound.forEach(element=>{
+																					if(element.firstName && element.lastName){%>
+																						<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																					<%}
+																				})
+																			}
+																		}
+																	}else{
+																		if(oldValues.technicalRound){
+																			if(oldValues.technicalRound.length>0){
+																				oldValues.technicalRound.forEach(element=>{
+																					if(element.firstName && element.lastName){%>
+																						<option data-value= '<%= element._id %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																					<%}
+																				})
+																			}
+																		}
+																	}
+																}%>
+															</datalist>
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-4">
+												<div class="col-auto">
+													<div class="mb-3">
+													<div class="item-label"><strong>Remark:</strong></div>
+														<div class="item-data">
+														<textarea name="remark" 
+															 style="height: 87px !important;"
+														 class="form-control"><%if(oldValues.old){%>
+															<%= oldValues.old.payload.remark %>
+														<%}%></textarea>
+														</div> <!-- form-group end.// -->
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-2">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-label"><strong>&nbsp;</strong></div>
+														<div class="item-data">
+														</div> <!-- form-group// -->
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><!--//item-->
+									<div class="item border-bottom py-3" style="border: none !important;">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-9">
+												<div class="col-auto">
+													<div class="mb-3">
+															<div class="item-data"></div> <!-- form-group end.// -->
+													</div>
+												</div>
+											</div>	
+											<div class="col-sm-3">
+												<div class="col-auto">
+													<div class="mb-3">
+														<div class="item-data">	
+															<button type="submit" style="border-radius: 0;" class="btn btn-sucess btn-block btn-green-neumorpic" > Add Interview Detail  </button>
+														</div>
+													</div>
+												</div>
+											</div>	
+										</div>		
+									</div><!--//item-->
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--//container-fluid-->
+		</div><!--//app-content-->
+  	<%- include('../layout/footer') -%>   
+ 	</div><!--//app-wrapper-->    					
+</div>
+<%if(oldValues){
+	if(oldValues.old){
+		if(oldValues.old.loginUserRoleName && oldValues.old.loginUserRoleName == 'HR Recruiter'){%>
+			<%- include('../layout/employeeScript') -%>
+		<%}else{%>
+			<%- include('../layout/script') -%>
+		<%}
+	}else{
+		if(oldValues.loginUserRoleName && oldValues.loginUserRoleName == 'HR Recruiter'){%>
+			<%- include('../layout/employeeScript') -%>
+		<%}else{%>
+			<%- include('../layout/script') -%>
+		<%}
+	}
+}%>	
+<script src="/js/checkPasswordMatch.js"></script>
+<script src="/js/dateHandler.js"></script>
+<script src="/js/interview.js"></script>
+<script>
+	function isNumberKey(evt){
+    var charCode = (evt.which) ? evt.which : evt.keyCode
+    return !(charCode > 31 && (charCode < 48 || charCode > 57));
+	}
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+	<style>
+	#load{
+    width:100%;
+    height:100%;
+    position:fixed;
+    z-index:9999;
+    background:url("/public/spinner-1.gif") no-repeat center center rgba(0,0,0,0.25)
+	}
+	.wrapper {
+  display: flex;
+	}
+	</style>
+</head>
+<body>
+	<div id="load"></div>
+	<%- include('../layout/header') -%>
+	<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Download Excel Sheet</h1>
+						<hr class="mb-4">
+						<div class="row g-4 settings-section" id="appContents">
+							<div class="col-12 col-md-12">
+								<div class="app-card app-card-settings shadow-sm p-4 card-neumorphic">
+									<div class="app-card-body">
+										<form method="POST" action="/admin/paySalary/xlsxDownload" id="form">
+											<div class="item border-bottom py-3" style="border: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label">
+																	<strong>Select Month:</strong>
+																</div>
+																<div class="item-data">																							
+																	<% let month = oldValues.moment(new Date()).subtract(1, "months").format("YYYY-MM");	%>
+																	<input type="month" class="form-control" id="searchExcel" max=<%= month %> onchange="downloadExcel(event)" name="excelMonth" value=<%= oldValues.monthAndYearFormat%> required>
+																</div><!-- form-group// -->
+																<div class="item-label" id="selectDateMsg">
+																</div>
+															</div>
+														</div>	
+													</div>													
+										</form>
+										<div class="col-sm-9">
+											<div class="col-auto">
+												<div class="mb-3">
+													<div class="item-label"><strong>&nbsp;</strong></div>
+													<div class="item-data">																
+														<%if(oldValues.status) {
+														  if(oldValues.dataLength) {
+																if(oldValues.dataLength == 'Yes'){%>
+																<div class="row justify-content-between align-items-center row-3">
+																		<div class="col-sm-4">
+																			<div class="col-auto">
+																				<div class="wrapper">
+																					<img class="logoFormatHealthray" src="/assets/images/background/bigscalLogo.png" alt="logo">
+																					<a class="btn btn-success xlsSheetBtn" href="<%=oldValues.bigscalExcelFileName%>"
+																						download="BigscalSheet_<%=oldValues.monthAndYearFormat%>">
+																						<span><%=oldValues.monthAndYearFormat%> Bigscal Sheet</span>
+																					</a>
+																				</div>
+																			</div>
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="col-auto">
+																				<div class="wrapper">
+																					<img class="logoFormatHealthray" src="/assets/images/background/healthray.png" alt="logo">
+																					<a class="btn btn-primary xlsSheetBtn" href="<%=oldValues.healthRayExcelFileName%>"
+																						download="HealthraySheet_<%=oldValues.monthAndYearFormat%>">
+																						<span><%=oldValues.monthAndYearFormat%> Healthray Sheet</span>
+																					</a>
+																				</div>
+																			</div>	
+																		</div>
+																		<div class="col-sm-4">
+																			<div class="col-auto">
+																				<div class="wrapper">
+																					<img class="logoFormatHealthray" src="/assets/images/background/bankLogo.png" alt="logo">
+																					<a class="btn btn-info xlsSheetBtn" href="<%=oldValues.bankExcelFileName%>"
+																						download="BankSheet_<%=oldValues.monthAndYearFormat%>">
+																						<span><%=oldValues.monthAndYearFormat%> Bank Sheet</span>
+																					</a>
+																				</div>
+																			</div>	
+																		</div>
+																</div><br>
+																<div class="row justify-content-between align-items-center row-3">
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="wrapper">
+																				<img class="logoFormatHealthray" src="/assets/images/background/bigscalBankLogo.png" alt="logo">
+																				<a class="btn btn-warning xlsSheetBtn" href="<%=oldValues.bigscalBankExcelFileName%>"
+																					download="BigscalBankSheet_<%=oldValues.monthAndYearFormat%>">
+																					<span><%=oldValues.monthAndYearFormat%> Bigscal Bank Sheet</span>
+																				</a>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="wrapper">
+																				<img class="logoFormatHealthray" src="/assets/images/background/healthRayBankLogo.png" alt="logo">
+																				<a class="btn btn-danger xlsSheetBtn" href="<%=oldValues.healthRayBankExcelFileName%>"
+																					download="HealthrayBankSheet_<%=oldValues.monthAndYearFormat%>">
+																					<span><%=oldValues.monthAndYearFormat%> Healthray Bank Sheet</span>
+																				</a>
+																			</div>
+																		</div>	
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			&nbsp;
+																		</div>	
+																	</div>
+																</div>
+																<%}else{%>
+																	<span style="color: red;">There is no excel file available for this month</span>	  
+																<%}
+															}
+														}else if(oldValues.status == false){%>
+															<span style="color: red;">There is no excel sheet available for this month</span>
+														<%}%>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div><!--//row-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--//container-fluid-->
+	</div>	<!--//app-content-->
+	<%- include('../layout/footer') -%>
+</div><!--//app-wrapper-->
+<%- include('../layout/script') -%>
+<script src="/js/attendance.js"></script>
+<script>
+	document.onreadystatechange = function () {
+  var state = document.readyState
+  if (state == 'interactive') {
+       document.getElementById('appContents').style.visibility="hidden";
+  } else if (state == 'complete') {
+      setTimeout(function(){
+         document.getElementById('interactive');
+         document.getElementById('load').style.visibility="hidden";
+         document.getElementById('appContents').style.visibility="visible";
+      },1000);
+  }
+}
+</script>
+</body>
+</html>

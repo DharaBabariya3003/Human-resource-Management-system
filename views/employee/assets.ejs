@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/employeeHeader') -%>   
+<div class="app">
+	<div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+			<div class="container-xl">
+				<div class="row g-3 mb-4 align-items-center justify-content-between">
+					<div class="col-auto">
+						<h1 class="app-page-title mb-0">Assets - All Assets</h1>
+					</div>
+				</div><!--//row-->
+				<div class="tab-content" id="orders-table-tab-content">
+          <input type="hidden" id="userId" value="<%= oldValues.user%>">
+					<div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+						<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+							<div class="app-card-body">
+								<table class="table app-table-hover mb-0 text-left asc-data-table" id="empAssetDataTable"  width="100%">
+									<thead>
+										<tr>
+											<th class="cell">Sr.No</th>
+                      <th class="cell">Asset Category</th>
+                      <th class="cell">Brand/Model</th>
+                      <th class="cell">Asset Issue Date</th>
+										</tr>
+									</thead>
+									<tbody>
+									</tbody>						
+								</table>
+							</div><!--//app-card-body-->		
+						</div><!--//app-card-->
+					</div><!--//tab-pane-->
+				</div><!--//tab-content-->
+			</div><!--//container-fluid-->
+		</div><!--//app-content-->
+		<%- include('../layout/footer') -%>  
+	</div><!--//app-wrapper-->   					
+</div>
+<%- include('../layout/employeeScript') -%> 
+<script>
+$(document).ready(function() {
+  var user = $("#userId").val();
+  $.ajax({
+    url : `/admin/assets/user?user=${user}`,
+    type: 'GET',
+    success: function (data, textStatus, xhr) {
+      if(data && data.length > 0){
+				$("#empAssetDataTable > tbody").empty();
+				var srNo = 0;
+        data.map(element =>{
+          $(`#empAssetDataTable tbody`).append(`
+					<tr>
+						<td>${(++srNo)}</td>
+            <td>${element.assetType.assetType}</td>
+            <td>${element.assetName.assetName}</td>
+            <td>${moment(new Date(element.givenDate)).format("DD MMM YYYY")}</td>
+          </tr>
+          `);
+        })
+      }      
+    },
+  });  
+});
+</script>
+</body>
+</html>

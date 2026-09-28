@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>   
+</head>
+<body>
+	<%- include('../layout/employeeHeader') -%>   
+	<div class="app">
+		<div class="app-wrapper">
+			<div class="app-content pt-3 p-md-3 p-lg-4">
+				<div class="container-xl">
+					<h1 class="app-page-title">Attendance</h1>
+					<hr class="mb-4">
+					<div class="row g-4 settings-section">
+						<div class="col-12 col-md-12">
+							<div class="app-card app-card-settings shadow-sm p-4">
+								<div class="app-card-body">
+									<div class="mb-3">
+										<label for="setting-input-1" class="form-label">Date: <%= new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: '2-digit'}).format(new Date()) %></label><br>
+									</div> <!-- form-group// -->
+									<div class="mb-3" style="float: left;">
+										<label for="setting-input-1" class="form-label">In</label><br>
+										<a class="startTimeButton">
+											<button class="btn btn-primary" id="intimeButton" style="border-radius: 0%;"<% if(oldValues){
+													if(oldValues.start){%>
+														disabled
+												<%}}%>
+												onclick="inButton()">Start</button>
+										</a>
+										<label for="setting-input-1" class="intimelabel" id="intimeLabel">
+											<% if(oldValues){
+												if(oldValues.startTime){%>
+													<%= oldValues.startTime %>
+												<%} else{%>
+												Intime
+											<% }}%>	
+										</label><br>
+									</div> <!-- form-group// -->
+									<div class="mb-3" style="padding-left: 10%;">
+										<label class="outtimelabel form-label" for="setting-input-1">Out</label><br>
+										<button class="outimeButton btn btn-primary" id="outtimeButton" style="border-radius: 0%;"
+											<% if(oldValues){
+												if((oldValues.start && oldValues.end) || (!oldValues.start && !oldValues.end) ){%>
+													 disabled
+											 <%}}%>
+											 <% if(!oldValues) {%>
+													disabled	
+											 <%}%>
+												onclick="outButton()">End</button>
+										<label for="setting-input-1" class="outtime" id="out-time">
+											<% if(oldValues){
+												if(oldValues.endTime){%>
+													<%= oldValues.endTime %>
+												<%} else{%>
+												Out time
+											<% }}%>		
+										</label><br>               
+									</div> <!-- form-group// -->
+									<% if(oldValues){ 
+										if(oldValues.totalTime) {%>
+									<div class="mb-3">
+										<label class="outtimelabel form-label" for="setting-input-1" style="color:green;"> <h5>Total Working Hours   = <%= oldValues.totalTime%></h5></label>
+									</div> <!-- form-group// -->
+									<%}}%>
+									<% if(oldValues){ 
+										if(oldValues.overTime) {%>
+											<div class="mb-3">
+												<label class="outtimelabel form-label" for="setting-input-1" style="color:green;"> <h5>Over Time(In minutes)= <%= oldValues.overTime%></h5></label>
+											</div> <!-- form-group// -->
+									<%}}%>
+									<!-- </form> -->
+								</div><!--//app-card-body-->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--//container-fluid-->
+		</div>	<!--//app-content-->
+		<%- include('../layout/footer') -%>
+	</div><!--//app-wrapper-->
+	<%- include('../layout/employeeScript') -%>
+	<script src="/js/attendance.js"></script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="row g-3 mb-4 align-items-center justify-content-between">
+              <div class="col-auto">
+                <h1 class="app-page-title mb-0">Done Interviews</h1>
+              </div>
+              <div class="col-auto">
+                <div class="page-utilities">
+                  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                    <div class="col-auto">		
+                      <label for="startDate"><strong>Select Date:</strong></label>				    
+                    </div>
+                    <div class="col-auto">		
+                      <input type="date" class="form-control" id="interviewDatePicker" value=<%if(oldValues){
+                        if(oldValues.currentDate){%>
+                          <%= oldValues.currentDate %>
+                        <%}
+                      }%>>
+                    </div>
+                  </div><!--//row-->
+                </div><!--//table-utilities-->
+              </div><!--//col-auto-->
+            </div><!--//row-->
+            <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+              <div class="app-card-body">
+                <table class="table app-table-hover mb-0 text-left" id="matchData">
+                    <thead>
+                      <tr>
+                        <th class="cell">Sr.No</th>
+                        <th class="cell">Full Name</th>
+                        <th class="cell">Email-ID</th>
+                        <th class="cell">Interview Date</th>
+                        <th class="cell">Interview Time</th>
+                        <th class="cell text-center" colspan="4"></th>
+                      </tr>
+                    </thead>                    
+                  <tbody></tbody>
+                </table>
+              </div>
+              <!--//app-card-body-->
+            </div><!--//app-card-->
+          </div><!--//container-fluid-->
+        </div><!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div><!--//app-wrapper-->
+    </div><!-- Import Script -->
+    <%- include('../layout/script') -%>
+<script src="/js/dateHandler.js"></script>
+<script src="/js/utcToLocalConversion.js"></script>
+<script src="/js/deleteDoneInterviewDetails.js"></script>
+<script>
+	$(function () {
+    var table;
+    $("#interviewDatePicker").change(function(){
+      table.ajax.reload(null, false);
+    });        
+		table = $("#matchData").DataTable({
+			"autoWidth": false,
+			"scrollX": true,
+			"order": [[ 0, 'asc' ]],
+      "serverSide": true,
+      "ordering": false,
+      "serverMethod": 'get',
+			'ajax': {
+				'url': '/admin/api/doneInterviewTable',
+				'data': function (data) {
+					data.interviewDate  = $('#interviewDatePicker').val();
+				}
+			},
+			"columns": [{
+            data: "",
+            className: 'hideTd',
+            "defaultContent": "-"
+          },{
+            data: "name",
+            "defaultContent": "-"
+          }, {
+            data: "email",
+            "defaultContent": "-"
+          }, {
+            data: "interviewTime",
+						"defaultContent": "-",
+						"render":function(data, type, row){																				
+								return `<span>  ${moment(row.interviewTime).format("DD MMM YYYY")} </span>`;
+			      }	
+          },{
+            data: "interviewTime",
+						"defaultContent": "-",
+						"render":function(data, type, row){											
+							let interviewTime =	convertIntime(row.interviewTime);
+							return `<span>  ${interviewTime} </span>`;
+						}
+          },
+          {
+          data: "_id",
+          "className": "d-flex",
+          "render": function (data, type, row) {
+                return `	<a href="/admin/interview/${row._id}/view" class="btn btn-outline-primary btn-round-blue-neumorpic" data-toggle="tooltip" title="View Profile" >
+                            <i class="fas fa-eye"></i>
+                          </a>                             
+                          <a href="/admin/interview/${row._id}/edit"> 
+                            <button type="button" class="btn btn-outline-success btn-round-green-neumorpic" data-toggle="tooltip" title="Edit Profile" data-id=id>
+                            <i class="fas fa-edit"></i>
+                            </button>                                  
+                          </a>                             
+                          <a onclick="deleteDoneInterviewDetails('${row._id}')"><button type="button" class="btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete Candidate">
+                            <i class="fas fa-trash"></i>
+                          </button></a>`;
+          }
+      } 
+       ],
+          "fnRowCallback": function(nRow, aData, iDisplayIndex) {
+            var oSettings = table.settings()[0];
+            $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+            return nRow;
+          }
+		});
+	});
+
+
+function convertIntime(intime){
+	let result ;
+	if(intime){	
+		var s = intime.trim();		
+		if(s !== "-"){
+			result= ((interviewTimeToHours(getLocalTime(s))));
+		}else{
+			result = "-";
+		}
+	}else{
+		result = "-";
+	}
+	return result;
+	
+}
+</script>
+</body>
+</html>
+  

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+<script src="/assets/jQuery/timepickerjs.min.js"></script>
+<script src="/assets/jQuery/timepicker.min.js"></script>
+
+</head>	
+<body <% if(oldValues.error) {%> onload="showErrorMsg()" <%}%>>
+<%- include('../layout/header') -%>   
+<div class="app">
+  <div class="app-wrapper">
+	  <div class="app-content pt-3 p-md-3 p-lg-4">	
+		  <div class="container-xl">			    
+			  <h1 class="app-page-title">Update Attendance</h1>
+				<hr class="mb-4">				
+        <div class="row g-4 settings-section">
+	        <div class="col-12 col-md-12">
+		        <div class="app-card app-card-settings shadow-sm p-4 card-neumorphic">  
+						  <div class="app-card-body">
+								<form method="POST" id="updateAttendanceForm" action="/admin/attendance/<%= oldValues._id %>/edit">
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center">												
+											<div class="col-4">
+												<div class="mb-3">
+													<div class="item-label"><strong>Date</strong></div>
+													<div class="item-data">
+														<input id="attendanceID" type="text" hidden disabled value=<%= oldValues._id %>>
+														<input id="errorStatus" type="text" hidden disabled value=<%= oldValues.error %>>
+														<input id="hrStatus" type="text" hidden disabled value=<%= oldValues.hrStatus %>>
+														<input name="selectedAttendanceDate" type="hidden" value=<%- JSON.stringify(oldValues.selectedDate) %>>
+														
+														<input name="name" id="attendanceUpdateDate" class="form-control" placeholder="Name" type="text" disabled value=<%- JSON.stringify(oldValues.selectedDate) %>>
+													</div> <!-- form-group// -->
+												</div>
+											</div>
+											<div class="col-4">
+												<div class="mb-3">
+													<div class="item-label"><strong>Name</strong></div>
+													<div class="item-data">
+														<input name="name" class="form-control" placeholder="Name" type="text" disabled value=<%- JSON.stringify(oldValues.name) %>>
+													</div> <!-- form-group// -->
+												</div>
+											</div>
+											<div class="col-4"></div>																
+										</div><!--//row-->
+                  </div><!--//item-->	
+                  <div class="item border-bottom py-3">
+										<div class="row justify-content-between">							
+											<div class="col-4">
+												<div class="mb-3">
+													<div class="item-label"><strong>In Time</strong></div>
+													<div class="item-data updatedStartTime">													
+														<input name="startTime" class="form-control" placeholder="Name" id="updatedStartTime" required readonly onchange="updateInTotalTime(event)" value=<%- JSON.stringify(oldValues.startTime) %>/>
+														<script>
+															$('#updatedStartTime').timepicker({															
+																	uiLibrary: 'bootstrap5',																		
+															});
+															$("#updatedStartTime").on("focus", function() {																
+																$(".updatedStartTime .clock").click()
+															});
+														</script>	
+														<div id="inTime"></div>
+													</div> <!-- form-group// -->
+												</div>   
+											</div>																							 	
+											<div class="col-4">
+												<div class="mb-3">
+													<div class="item-label"><strong>Out Time</strong></div>
+													<div class="item-data updatedEndTime">						
+														<% if(oldValues.endTime) {%>							
+															<input name="endTime" class="form-control" placeholder="" id="updatedEndTime" required readonly onchange="updateOutTotalTime(event)" value=<%- JSON.stringify(oldValues.endTime) %>/>
+														<%} else {%>
+															<input name="endTime" class="form-control" placeholder="" id="updatedEndTime" required readonly onchange="updateOutTotalTime(event)" value=""/>
+														<%}%>
+														<script>
+															$('#updatedEndTime').timepicker({															
+																	uiLibrary: 'bootstrap5',																	
+															});	
+															$("#updatedEndTime").on("focus", function() {																
+																$(".updatedEndTime .clock").click()
+															});
+														</script>
+														<div id="outTime"></div>
+													</div> <!-- form-group// -->	
+												</div>
+											</div>             
+											<div class="col-4"></div>										
+										</div>
+									</div><!--//item-->
+									<div class="item py-3">
+										<div class="row justify-content-between align-items-end">							
+										<div class="col-4">
+											<div class="mb-3">
+												<div class="item-label"><strong>Total Time</strong></div>
+												<div class="item-data">
+													<input name="totalTime" class="form-control" placeholder="" id="updatedTotalTime" type="text" required readonly value=<% if(oldValues.totalTime){%>
+														<%- JSON.stringify(oldValues.totalTime) %>
+													<%}%>>
+												</div> <!-- form-group// -->
+											</div>
+										</div>	
+										<div class="col-4">
+										<div class="mb-3">
+											<div class="item-label"><strong>Edit Reason<span class="requiredField">&nbsp;*</span></strong></div>
+											<div class="item-data">
+												<input name="updateReason" id="updateReason" required class="form-control" placeholder="Edit Reason" maxlength="50" type="text" onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)">
+											</div> <!-- form-group// -->
+										</div>
+										</div>
+										<div class="col-4">
+											<div class="mb-3">
+												<button id="submitUpdateAttendance" type="submit" class="btn app-btn-primary col-5 btn-green-neumorpic" style="border-radius: 0%; margin-left: 59%;" >Update Details</button>
+											</div>
+										</div>
+										<div class="col-4">
+											<br>
+											<div id="invalidOutTimeError"></div>
+										</div>
+										</div>										
+									</div>
+							  </form>	
+						  </div>	
+						</div>
+	        </div>
+        </div>
+      </div><!--//container-fluid-->
+	  </div><!--//app-content-->
+    <%- include('../layout/footer') -%>   
+  </div><!--//app-wrapper-->    					
+</div>
+<%- include('../layout/script') -%> 
+<script src="/js/attendance.js" defer></script>
+<script src="/js/updateAttendanceUTC.js"></script>
+<script src="/js/attendaceSetting.js"></script>
+<script>
+$(document).ready(function() {
+	$("#submitUpdateAttendance").prop('disabled', true);
+});
+
+$('#updateReason').on('input',function(e){
+    if(($('#updateReason').val().trim().length) > 0) {
+		$("#submitUpdateAttendance").prop('disabled', false);
+	} else {
+		$("#submitUpdateAttendance").prop('disabled', true);
+	}
+});
+
+$('#submitUpdateAttendance').one('click', function (event) {  
+  event.preventDefault();
+  $( "#updateAttendanceForm" ).submit();
+  $(this).prop('disabled', true);
+});
+</script>
+</body>	
+</html>

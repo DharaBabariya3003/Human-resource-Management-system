@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<%- include('../layout/employeeHeader') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Send Leave Request</h1>
+						<hr class="mb-4">
+						<div class="row g-4 settings-section">
+							<div class="col-12 col-md-12">
+								<div class="app-card app-card-settings shadow-sm p-4 card-neumorphic">
+									<div class="app-card-body">
+										<form method="POST" id="empLeaveRequestForm" action="/dashboard/leaveRequest/store">
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Reason:</strong></div>
+																<div class="item-data">
+																	<textarea class="form-control" required name="leaveReason"  placeholder="Enter Reason" style="height: 87px !important;"></textarea>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Number of Days:</strong></div>
+																<div class="item-data">
+																	<div class="form-group row">
+																		<div class="col-sm-12">
+																			<div class="form-check form-check-inline">
+																				<input class="form-check-input" type="radio" name="multiOrhalfDay"  value="Multiple" id="show" checked>
+																				<label class="form-check-label" for="show">Multiple Days Leave</label>
+																			</div>
+																			<div class="form-check form-check-inline">
+																				<input class="form-check-input" type="radio" name="multiOrhalfDay"  value="Half" id="hide">
+																				<label class="form-check-label" for="hide">Half Day Leave</label>
+																			</div><br>
+																		</div>
+																	</div>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											<!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3 show">
+																<div class="item-label"><strong>From Date:</strong></div>
+																<div class="item-data">
+																	<input type="text" class="form-control" onkeydown="return false;" name="multiFromDate" min="1900-01-01" max="9999-12-31" id="fromDate" placeholder="Select Date" style="cursor: pointer;" onchange="fromDateSelection()">
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3 show">
+																<div class="item-label"><strong>To Date:</strong></div>
+																<div class="item-data">
+																	<input type="text" class="form-control" onkeydown="return false;" name="multiToDate" min="1900-01-01" max="9999-12-31" id="toDate" placeholder="Select Date" style="cursor: pointer;" onchange="toDateSelection()">
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											<!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3 hide time " style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3 ">
+																<div class="item-label"><strong>Select Date:</strong></div>
+																<div class="item-data">
+																	<input type="text" class="form-control" onkeydown="return false;" name="halfDayDate" id="halfDate"  min="1900-01-01" max="9999-12-31" >
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3 ">
+																<div class="item-label"><strong>From Time:</strong></div>
+																<div class="item-data">
+																	<input type="time" class="form-control" onkeydown="return false;" onchange="leaveFullHoursTime2(event)" name="halfDayFromTime" id="halfDayFromTime" >
+																	<div id="fAndt"></div>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3 ">
+																<div class="item-label"><strong>To Time:</strong></div>
+																<div class="item-data">
+																	<input type="time" class="form-control" onkeydown="return false;" onchange="leaveFullHoursTime1(event)" name="halfDayToTime" id="halfDayToTime"  >
+																<div id="amAndPm"></div>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											<!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-9">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																	<button type="submit" class="btn btn-primary btn-block btn-blue-neumorpic" style="border-radius: 0;" id="submitLeaveRequest"> Send Request </button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div><!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-9">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label">
+																	<div id="leaveDateError"></div>
+																	<%if(oldValues.status){
+																		if(oldValues.status=='No'){%>
+																			<h5 style="color:red;font-weight: normal;">Fill correct information.</h1>
+																	<%}else{%>
+																		 <h5 style="color:green;font-weight: normal;">Request send successfully</h1>
+																	<%}
+																	}%>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div><!--//item-->
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div><!--//container-fluid-->
+			</div>	<!--//app-content-->
+			<%- include('../layout/footer') -%>
+		</div><!--//app-wrapper-->
+		<%- include('../layout/employeeScript') -%>
+<script src="/js/leaveManagement.js"></script>
+</body>
+</html>

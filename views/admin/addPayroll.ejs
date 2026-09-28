@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<%- include('../layout/header') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Add Payroll Details</h1>
+						<hr class="mb-4">
+						<div class="row g-4 settings-section">
+							<div class="col-12 col-md-12">
+								<div class="app-card app-card-settings shadow-sm p-4">
+									<div class="app-card-body">
+										<form method="POST" action="/admin/payroll/create">
+											<input name="user" class="form-control col-6" type="hidden"
+												value=<%=oldValues.employeeID %>>
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Stipend
+															Amount:</label>
+														<input name="stipend" class="form-control"
+															placeholder="Stipend Amount" type="number" step="any"
+															value=<%if(oldValues.payrollDetail) {%>
+														<%- JSON.stringify(oldValues.payrollDetail.stipend) %>
+															<%}%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Salary
+															Amount:</label>
+														<input name="salary" class="form-control"
+															placeholder="Salary Amount" type="number" step="any"
+															value=<%if(oldValues.payrollDetail) {%>
+														<%- JSON.stringify(oldValues.payrollDetail.salary) %>
+															<%}%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Choose
+															Increment:</label>
+														<select class="form-control" name="increment">
+															<option value="Yearly" <%if(oldValues.payrollDetail) {%>
+																<%if(oldValues.payrollDetail.increment=='Yearly') {%>
+																	<%= 'selected' %>
+																		<%}%>
+																			<%}%>>Yearly
+															</option>
+															<option value="6 month" <%if(oldValues.payrollDetail) {%>
+																<%if(oldValues.payrollDetail.increment=='6 month') {%>
+																	<%= 'selected' %>
+																		<%}%>
+																			<%}%>>6 month
+															</option>
+														</select>
+													</div><!--//col-->
+												</div>
+												<!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Training Start
+															Date:</label>
+														<input name="trainingStartDate" class="form-control" onchange="trainingStartDateFunc()"
+															id="trainingStartDateID" placeholder="Training_Start_Date"
+															type="date" min="1900-01-01" max="9999-12-31"
+															
+															value=<%if(oldValues.payrollDetail) {
+															if(oldValues.payrollDetail.trainingStartDate!='0000-00-00'
+															){%>
+														<%= oldValues.payrollDetail.trainingStartDate %>
+															<%} }%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Training
+															Duration In Month:</label>
+														<input name="trainingDuration"
+															onKeyPress="if(this.value.length==2) return false;"
+															class="form-control" id="trainingDurationID" onkeyup="trainingPeriodChange(event)"
+															placeholder="Training duration in month" type="number"
+															value=<%if(oldValues.payrollDetail){%>
+														<%= oldValues.payrollDetail.trainingDuration %>
+															<%}else{%>
+																<%= '0' %>
+																	<%}%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Training End
+															Date:</label>
+														<input name="trainingEndDate" id="myTrainingdate"
+															onchange="myEndDate()" class="form-control"
+															placeholder="Training_End_Date" min="1900-01-01"
+															max="9999-12-31" type="date" 
+															value=<%if(oldValues.payrollDetail) {
+															if(oldValues.payrollDetail.trainingEndDate!='0000-00-00'
+															){%>
+														<%= oldValues.payrollDetail.trainingEndDate %>
+															<%} }%>>
+													</div><!--//col-->
+												</div><!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Joining
+															Date:</label>
+														<input name="joiningDate" id="myJoinDate"
+															onchange="myJoinDatecal(event)" required
+															class="form-control" placeholder="Joinin_Date" type="date"
+															min="1900-01-01" max="9999-12-31"
+															
+															value=<%if(oldValues.payrollDetail) {%>
+														<%= oldValues.payrollDetail.joiningDate %>
+															<%}%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Bond Duration In
+															Month:</label>
+														<input name="bondDuration"
+															onKeyPress="if(this.value.length==2) return false;"
+															id="bondDuration" onkeyup="myBondChange(event)" required
+															class="form-control" placeholder="Bond duration in month"
+															type="number" value=<%if(oldValues.payrollDetail) {%>
+														<%- JSON.stringify(oldValues.payrollDetail.bondDuration) %>
+															<%}%>>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Bond Complete
+															Date:</label>
+														<input name="bondCompletedDate" id="myBondComplete" required
+															class="form-control" placeholder="Bond_Completed_Date"
+															type="date" min="1900-01-01" max="9999-12-31"
+															
+															value=<%if(oldValues.payrollDetail) {%>
+														<%= oldValues.payrollDetail.bondCompletedDate %>
+															<%}%>>
+													</div><!--//col-->
+												</div>
+												<!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3"
+												style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">NDA:</label>
+														<div class="form-group row">
+															<div class="col-sm-10">
+																<div class="form-check form-check-inline">
+																	<input class="form-check-input" type="radio"
+																		name="nda" id="nda" value="Yes"
+																		<%if(oldValues.payrollDetail) {
+																		if(oldValues.payrollDetail.nda=='Yes' ) {%>
+																	<%= 'checked' %>
+																		<%} } else {%>
+																			<%= 'checked' %>
+																				<%}%> >
+																					<label class="form-check-label"
+																						for="inlineRadio1">Yes</label>
+																</div>
+																<div class="form-check form-check-inline">
+																	<input class="form-check-input" type="radio"
+																		name="nda" id="nda" value="No"
+																		<%if(oldValues.payrollDetail) {%>
+																	<%if(oldValues.payrollDetail.nda=='No') {%>
+																		<%= 'checked' %>
+																			<%}%>
+																				<%}%>>
+																					<label class="form-check-label"
+																						for="inlineRadio2">No</label>
+																</div>
+															</div>
+														</div>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Bond:</label>
+														<div class="form-group row">
+															<div class="col-sm-10">
+																<div class="form-check form-check-inline">
+																	<input class="form-check-input" type="radio"
+																		name="bond" id="bond" value="Yes"
+																		<%if(oldValues.payrollDetail) {%>
+																	<%if(oldValues.payrollDetail.bond=='Yes') {%>
+																		<%= 'checked' %>
+																			<%}%>
+																				<%}%> >
+																					<label class="form-check-label"
+																						for="inlineRadio1">Yes</label>
+																</div>
+																<div class="form-check form-check-inline">
+																	<input class="form-check-input" type="radio"
+																		name="bond" id="bond" value="No"
+																		<%if(oldValues.payrollDetail) {
+																		if(oldValues.payrollDetail.bond=='No' ) {%>
+																	<%= 'checked' %>
+																		<%} } else {%>
+																			<%= 'checked' %>
+																				<%}%> >
+																					<label class="form-check-label"
+																						for="inlineRadio2">No</label>
+																</div>
+															</div>
+														</div>
+													</div><!--//col-->
+													<div class="col-sm-4">
+														<label for="setting-input-1" class="form-label">Remark:</label>
+														<textarea name="note" placeholder="Add Your Extra Notes"
+															class="form-control"><%if(oldValues.payrollDetail){
+																if(oldValues.payrollDetail.note!='-'){%>
+																				<%= oldValues.payrollDetail.note %>
+																<%}
+																}%></textarea>
+													</div><!--//col-->
+												</div><!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-9">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																	<button type="submit" id="payrollbtn"
+																		class="btn btn-primary btn-block "
+																		style="border-radius: 0;"> Add Payroll Details
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div><!--//item-->
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--//container-fluid-->
+				</div>
+				<!--//app-content-->
+				<%- include('../layout/footer') -%>
+			</div>
+			<!--//app-wrapper-->
+		</div>
+		<%- include('../layout/script') -%>
+		<script src="/js/payrollDateHandler.js"></script>
+		
+</body>
+</html>

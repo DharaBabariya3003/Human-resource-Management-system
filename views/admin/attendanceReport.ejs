@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<style>
+.presentDay{
+	color: #1c9c1c;
+}
+.halfDay{
+	color: orange;
+}
+.exitTimeNotAvailable{
+	color: red;
+}
+.leaveFont{
+	font-weight: bold;
+}
+a:hover {
+ cursor:pointer;
+}
+div#pop-up {
+   display: none;
+   position: absolute;
+   width: 180px;
+   box-shadow: 0px 0px 4px #4195fc;
+   background: #fff;
+   color: #5a5656;
+   border: 1px solid #dbd3d3;
+   font-weight: bold;
+}
+.timeFormat{
+	text-align: center;
+	padding-top: 5px;
+}
+</style>
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">	
+	<div class="app-wrapper">   	
+	  <div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+				<div class="row g-3 mb-4 align-items-center justify-content-between">
+					<div class="col-auto">
+						<h1 class="app-page-title mb-0">Monthly Attendance Report</h1>
+					</div>
+					<div class="col-auto">
+						<div class="page-utilities">
+						  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+								<div class="col-auto">						
+								  <input type="text" class="form-control" id="attendanceMonth" onkeydown="return false;" onchange="attendanceReportMonth(event)" value=<%if(oldValues.selectedDate){%>
+										<%= oldValues.selectedDate %>
+									<%}%>>
+								</div>								
+							</div>
+					  </div><!--//table-utilities-->
+				  </div><!--//col-auto-->
+				</div><!--//row-->
+				<table class="table app-table-hover mb-0 text-left " id="example" width="100%">
+					<thead>
+						<tr>
+							<td class="cell">
+								<div class="item-label"><span class="presentDay"><i class="fas fa-check"></i></span>&nbsp;<span class="modeFontColorEmp">(Full day)</span></div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><span class="halfDay"><i class="fas fa-check"></i></span>&nbsp;<span class="modeFontColorEmp">(Half day)</span></div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><span class="exitTimeNotAvailable"><i class="fas fa-check"></i></span>&nbsp;<span class="modeFontColorEmp">(Out time does not exist)</span></div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><span></span><i class="fas fa-times"></i></span>&nbsp;<span class="modeFontColorEmp">(Holiday)</span></div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><span class="leaveFont">S</span>&nbsp;<span class="modeFontColorEmp">(Sunday)</span></div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><span class="leaveFont">A</span>&nbsp;<span class="modeFontColorEmp">(Absent)</span></div>
+							</td>
+						</tr>
+					</thead>
+				</table>
+				<div class="tab-content" id="empMonthlyReport">
+					<div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+							<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+								<div class="app-card-body">
+									<table class="table app-table-hover mb-0 text-left" width="100%">
+										<thead>
+											<tr id="empMonthlyReportDates">	
+											</tr>
+										</thead>
+										<tbody></tbody>
+									</table>					
+								</div><!--//app-card-body-->	
+							</div><!--//app-card-->
+						</div><!--//tab-pane-->	
+				</div><!--//tab-content-->
+			</div><!--//container-fluid-->
+	 </div><!--//app-content-->
+	<%- include('../layout/footer') -%>   
+	</div><!--//app-wrapper-->   
+</div>
+<%- include('../layout/script') -%>
+<script src="/js/attendanceReport.js"></script>  
+</body>
+</html>

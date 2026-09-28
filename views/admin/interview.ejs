@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>  
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="row g-3 mb-4 align-items-center justify-content-between">
+              <div class="col-auto">
+                <h1 class="app-page-title mb-0">Interview Candidates</h1>
+              </div>
+              <div class="col-auto">
+                <div class="page-utilities">
+                  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                    <div class="col-auto interviewXlsSheet">
+                      <strong id="xlsStatus">Download Xls Sheet:</strong>
+                      <input type="text" class="form-control" name="daterangeForInterviewXls" class="form-control" id="daterangeForInterviewXls">
+                    </div>
+                    <div class="col-auto">
+                      <select class="form-select form-select-sm w-auto form-control empAttendanceType" id="selectedInterviewStatus" >
+                        <option value="All" disabled selected hidden>---Interview Status---</option>
+                        <option value="All">All</option>
+                        <option value="Done">Done</option>
+                        <option value="Pending">Pending</option>
+                      </select>
+                    </div>
+                    <div class="col-auto">
+                      <input type="month" max='<%if(oldValues.currentMonth){%><%= oldValues.currentMonth%><%}%>' 
+						          name="interviewMonth" id="interviewMonth" class="form-control" value=<%if(oldValues.interviewMonth){%><%= oldValues.interviewMonth %><%}%>>
+                    </div>
+                    <div class="col-auto">
+                      <!-- <a class="btn btn-success" href="/employee/storeInterview"> -->
+                      <a class="btn btn-success btn-green-neumorpic" style="border-radius: 0;" href="/admin/interview/create">
+                        Schedule interview
+                      </a>
+                    </div>
+                  </div><!--//row-->
+                </div><!--//table-utilities-->
+              </div><!--//col-auto-->
+            </div><!--//row-->
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+              <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+                <div class="app-card-body">
+                   <table class="table app-table-hover mb-0 text-left" id="interviewTable">
+                      <thead>
+                        <tr>
+                          <th class="cell">Sr.No</th>
+                          <th class="cell">Full Name</th>
+                          <th class="cell">Email-ID</th>
+                          <th class="cell">Interview Date</th>
+                          <th class="cell">Interview Time</th>
+                          <th class="cell">Interview Status</th>
+                          <th class="cell text-center" colspan="4"></th>     
+                        </tr>
+                      </thead>
+                      <tbody></tbody>
+                    </table>
+                  </div><!--//app-card-body-->
+                </div><!--//app-card-->
+              </div><!--//tab-pane-->
+            </div><!--//container-fluid-->
+          </div><!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div><!--//app-wrapper-->
+    </div>
+    <%- include('../layout/script') -%>
+<script src="/js/deleteInterviewDetails.js"></script>
+<script>
+  $('#daterangeForInterviewXls').on('apply.daterangepicker', function(ev, picker) {
+    let daterangeForxls = $('#daterangeForInterviewXls').val();
+    $.ajax({    
+      url : `/admin/interview/xls?daterangeForxls=` + daterangeForxls ,
+      type: 'GET',
+      success: function (data, textStatus, xhr) {  
+        if(data.status){
+          $('#xlsStatus').text("Xls sheet downloaded successfully !!!");
+          $('#xlsStatus').css("color", "green");
+          window.location.href = `/public/downloadExcel/${data.xlsFileNameInterview}.xlsx`;
+        }else{
+          $('#xlsStatus').text("Xls sheet is not available !!!");
+          $('#xlsStatus').css("color", "red");
+        }
+      },  
+    });
+  });
+
+  $(function () {
+    var table;  
+    $("#interviewMonth").change(function(){
+      table.ajax.reload(null, false);
+    });
+    $("#selectedInterviewStatus").change(function(){
+      table.ajax.reload(null, false);
+    });
+    
+    table = $("#interviewTable").DataTable({
+      "autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'desc' ]],
+      "serverSide": true,
+      "ordering": false,
+      "serverMethod": 'get',
+      'ajax': {
+        'url': '/admin/api/interviewTable',
+        'data': function (data) {					          
+          data.interviewMonth = document.getElementById("interviewMonth").value;
+          data.selectedInterviewStatus = document.getElementById("selectedInterviewStatus").value;
+				}
+      },  
+      "columns": [{
+        data: "",
+        className: 'hideTd',
+        "defaultContent": "-"
+      },{
+        data: "name",
+        "defaultContent": "-"
+      }, {
+        data: "email",
+        "defaultContent": "-"
+      }, {
+        data: "interviewTime",
+        "defaultContent": "-",
+        "render":function(data, type, row){																				
+					return `${moment(row.interviewTime).format("DD MMM YYYY")}`;
+			  }	
+      },{
+        data: "interviewTime",
+        "defaultContent": "-",
+        "render":function(data, type, row){											
+					return `${moment(row.interviewTime).format("hh:mm A")}`;
+        }
+      },{
+        data: "interviewStatus",
+        "defaultContent": "-",
+        "render":function(data, type, row){
+					let status =	checkStatus(row.interviewStatus);
+					return status;
+        }
+      },
+      {
+          data: "_id",
+          "className": "d-flex",
+          "render": function (data, type, row) {
+                return `	<a href="/admin/interview/${row._id}/view" class="btn btn-outline-primary btn-round-blue-neumorpic" data-toggle="tooltip" title="View Profile" >
+                            <i class="fas fa-eye"></i>
+                          </a>                             
+                          <a href="/admin/interview/${row._id}/edit"> 
+                            <button type="button" class="btn btn-outline-success btn-round-green-neumorpic" data-toggle="tooltip" title="Edit Profile" data-id=id>
+                            <i class="fas fa-edit"></i>
+                            </button>                                  
+                          </a>                             
+                          <a onclick="deleteInterviewDetails('${row._id}')"><button type="button" class="btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete Candidate">
+                            <i class="fas fa-trash"></i>
+                          </button></a>`;
+          }
+      }
+      
+      
+
+      ],
+      "fnRowCallback": function(nRow, aData, iDisplayIndex) {
+        var oSettings = table.settings()[0];
+        $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+        return nRow;
+      }
+    });
+  });
+  function checkStatus(e){
+    let result;
+    if(e ==true){
+      result = 'Done';
+      result = `<span class="badge badge-success" style='font-weight:bold;font-size:15px;'>${result} </span>`;
+    }else{
+      result = 'Pending';
+      result = `<span class="badge badge-danger" style='font-weight:bold;font-size:15px;'>${result} </span>`;
+    }
+    return result;
+  }
+  $(function() {
+    $('input[name="daterangeForInterviewXls"]').daterangepicker({
+      opens: 'left',
+      maxDate: new Date(),
+      locale: {
+        format: 'DD/MM/YYYY'
+      },
+      showDropdowns: true
+    });
+  });
+</script>
+
+</body>
+</html> 

@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   	
+</head>	
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">	
+	<div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+			  <div class="row g-3 mb-4 align-items-center justify-content-between">
+					<div class="col-auto">
+						<h1 class="app-page-title mb-0">Salary :<span style="color: green;">
+							<strong>
+								<%if(oldValues.name){%>
+									(<%= oldValues.name %>)
+								<%}%>		
+							</strong></span></h1>
+					</div>
+					<input type="hidden" id="userID" value="<%= oldValues.user %>" />
+					<div class="col-auto">
+						<div class="page-utilities">
+							<div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+								<div class="col-auto">
+									<input type="text" class="form-control" name="daterangeForSalary" class="form-control" id="daterangeForSalary"  value='<%if(oldValues.dateRangePickerDateForSalary){%>
+										<%= oldValues.dateRangePickerDateForSalary %>
+									<%}%>'>
+								</div>						
+							</div>
+						</div><!--//table-utilities-->
+					</div><!--//col-auto-->
+				</div><!--//row-->
+        <table class="table app-table-hover mb-0 text-left " id="example" width="100%">
+					<thead>
+						<tr>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Basic Pay: </strong>
+									<strong>
+									<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+										<%= oldValues.salarySlipObject.basicPay.toFixed(2) %>
+									<%}else{%>
+										<%= '0' %>
+									<%}%>
+									</strong>
+							</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Special Allowance: </strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.specialAllowance.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Leave Encashment:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.leaveEncashment.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Bonus:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.bonus.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Overtime Allowance:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.overtimeAllowance.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Petrol Allowance:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.petrolAllowance.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Shift:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.shift.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Professional Tax:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.professionalTax.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">ESIC:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.esic.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Security Deposit[0%]:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.securityDeposit.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">TDS:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.tds.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">PF:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.pf.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Other Deductions:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.other.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label"><strong class="user-info">Net Amount:</strong>
+									<strong>
+										<%if(oldValues.payrollStatus && oldValues.employeePosition && oldValues.dataStatus){%>
+											<%= oldValues.salarySlipObject.netPay.toFixed(2) %>
+										<%}else{%>
+											<%= '0' %>
+										<%}%>
+									</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label" style="color: red;"><strong>
+									<%if(!oldValues.employeePosition){%>
+										<p>User position is not employee !!!</p>
+									<%}else if(!oldValues.payrollStatus){%>
+										<p>Add payroll details !!!</p>
+									<%}%>
+								</strong></div>
+							</td>
+						</tr>
+					</thead>
+				</table>
+			  <div class="tab-content" id="orders-table-tab-content">
+			    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+						<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+							<div class="app-card-body">							  
+								<table class="table app-table-hover mb-0 text-left" id="salaryAttendanceTable" width="100%">
+									<thead>
+									  <tr>
+											<th class="cell">Sr.No.</th>
+											<th class="cell">Date</th>
+											<th class="cell">In Time</th>
+											<th class="cell">Out Time</th>
+											<th class="cell">Over Time(In Minutes)</th>
+											<th class="cell">Total Time</th>
+											<th class="cell">Mode</th>
+											<th class="cell">Total Minutes</th>																		
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+						  </div><!--//app-card-body-->		
+						</div><!--//app-card-->
+			    </div><!--//tab-pane-->			  			   			  
+				</div><!--//tab-content-->
+		  </div><!--//container-fluid-->
+	  </div><!--//app-content-->
+		<%- include('../layout/footer') -%>   
+	</div><!--//app-wrapper-->   
+</div>
+<%- include('../layout/script') -%>   
+
+<script>
+	$('#daterangeForSalary').on('apply.daterangepicker', function(ev, picker) {
+		let user = document.getElementById("userID").value;
+		let dateRangeValue = $('#daterangeForSalary').val();
+		document.location.href = `/admin/attendance/` + user + `/salary?daterangeForSalary=` + dateRangeValue;
+	});
+	
+	$(function () {	
+		var table;
+		table = $("#salaryAttendanceTable").DataTable({
+			"autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'asc' ]],
+			"serverSide": true,
+			"ordering": false,
+      "serverMethod": 'get',
+			'ajax': {
+				'url': '/admin/api/salaryAttendanceTable',
+				'data' : function (data) {
+					data.userId = document.getElementById("userID").value;
+					data.daterangeForSalary = $('#daterangeForSalary').val();
+				}
+			},  
+			"columns": [{
+				data: "",
+				className: 'hideTd',
+				"defaultContent": "-"		
+			},{
+				data: "date",
+				className:"attendanceDate",
+				"defaultContent": "-"
+			},{
+				data: "startTime",
+				"defaultContent": "-",
+				"render":function(data, type, row){
+					let inTime =	convertUtcTimeToLocal(row.startTime);
+					return `<span>  ${inTime} </span>`;
+				}
+			},{
+				data: "endTime",
+				"defaultContent": "-",
+				"render":function(data, type, row){											
+					let endTime =	convertUtcTimeToLocal(row.endTime);
+					return `<span>  ${endTime} </span>`;
+				}
+			},{
+				data: "overTime",
+				"defaultContent": "-"
+			},{
+				data: "totalTime",
+				"className": "totalTimeClass",
+				"defaultContent": "-",	
+				"render":function(data, type, row){											
+						let totalTime =	convertTotaltime(row.totalTime);
+						return `<span>  ${totalTime} </span>`;
+				}
+			},{
+				data: "attendanceType",
+				"defaultContent": "-",
+				"render":function(data, type, row){
+						return `<strong class="modeFontColor">  ${row.attendanceType} </strong>`;
+				}
+			},{
+				data: "totalMinutes",
+				"defaultContent": "-",
+				"render":function(data, type, row){
+						return `<strong class="modeFontColor">  ${row.totalMinutes} </strong>`;
+				}	
+			}
+		],
+			"fnRowCallback": function(nRow, aData, iDisplayIndex) {
+				var oSettings = table.settings()[0];
+				$("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+				return nRow;
+			},		
+		});
+	});
+	
+	$(function() {
+  $('input[name="daterangeForSalary"]').daterangepicker({
+		opens: 'left',
+		maxDate: new Date(),
+		locale: {
+			format: 'DD/MM/YYYY'
+		},
+		showDropdowns: true
+	});
+});
+
+function convertTotaltime(totaltime){	
+	totaltime = totaltime.trim().split(":");
+	let hours = parseInt(totaltime[0]);
+	let minutes = parseInt(totaltime[1]);
+	return format_two_digits(hours)+":"+format_two_digits(minutes);
+}
+function format_two_digits(n) {
+	return n < 10 ? '0' + n : n;
+}
+function convertUtcTimeToLocal(utcTime) {
+	if(utcTime){
+		return moment(new Date(utcTime)).format("hh:mm A")
+	}else{
+		return '-';
+	}
+}
+
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+

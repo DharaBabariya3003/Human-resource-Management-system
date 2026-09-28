@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">
+  <div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+			<div class="container-xl">
+				<h1 class="app-page-title">Add Documents Details</h1>
+				<hr class="mb-4">
+				<div class="row g-4 settings-section">
+					<div class="col-12 col-md-12">
+						<div class="app-card app-card-settings shadow-sm p-4">
+							<div class="app-card-body">
+								<form  method="POST" action="/admin/documents/create" enctype="multipart/form-data">									
+									<input name="user" class="form-control col-3" type="hidden" value=<%=oldValues.employeeData._id %>>
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-1">
+													<label class="form-label">Name:</label>
+												</div><!--//col-->
+												<div class="col-sm-11">
+													<div class="form-group ">
+														<input name="name" type="text" class="form-control col-10" disabled value=<%-JSON.stringify(oldValues.employeeData.firstName+" "+oldValues.employeeData.middleName+" "+oldValues.employeeData.lastName) %> >
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class=" item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-6">
+													<label for="setting-input-1" class="form-label">Documents Taken Date:</label>
+													<input type="date" class="form-control col-6" name="documentsTakenDate" min="1900-01-01"
+																	max="9999-12-31">
+												</div><!--//col-->
+												<div class="col-sm-6">
+													<label for="setting-input-1" class="form-label">Photo:</label>
+													<input type="file" class="form-control col-6" name="photo" accept="image/*">
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Offer Letter:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="offerLetter" value="Yes">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="offerLetter" value="No">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="offerLetterRemark" class="form-control" placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="offerLetterDocument">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Appointment Letter:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="appoinmentLetter" value="Yes">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="appoinmentLetter" value="No">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="appoinmentLetterRemark" class="form-control"
+															placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control " name="appoinmentLetterDocument">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">10th Marksheet:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="marksheet10" value="Yes">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="marksheet10" value="No">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="marksheet10Remark" class="form-control" placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="marksheet10Document">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Diploma / 12th Marksheet:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="marksheet12" value="Diploma">
+																<label class="form-check-label" for="inlineRadio1">Diploma </label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="marksheet12" value="12th">
+																<label class="form-check-label" for="inlineRadio2">12th </label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="marksheet12Remark" class="form-control" placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="marksheet12Document">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Bachelor's Certificate:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="bachelorsCertificate"
+																	value="Yes" style="padding: 8px;">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="bachelorsCertificate"
+																	value="No" style="padding: 8px;">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="bachelorsCertificateRemark" class="form-control"
+															placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													 <div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="bachelorsCertificateDocument">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Master's Degree Marksheet:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="mastersCertificate" value="Yes"
+																	style="padding: 8px;">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="mastersCertificate" value="No"
+																	style="padding: 8px;">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="mastersCertificateRemark" class="form-control"
+															placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="mastersCertificateDocument">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">ID Proof:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="IDproof" value="Yes">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="IDproof" value="No">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+													<div class="form-group">
+														<input type="text" name="IDproofRemark" class="form-control" placeholder="Remark">
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-4">
+														<div class="form-group">
+														<div class="col-sm-10">
+															<input type="file" class="form-control" name="IDproofDocument">
+														</div>
+													</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->
+										<div class="item border-bottom py-3" style="border-bottom: none !important;">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-2">
+													<label class="form-label">Other Documents:</label>
+												</div><!--//col-->
+												<div class="col-sm-2">
+													<div class="form-group row">
+														<div class="col-sm-10">
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="other" value="Yes">
+																<label class="form-check-label" for="inlineRadio1">Yes</label>
+															</div>
+															<div class="form-check form-check-inline">
+																<input class="form-check-input" type="radio" name="other" value="No">
+																<label class="form-check-label" for="inlineRadio2">No</label>
+															</div>
+														</div>
+													</div>
+												</div><!--//col-->
+												<div class="col-sm-8">
+													<div class="form-group">
+													<div class="col-sm-10">
+														<button type="button" id="addOtherDocument" class="btn btn-primary" style="border-radius: 50%;"><i class="fas fa-plus"></i></button>														
+													</div>
+												</div>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div><!--//item-->										
+										<div class="documentForm"></div>
+										<div class="item border-bottom py-3" style="border-bottom: none !important;">
+											<div class="row justify-content-between align-items-center">
+												<div class="col-sm-9"></div>
+												<div class="col-sm-3">
+													<button type="submit" class="btn app-btn-primary" style="border-radius: 0;">Add Document Details</button>
+												</div><!--//col-->
+											</div><!--//row-->
+										</div>								
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div><!--//container-fluid-->
+		</div>
+  	<%- include('../layout/footer') -%>   
+    </div><!--//app-wrapper-->    					
+</div>
+<!-- Import Script -->
+<%- include('../layout/script') -%>   
+<script src="/js/documentDelete.js"></script>
+</body>
+</html>
+
+
+
+

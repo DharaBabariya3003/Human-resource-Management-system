@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="row g-3 mb-4 align-items-center justify-content-between">
+              <div class="col-auto">				  
+                <h1 class="app-page-title mb-0">Employee Leave Request</h1>
+            	</div>
+			  			<div class="col-auto">
+                <div class="page-utilities">
+                  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+										<div class="col-auto">
+											<strong>Select Year:</strong>
+										</div>
+                		<div class="col-auto">
+											<input type="number" class="form-control" onkeydown="return false;"
+												id="leaveDatePicker" value=<%if(oldValues.selectedYear){%>
+												<%= oldValues.selectedYear%>
+												<%}%>	
+												/>
+                    </div>
+										<div class="col-auto">
+											<select class="form-select form-select-sm w-auto form-control"  id="leaveSelectOption" >
+												<option value="All" <%if(oldValues.selectedChoice=='All'){%>
+													selected
+												<%}%>>All</option>
+												<option value="Halfday" <%if(oldValues.selectedChoice=='Halfday'){%>
+													selected
+												<%}%>>Halfday</option>
+												<option value="01" <%if(oldValues.selectedChoice=='01'){%>
+													selected
+												<%}%>>January</option>
+												<option value="02" <%if(oldValues.selectedChoice=='02'){%>
+													selected
+												<%}%>>February</option>
+												<option value="03" <%if(oldValues.selectedChoice=='03'){%>
+													selected
+												<%}%>>March</option>
+												<option value="04" <%if(oldValues.selectedChoice=='04'){%>
+													selected
+												<%}%>>April</option>
+												<option value="05" <%if(oldValues.selectedChoice=='05'){%>
+													selected
+												<%}%>>May</option>
+												<option value="06" <%if(oldValues.selectedChoice=='06'){%>
+													selected
+												<%}%>>June</option>
+												<option value="07" <%if(oldValues.selectedChoice=='07'){%>
+													selected
+												<%}%>>July</option>
+												<option value="08" <%if(oldValues.selectedChoice=='08'){%>
+													selected
+												<%}%>>August</option>
+												<option value="09" <%if(oldValues.selectedChoice=='09'){%>
+													selected
+												<%}%>>September</option>
+												<option value="10" <%if(oldValues.selectedChoice=='10'){%>
+													selected
+												<%}%>>October</option>
+												<option value="11" <%if(oldValues.selectedChoice=='11'){%>
+													selected
+												<%}%>>November</option>
+												<option value="12" <%if(oldValues.selectedChoice=='12'){%>
+													selected
+												<%}%>>December</option>
+											</select>
+										</div>
+                  </div><!--//row-->
+                </div><!--//table-utilities-->
+              </div><!--//col-auto-->
+            </div><!--//row-->                          
+            <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+              <div class="app-card-body">
+                <table class="table app-table-hover mb-0 text-left" id="leaveRequestTable" width="100%">
+                  <thead>
+                    <tr>
+											<th class="cell">Sr No.</th>
+											<th class="cell">Employee Code</th>
+											<th class="cell">Name</th>
+											<th class="cell">Leave Reason</th>
+											<th class="cell">Half/Full Day</th>
+											<th class="cell">From</th>
+											<th class="cell">To</th>
+											<th class="cell">Total days</th>
+											<th class="cell">Requested On</th>
+											<th class="cell text-center" colspan="2">Action</th>
+											
+                    </tr>
+                  </thead>					  
+                
+									<tbody>
+
+									</tbody>
+								</table>
+              </div><!--//app-card-body-->
+            </div><!--//app-card-->            
+          </div><!--//container-fluid-->
+        </div><!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div><!--//app-wrapper-->
+		</div>
+		<%- include('../layout/script') -%>
+<script src="/js/leaveManagement.js"></script>
+		
+<script>
+  $(function () {
+    var table;  
+    $("#leaveDatePicker").change(function(){ 		
+      table.ajax.reload(null, false);
+		});
+		$("#leaveSelectOption").change(function(){ 		
+      table.ajax.reload(null, false);
+		});
+		
+    table = $("#leaveRequestTable").DataTable({
+      "autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'desc' ]],
+			"serverSide": true,
+			"ordering": false,
+      "serverMethod": 'get',
+      'ajax': {
+				'url': '/admin/api/leaveRequestTable',
+				'data': function (data) {					
+          var year = $('#leaveDatePicker').val();
+					var selectedData = $('#leaveSelectOption').val();		
+					
+          data.year = year;
+					data.option = selectedData;       					
+        }        
+      },  
+      "columns": [{
+        data: "",
+        className: 'hideTd',
+        "defaultContent": "-"
+      },{
+        data: "-",
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+					return `${row.user.attendanceCode}`;
+				}	
+      }, {
+        data: "-",
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+					return `${row.user.firstName+" "+row.user.middleName+" "+row.user.lastName}`;
+				}	
+      }, {
+        data: "leaveReason",
+        "defaultContent": "-"      
+      },{
+        data: "multiOrhalfDay",
+        "defaultContent": "-"
+      },{
+        data: "multiOrhalfDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){					
+							if(row.multiOrhalfDay==='Multiple'){
+								return `<span>${moment(row.multiFromDate).format("DD MMM YYYY")}</span>`;
+							}else{
+								return `<span>${moment(row.halfDayDate).format("DD MMM YYYY")} <strong>${moment(row.halfDayFromTime,"HH:mm").format("hh:mm A")}</strong></span>`;
+							}									
+				}	
+			},{
+        data: "multiOrhalfDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){				
+							if(row.multiOrhalfDay==='Multiple'){
+								return `<span>${moment(row.multiToDate).format("DD MMM YYYY")}</span>`;
+							}else{
+								return `<span>${moment(row.halfDayDate).format("DD MMM YYYY")} <strong>${moment(row.halfDayToTime,"HH:mm").format("hh:mm A")}</strong></span>`;
+							}									
+				}	
+			},{
+        data: "multiOrhalfDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){				
+							if(row.multiOrhalfDay==='Multiple'){
+								let start = moment(row.multiFromDate,'YYYY-MM-DD');
+								let end = moment(row.multiToDate,'YYYY-MM-DD');
+								let d = end.diff(start,'days');
+								return `<span>${ d+1}</span>`;
+							}else{
+								return `<span>-</span>`;
+							}									
+				}	
+			},{
+        data: "createdAt",
+				"defaultContent": "-",
+				"render":function(data, type, row){				
+					return moment(new Date(row.createdAt)).format('DD MMM YYYY');
+				}
+      },{
+        data: "multiOrhalfDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){				
+								if(row.approve && !row.isDeleted){
+									return `<td>
+														<button type="button" disabled
+																onclick="approveLeaveRequest('${row._id}','approve')"
+																class="btn btn-success btn-green-neumorpic" style="border-radius: 0%;">
+																Approve
+																</button>
+															</td>`
+								}else if(row.decline && !row.isDeleted){
+									return `<td>
+																<button type="button" disabled
+																onclick="approveLeaveRequest('${row._id}','decline')"
+																class="btn btn-primary btn-blue-neumorpic" style="border-radius: 0%;">
+																Decline
+																</button>
+															</td>
+															`
+								}else{
+									return `<td>
+																<button type="button"
+																onclick="approveLeaveRequest('${row._id}','approve')"
+																class="btn btn-success btn-green-neumorpic" style="border-radius: 0%;">
+																Approve
+																</button>
+															</td>
+															`
+								}													
+				}	
+			},{
+        data: "multiOrhalfDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){				
+								if(row.approve && !row.isDeleted){
+									return `<td>
+																<button type="button"
+																onclick="approveLeaveRequest('${row._id}','delete')"
+																class="btn btn-danger btn-red-neumorpic" style="border-radius: 0%;">
+																Delete
+																</button>
+															</td>
+															`
+								}else if(row.decline && !row.isDeleted){
+										return `<td>
+																<button type="button"
+																onclick="approveLeaveRequest('${row._id}','delete')"
+																class="btn btn-danger btn-red-neumorpic" style="border-radius: 0%;">
+																Delete
+																</button>
+															</td>`
+								}else{
+									return `	<td>
+																<button type="button"
+																onclick="approveLeaveRequest('${row._id}','decline')"
+																class="btn btn-primary btn-blue-neumorpic" style="border-radius: 0%;">
+																	Decline
+																</button>
+															</td>` 
+								}															
+				}	
+			},
+	  ],
+      "fnRowCallback": function(nRow, aData, iDisplayIndex) {
+        var oSettings = table.settings()[0];
+        $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+        return nRow;
+      }
+    });
+  });
+</script>
+</body>
+</html>

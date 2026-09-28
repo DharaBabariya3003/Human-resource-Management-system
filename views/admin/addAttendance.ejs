@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+<script src="/assets/jQuery/timepickerjs.min.js"></script>
+<script src="/assets/jQuery/timepicker.min.js"></script>
+
+</head>	
+
+<body <%if(oldValues){
+  if(oldValues.status){
+    if(oldValues.status == "Invalid"){%>
+      onload="invalidOutTimeAlert()"
+    <%}else if(oldValues.status == "Already"){%>
+      onload="attAlreadyDone()"
+    <%}else if(oldValues.status == "Done"){%>
+      onload="showAttendanceAlert()"
+    <%}
+  }
+}%>
+>
+<%- include('../layout/header') -%>   
+<div class="app">
+  <div class="app-wrapper">
+	  <div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">		
+			
+			  <h1 class="app-page-title">Add Attendance</h1>
+				<hr class="mb-4">			
+        <div class="row g-4 settings-section">	
+	        <div class="col-12 col-md-12">	
+		        <div class="app-card app-card-settings shadow-sm p-4 card-neumorphic">  
+						  <div class="app-card-body">
+								<form method="POST" action="/admin/attendance/create" id="submitAttendanceForm">									
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between">												
+											<div class="col-4">												
+												<div class="mb-3">
+													<div class="item-label"><strong>Select date</strong></div>
+													<div class="item-data">														
+														<input name="attendanceDate" id="attendanceDate" class="form-control" required type="date" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%= oldValues.old.payload.attendanceDate %>
+															<%}else{
+																if(oldValues.payload){%>
+																	<%= oldValues.payload.attendanceDate %>
+																<%}else{%>
+																	<%= oldValues.todaysDate %>
+																<%}
+															}
+														}%>>
+													</div> <!-- form-group// -->
+												</div>
+											</div>
+											
+											<div class="col-4">
+												<div class="mb-3">
+													<div class="item-label"><strong>Name</strong></div>
+													<div class="item-data">
+														<input  type="hidden" name="attendanceUser" id="attendanceUser" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%= oldValues.old.payload.attendanceUser %>
+															<%}else{
+															 if(oldValues.payload){%>
+																<%= oldValues.payload.attendanceUser %>
+															 <%}
+															}
+														}%>
+														>
+														<input list="encodings" name="attendanceEmpName" type="text" id="attendanceUserId" required placeholder="Employee name" class="form-control form-select" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%- JSON.stringify(oldValues.old.payload.attendanceEmpName) %>
+															<%}else{
+															 if(oldValues.payload){%>
+																<%- JSON.stringify(oldValues.payload.attendanceEmpName) %>
+															 <%}
+															}
+														}%>
+														>
+														<datalist id="encodings">
+																<%if(oldValues){
+																	if(oldValues.old){
+																		if(oldValues.old.employees){
+																			if(oldValues.old.employees.length>0){
+																				oldValues.old.employees.forEach(element=>{
+																					if(element.firstName && element.lastName){%>
+																						<option data-value= '<%= element.attendanceCode %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																					<%}
+																				})
+																			}
+																		}
+																	}else{
+																		if(oldValues.employees){
+																			if(oldValues.employees.length>0){
+																				oldValues.employees.forEach(element=>{
+																					if(element.firstName && element.lastName){%>
+																						<option data-value= '<%= element.attendanceCode %>' value='<%= element.firstName+" "+element.middleName+" "+element.lastName+" ("+element.attendanceCode+")" %>'> </option>
+																					<%}
+																				})
+																			}
+																		}
+																	}
+																}%>
+															
+														</datalist>
+																													
+													</div> <!-- form-group// -->
+												</div>
+											</div>	
+											<div class="col-4">
+												<div class="mb-3">
+												</div>
+											</div>							
+										</div><!--//row-->
+									</div><!--//item-->
+									<div class="item border-bottom py-3">
+										<div class="row justify-content-between">						
+											<div class="col-2">
+												<div class="mb-3">
+													<div class="item-label"><strong>In time</strong></div>
+													<div class="item-data officeStartTime">																
+														<input class="form-control" required name="attendanceInTime" readonly  onchange="officeStartTimeFunc(event)" id="officeStartTime" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%= oldValues.old.payload.attendanceInTime %>
+															<%}else{
+															 if(oldValues.payload){%>
+																<%= oldValues.payload.attendanceInTime %>
+															 <%}
+															}
+														}%>
+														>
+														<script>
+															$('#officeStartTime').timepicker({															
+																	uiLibrary: 'bootstrap5',
+															});
+															$("#officeStartTime").on("focus", function() {																
+																$(".officeStartTime .clock").click()
+															});
+														</script>
+														<div id="startTime"></div>
+													</div> <!-- form-group// -->
+												</div>   
+											</div>			
+											<div class="col-2">
+												<div class="mb-3">
+													<div class="item-label"><strong>Out time</strong></div>
+													<div class="item-data officeEndTime">																
+														<input class="form-control" required name="attendanceOutTime" readonly onchange="officeEndTimeFunc(event)" id="officeEndTime" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%= oldValues.old.payload.attendanceOutTime %>
+															<%}else{
+															 if(oldValues.payload){%>
+																<%= oldValues.payload.attendanceOutTime %>
+															 <%}
+															}
+														}%>
+														>
+															<script>
+																$('#officeEndTime').timepicker({															
+																	uiLibrary: 'bootstrap5',																			
+																});
+																$("#officeEndTime").on("focus", function() {																
+																	$(".officeEndTime .clock").click();
+																});
+															</script>
+														<div id="endTime"></div>
+													</div> <!-- form-group// -->
+												</div>   
+											</div>																			 											
+											<div class="col-4">
+                        <div class="mb-3">
+													<div class="item-label"><strong>Total minutes</strong></div>
+													<div class="item-data">
+														<input  class="form-control" name="attendanceTotalMinutes" id="totalMinutes" readonly type="text" value=<%if(oldValues){
+															if(oldValues.old){%>
+																<%= oldValues.old.payload.attendanceTotalMinutes %>
+															<%}else{
+															 if(oldValues.payload){%>
+																<%= oldValues.payload.attendanceTotalMinutes %>
+															 <%}
+															}
+														}%>
+														>	
+													</div> 
+												</div>
+											</div>
+											<div class="col-4">	
+												<div class="mb-3">													
+												</div>
+											</div>
+										</div>
+									</div><!--//item-->
+									<div class="item py-3">
+										<div class="row justify-content-md-end align-items-center row-6">
+												<button type="submit" id="addAttendanceBtn" class="btn app-btn-primary col-2 btn-green-neumorpic" style="border-radius: 0%; margin-right: 1%;" >Save</button>
+										</div>
+									</div>
+									<div>
+									</div>
+								</form>
+								<div>
+									<%if(oldValues){
+										if(oldValues.status){
+											if(oldValues.status == "Invalid"){%>
+												<b style="color: red;">Invalid data !!</b>
+											<%}else if(oldValues.status == "Future"){%>
+												<b style="color: red;">You can not select future time !!</b>
+											<%}else if(oldValues.status == "Already"){%>
+												<b style="color: red;">Attendance already done !!</b>
+											<%}else if(oldValues.status == "Done"){%>
+												<b style="color: green;">Attendance Done!!</b>	
+											<%}else if(oldValues.status == "HR"){%>
+												<b style="color: red;">HR can not add attendance of itself !!</b>	
+											<%}
+										}
+									}%>
+								</div>
+						  </div>
+						</div>
+	        </div>
+        </div>
+      </div><!--//container-fluid-->
+	  </div><!--//app-content-->
+    <%- include('../layout/footer') -%>   
+  </div><!--//app-wrapper-->    					
+</div>
+<%- include('../layout/script') -%>   
+<script src="/js/singleAttendanceSetting.js"></script>
+<script src="/js/attendance.js"></script>
+<script>
+$('#addAttendanceBtn').one('click', function (event) {
+    event.preventDefault();
+	$( "#submitAttendanceForm" ).submit();
+	$(this).prop('disabled', true);
+});
+</script>
+<script>
+document.getElementById("attendanceDate").setAttribute("max", moment().format("YYYY-MM-DD"));
+$(document).ready(function() {
+
+	var data = {}; 
+	$("#encodings option").each(function(i,el) {  
+		data[$(el).data("value")] = $(el).val();
+	});
+ 	$('#attendanceUserId').change(function(){
+    var value = $('#attendanceUserId').val();
+		var userId = $('#encodings [value="' + value + '"]').data('value');
+		if(!userId){
+			$('#attendanceUser').val("");
+			return false;
+		}else{
+			$('#attendanceUser').val(userId);
+		}
+		getAttendanceCode();
+	});
+	$('#attendanceUserId').keydown(function(){
+    $('#attendanceUser').val("");
+	});
+});
+
+</script>
+
+</body>
+</html>

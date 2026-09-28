@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">
+  <div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">			    
+			  <h1 class="app-page-title">Add Attendance Setting</h1>
+        <hr class="mb-4">
+        <div class="row g-4 settings-section">
+          <div class="col-12 col-md-4">
+						<div class="app-card app-card-settings shadow-sm p-4">
+		          <h3 class="section-title">Select employees</h3>
+              <form method="POST" action="/admin/attendance/settings/create">
+                <div class="container form-control" style="border:2px solid #ccc; width:300px; height: 270px; overflow-y: scroll;">
+                  <%if(oldValues.allUsers){
+                    if(oldValues.allUsers.length>0){
+                      oldValues.allUsers.forEach(element=>{
+                        if(element.firstName && element.lastName){ let n=element._id;%>
+                      		<div class="form-check form-check-inline">
+														<input class="form-check-input"  name="allUsers" type="checkbox" value=<%= element._id %>
+															<% if(oldValues){
+                              	if(oldValues.selectedEmp){
+                              		if(oldValues.selectedEmp.includes(""+n)){%>
+                                  	checked
+                                	<%}
+              									}
+															}%>
+															<% if(oldValues){
+                                if(oldValues.availableEMpErr){
+                                  if(oldValues.availableEMpErr.includes(""+n)){%>
+                                    style="background-color: red;"
+                                  <%}
+                                }
+                              }%>>
+                            <label class="form-check-label" ><strong>&nbsp;<%= element.attendanceCode %></strong>&nbsp;&nbsp;<%= element.firstName+" "+element.lastName %></label>
+                          </div><br>
+                  <%}})}}%>
+                </div>
+            </div>   
+					</div>
+	        <div class="col-12 col-md-8">
+		        <div class="app-card app-card-settings shadow-sm p-4">
+							<div class="app-card-body">
+							  <div class="item border-bottom py-3" style="border-bottom: none !important;">
+									<div class="row justify-content-between align-items-center row-6">
+										<div class="col-sm-4">
+                      <div class="col-auto">
+                        <div class="mb-3">
+                          <div class="item-label"><strong>Office entry time:</strong></div>
+                          <div class="item-data">
+                            <input class="form-control" required name="officeStartTime" onchange="officeStartTimeFunc(event)" id="officeStartTime" type="time" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                                <%= oldValues.attendanceSetting.officeStartTime %>
+                              <%}
+                            	}%>>
+                            	<div id="startTime"></div>
+                          </div> <!-- form-group// -->
+                        </div>
+                  		</div> 
+                    </div>	
+                  	<div class="col-sm-4">
+                  		<div class="col-auto">
+                        <div class="mb-3">
+                          <div class="item-label"><strong>Office exit time:</strong></div>
+                          <div class="item-data">
+                            <input class="form-control" required name="officeEndTime" onchange="officeEndTimeFunc(event)" id="officeEndTime" type="time" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                                <%= oldValues.attendanceSetting.officeEndTime %>
+                              <%}
+                              }%>>
+                            <div id="endTime"></div>
+                          </div>                                                                 
+                      	</div>
+                      </div>
+                    </div>	
+                    <div class="col-sm-4">
+                      <div class="col-auto">
+                        <div class="mb-3">
+                          <div class="item-label"><strong>Total minutes:</strong></div>
+                          <div class="item-data">
+                          	<input  class="form-control" name="totalMinutes" id="totalMinutes" readonly type="text" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                          			<%= oldValues.attendanceSetting.totalMinutes %>
+                              	<%}
+                                }%>>
+                          </div> 
+                        </div>
+                      </div> 
+                		</div>	
+                  </div><!--//row-->
+								</div><!--//item-->
+                <div class="item border-bottom py-3" style="border-bottom: none !important;">
+									<div class="row justify-content-between align-items-center row-6">
+										<div class="col-sm-4">
+                      <div class="col-auto">
+                        <div class="mb-3">
+                          <div class="item-label"><strong>Month and year:</strong></div>
+                          <div class="item-data">
+                        		<input  class="form-control" required name="monthandYear"  type="month" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                                <%= oldValues.attendanceSetting.monthandYear %>
+                              <%}
+                            	}%>>
+                          </div> 
+                        </div>
+                      </div>
+                    </div>	
+                    <div class="col-sm-4">
+                      <div class="col-auto">
+                        <div class="mb-3">
+                    			<div class="item-label"><strong>Ask late entry reason after:</strong></div>
+                          <div class="item-data">
+                            <input class="form-control" required name="lateReasonMinute" onchange="lateTimeFunc(event)" type="time" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                                <%= oldValues.attendanceSetting.lateReasonMinute %>
+                              <%}
+                              }%>>
+                            <div id="lateTime"></div>
+                          </div> <!-- form-group// -->
+                        </div>
+                  		</div> 
+                    </div>	
+                    <div class="col-sm-4">
+                      <div class="col-auto">
+                        <div class="mb-3">
+                          <div class="item-label"><strong>Consider over time after minutes:</strong></div>
+                        	<div class="item-data">
+                            <input class="form-control" required name="overTimeMinute" onKeyPress="if(this.value.length==2) return false;"  type="number" value=<%if(oldValues){
+                              if(oldValues.attendanceSetting){%>
+                                <%= oldValues.attendanceSetting.overTimeMinute %>
+                              <%}
+                            	}%>>                                                                    
+                          </div>                                                                 
+                        </div>
+                      </div>
+                  	</div>	
+                	</div><!--//row-->
+								</div><!--//item-->
+								<div class="item border-bottom py-3" style="border-bottom: none !important;">
+									<div class="row justify-content-between align-items-center row-6">
+										<div class="col-sm-9">
+											<div class="col-auto">
+												<div class="mb-3">
+                          <%if(oldValues){
+                            if(oldValues.recordStatus=='Yes'){%>
+                              <div class="item-label"><strong style="color: red;">You have already added this month and year record.</strong></div>
+                            <%}
+                            if(oldValues.recordStatus=='No'){%>
+                              <div class="item-label"><strong style="color: red;">Fill correct data.</strong></div>
+                        		<%}
+                        		if(oldValues.recordStatus=='NoUser'){%>
+                              <div class="item-label"><strong style="color: red;">Please select employee.</strong></div>
+                            <%}
+                          	if(oldValues.recordStatus=='empAvailable'){%>
+                              <div class="item-label"><strong style="color: red;">Employee already added.</strong></div>
+                            <%}
+                          }%>
+													<div class="item-data">                                                                
+													</div> <!-- form-group end.// -->
+												</div>
+											</div>
+										</div>	
+										<div class="col-sm-3">
+											<div class="col-auto">
+												<div class="mb-3">
+													<div class="item-data">	
+														<button type="submit" id="submitBtn" class="btn btn-primary btn-block" style="border-radius: 0;"> Save  </button>
+													</div>
+												</div>
+											</div>
+										</div>	
+									</div>		
+								</div><!--//item-->	
+							</form>
+						</div><!--//app-card-body-->
+					</div><!--//app-card-->
+	      </div>
+      </div><!--//row-->
+  	</div><!--//container-fluid-->
+	</div><!--//app-content-->
+  <%- include('../layout/footer') -%>   
+</div><!--//app-wrapper-->    					
+</div>
+<%- include('../layout/script') -%>   
+<script src="/js/attendaceSetting.js"></script>
+
+</body>
+</html>
+
+
+
+
+
+

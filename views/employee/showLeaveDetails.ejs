@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Import Head -->
+    <%- include('../layout/head') -%>
+  </head>
+  <body>
+    <%- include('../layout/employeeHeader') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="row g-3 mb-4 align-items-center justify-content-between">
+              <div class="col-auto">
+                <h1 class="app-page-title mb-0">Monthly Leave Details</h1>
+              </div>
+              <div class="col-auto">
+                <div class="page-utilities">
+                  <div
+                    class="row g-2 justify-content-start justify-content-md-end align-items-center"
+                  >
+                    <div class="col-auto">
+                      <label for="startDate"><strong>Month :</strong></label>
+                    </div>
+                    <div class="col-auto">
+                      <input
+                        type="month"
+                        class="form-control"
+                        name="attendancemonth"
+                        id="attendanceMonth"
+                        max="<%= oldValues.currentMonth %>"
+                        onchange="leaveMonthHandlerEmployee(event,'<%= oldValues.user %>')"
+                        value="<%= oldValues.attendanceMonth %>"
+                      />
+                    </div>
+                  </div>
+                  <!--//row-->
+                </div>
+              </div>
+              <!--//table-utilities-->
+            </div>
+            <!--//row-->
+            <div class="tab-content" id="orders-table-tab-content">
+              <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+                  <div class="app-card-body">
+                    <table class="table app-table-hover mb-0 text-left asc-data-table" id="example" width="100%">
+                      <thead>
+                        <tr>
+                          <th class="cell">Sr.No</th>
+                          <th class="cell">Leave Date</th>
+                          <th class="cell">Half/Full Day</th>
+                          <th class="cell">Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <% var i=1;%>
+                        <%if(oldValues.leaveRecordOfUser){
+                          if(oldValues.leaveRecordOfUser.length > 0){
+                          oldValues.leaveRecordOfUser.forEach(element=>{%>
+                            <tr>
+                              <td><%= i %></td>
+                              <td><%= element.date %></td>
+                              <td><%= element.leave %></td>
+                              <td><%= element.status %></td>
+                            </tr>
+                            
+                          <%i=i+1;}) } }%>
+                      </tbody>
+                    </table>
+                  </div>
+                  <!--//app-card-body-->
+                </div>
+                <!--//app-card-->
+              </div>
+              <!--//tab-pane-->
+            </div>
+            <!--//tab-content-->
+          </div>
+          <!--//container-fluid-->
+        </div>
+        <!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div>
+      <!--//app-wrapper-->
+    </div>
+    <%- include('../layout/employeeScript') -%>
+    <script src="/js/attendance.js"></script>
+  </body>
+</html>

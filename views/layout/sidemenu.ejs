@@ -1,0 +1,228 @@
+<div id="app-sidepanel" class="app-sidepanel sidepanel-hidden" > 
+  <div id="sidepanel-drop" class="sidepanel-drop"></div>
+    <div class="sidepanel-inner d-flex flex-column">
+      <a href="#" id="sidepanel-close" class="sidepanel-close d-xl-none">&times;</a>
+      <div class="app-branding p1-0" style="margin: 0;padding: 5px 0;background: #dc0000;">
+        <a class="app-logo d-block text-center" href="#">
+          <img height="45" width="135" src="/assets/images/background/bigscal-logo.png" alt="Bigscal - Outsource Software Development Services">
+        </a>  
+      </div>
+      <nav id="app-nav-main" class="app-nav app-nav-main flex-grow-1">
+        <ul class="ultab app-menu list-unstyled accordion additional-menu" id="menu-accordion NavItem">
+        	<li class="nav-item <% if(oldValues.sideTab == 'employee'){%> activeTab" <%}%> id="employee" >
+          	<a class="nav-link" href="/admin" id="employee" <% if(oldValues.sideTab == 'employee'){%> style="color:#fff; !important" <%}%>>
+							<span class="nav-icon">
+								<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+									<path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+								</svg>
+							</span>    
+							<span class="nav-link-text">All Employees</span>
+          	</a>
+          </li>   
+          <li class="nav-item <% if(oldValues.sideTab == 'left'){%> activeTab" <%}%>  id="left" >
+            <a class="nav-link" href="/admin/leftEmployees" id="left" <% if(oldValues.sideTab == 'left'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+          		</span>
+              <span class="nav-link-text">Left Employees</span>
+            </a>
+        	</li>
+          <li onclick="$.fn.notificationClickedFunc('notificationPage');" class="nav-item <% if(oldValues.sideTab == 'notification'){%> activeTab" <%}%>  id="" >
+            <a class="nav-link" href="/admin/notification" id="notification" <% if(oldValues.sideTab == 'notification'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+              </span>
+              <span class="nav-link-text">Notifications</span><span class="app-utility-item icon-badge" id="sideMenuNotification"></span>
+            </a>
+          </li>
+          
+          <%
+            let currentYear=new Date().getFullYear();
+          %>
+          <li class="nav-item has-submenu">
+						<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+						<a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-9" aria-expanded="false" aria-controls="submenu-9">
+							<span class="nav-icon">
+								<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+								</svg>
+							</span>
+							<span class="nav-link-text">Leave Request</span>
+							<span class="submenu-arrow">
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+								</svg>
+							</span><!--//submenu-arrow-->
+						</a><!--//nav-link-->
+						<div id="submenu-9" class="collapse submenu submenu-9 <% if(oldValues.sideTab == 'leaveRequest' || oldValues.sideTab == 'leaveRequestHistory'){%> submenu submenu-9 collapse show" <%}%>" data-parent="#menu-accordion">
+							<ul class="submenu-list list-unstyled">
+								<li class="submenu-item <% if(oldValues.sideTab == 'leaveRequest'){%> activeTab" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/leaveRequests?year=<%= currentYear %>&option=All" <% if(oldValues.sideTab == 'leaveRequest'){%> style="color:#fff; !important" <%}%>>Employee Leave Requests<span id="sideMenuLeaveRequest"></span></a></li>
+								<li class="submenu-item <% if(oldValues.sideTab == 'leaveRequestHistory'){%> activeTab" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/leaveRequests/history/?year=<%= currentYear %>&option=All" <% if(oldValues.sideTab == 'leaveRequestHistory'){%> style="color:#fff; !important" <%}%>>Leave Request History</a></li>
+							</ul>
+						</div>
+					</li><!--//nav-item--> 
+					<li class="nav-item has-submenu">
+						<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+						<a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-8" aria-expanded="false" aria-controls="submenu-8">
+							<span class="nav-icon">
+							<!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+								</svg>
+							</span>
+							<span class="nav-link-text">Attendance</span>
+							<span class="submenu-arrow">
+								<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+									<path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+								</svg>
+							</span><!--//submenu-arrow-->
+						</a><!--//nav-link-->
+						<div id="submenu-8" class="collapse submenu submenu-8 <% if(oldValues.sideTab == 'attendance' || oldValues.sideTab == 'addAttendance' || oldValues.sideTab == 'monthlyAttendance'){%> submenu submenu-8 collapse show" <%}%>" data-parent="#menu-accordion">
+							<ul class="submenu-list list-unstyled">
+                <li class="submenu-item <% if(oldValues.sideTab == 'attendance'){%> activeTab" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/attendance" <% if(oldValues.sideTab == 'attendance'){%> style="color:#fff; !important" <%}%>>Attendance Details</a></li>
+                <li class="submenu-item <% if(oldValues.sideTab == 'monthlyAttendance'){%> activeTab" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/attendance/report" <% if(oldValues.sideTab == 'monthlyAttendance'){%> style="color:#fff; !important" <%}%>>Monthly Attendance Report</a></li>          
+                <li class="submenu-item <% if(oldValues.sideTab == 'addAttendance'){%> activeTab" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/attendance/create" <% if(oldValues.sideTab == 'addAttendance'){%> style="color:#fff; !important" <%}%>>Add Attendance</a></li>          
+							</ul>
+						</div>
+					</li><!--//nav-item-->                 
+          <li class="nav-item <% if(oldValues.sideTab == 'setHolidays'){%> activeTab" <%}%> id="setHolidays" >
+            <a class="nav-link" href="/admin/holidays" " <% if(oldValues.sideTab == 'setHolidays'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              	</svg>
+              </span>    
+            	<span class="nav-link-text">Holidays List</span>
+            </a>
+          </li>
+          <li class="nav-item <% if(oldValues.sideTab == 'interview'){%> activeTab<%}%>">
+            <a class="nav-link" href="/admin/interview" " <% if(oldValues.sideTab == 'interview'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+              	</svg>
+              </span>
+            	<span class="nav-link-text">Interview Candidates</span>
+            </a>
+          </li>  
+                       
+          <li class="nav-item  <% if(oldValues.sideTab == 'searchtab'){%> activeTab" <%}%>  id="">
+            <a class="nav-link" href="/admin/searchMonthlyRecord" id="searchtab" <% if(oldValues.sideTab == 'searchtab'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+            	</span>
+              <span class="nav-link-text">Events</span>
+            </a>
+          </li>
+          <li class="nav-item <% if(oldValues.sideTab == 'xls'){%> activeTab" <%}%>  id="" >
+            <a class="nav-link" href="/admin/paySalary/xlsxDownload" id="xls" <% if(oldValues.sideTab == 'xls'){%> style="color:#fff; !important" <%}%> >
+                <span class="nav-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                        <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                      </svg>
+                 </span>
+                 <span class="nav-link-text">Download Excel</span>
+            </a>
+          </li>
+          <li class="nav-item has-submenu">
+            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+            <a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-14" aria-expanded="false" aria-controls="submenu-14">
+              <span class="nav-icon">
+              <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+              	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+                </svg>
+              </span>
+              <span class="nav-link-text">Administrative</span>
+                <span class="submenu-arrow">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </span><!--//submenu-arrow-->
+              </a><!--//nav-link-->
+            	<div id="submenu-14" class="collapse submenu submenu-14 <% if(oldValues.sideTab == 'deptAndDes' || oldValues.sideTab == 'bankNames'){%> submenu submenu-18 collapse show" <%}%>" data-parent="#menu-accordion">
+                <ul class="submenu-list list-unstyled">
+                  <li class="submenu-item <% if(oldValues.sideTab == 'deptAndDes'){%> activeTab submenu submenu-18 collapse show" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/create/department"" <% if(oldValues.sideTab == 'deptAndDes'){%> style="color:#fff; !important" <%}%>>Department And Designation</a></li>
+                  <li class="submenu-item <% if(oldValues.sideTab == 'bankNames'){%> activeTab submenu submenu-18 collapse show" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/create/bankdetails"" <% if(oldValues.sideTab == 'bankNames'){%> style="color:#fff; !important" <%}%>>Add Bank</a></li>
+                </ul>
+              </div>
+          </li><!--//nav-item-->
+          <li class="nav-item has-submenu">
+            <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+            <a class="nav-link submenu-toggle" href="#" data-toggle="collapse" data-target="#submenu-27" aria-expanded="false" aria-controls="submenu-27">
+              <span class="nav-icon">
+              <!--//Bootstrap Icons: https://icons.getbootstrap.com/ -->
+              	<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-columns-gap" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                  <path fill-rule="evenodd" d="M6 1H1v3h5V1zM1 0a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1H1zm14 12h-5v3h5v-3zm-5-1a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1v-3a1 1 0 0 0-1-1h-5zM6 8H1v7h5V8zM1 7a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1H1zm14-6h-5v7h5V1zm-5-1a1 1 0 0 0-1 1v7a1 1 0 0 0 1 1h5a1 1 0 0 0 1-1V1a1 1 0 0 0-1-1h-5z"/>
+                </svg>
+              </span>
+              <span class="nav-link-text">Letterhead</span>
+                <span class="submenu-arrow">
+                  <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-chevron-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
+                  </svg>
+                </span><!--//submenu-arrow-->
+              </a><!--//nav-link-->
+            	<div id="submenu-27" class="collapse submenu submenu-27 <% if(oldValues.sideTab == 'deptAndDes' || oldValues.sideTab == 'bankNames'){%> submenu submenu-27 collapse show" <%}%>" data-parent="#menu-accordion">
+                <ul class="submenu-list list-unstyled">
+                  <li class="submenu-item <% if(oldValues.sideTab == 'letterHead'){%> activeTab submenu submenu-27 collapse show" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/letterhead"" <% if(oldValues.sideTab == 'letterHead'){%> style="color:#fff; !important" <%}%>>Manage Letterhead</a></li>
+                  <li class="submenu-item <% if(oldValues.sideTab == 'letterHeadType'){%> activeTab submenu submenu-27 collapse show" <%}%> id=""><a class="submenu-link innerMenuFormat" href="/admin/letterhead/letterhead-type"" <% if(oldValues.sideTab == 'letterHeadType'){%> style="color:#fff; !important" <%}%>>Add Letterhead Types</a></li>
+                </ul>
+              </div>
+          </li><!--//nav-item-->
+          <li class="nav-item  <% if(oldValues.sideTab == 'bondCompleted'){%> activeTab" <%}%>  id="">
+            <a class="nav-link" href="/admin/payroll/bond-completed" <% if(oldValues.sideTab == 'bondCompleted'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+            	</span>
+              <span class="nav-link-text">Bond Completed Employees</span>
+            </a>
+          </li>
+          <li class="nav-item  <% if(oldValues.sideTab == 'assets'){%> activeTab" <%}%>  id="">
+            <a class="nav-link" href="/admin/assets" <% if(oldValues.sideTab == 'assets'){%> style="color:#fff; !important" <%}%>>
+              <span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+            	</span>
+              <span class="nav-link-text">Assets</span>
+            </a>
+          </li>
+          <div id="logUser" class="hideOverTimeMinutes">
+            <li class="nav-item <%if(oldValues.sideTab == 'logs'){%> activeTab <%}%>">
+              <a class="nav-link" href="/admin/logs" id="logs" <% if(oldValues.sideTab == 'logs'){%> style="color:#fff; !important" <%}%> >
+                  <span class="nav-icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                          <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                        </svg>
+                  </span>
+                  <span class="nav-link-text">Logs</span>
+              </a>
+            </li>
+          </div>   
+          <li class="nav-item ">
+          	<a class="nav-link" href="/auth/logout" id="searchtab" >
+            	<span class="nav-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
+                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                </svg>
+              </span>
+              <span class="nav-link-text">Log Out</span>
+            </a>
+          </li>
+        </ul><!--//app-menu-->
+      </nav><!--//app-nav-->
+    </div>
+</div>
+
+
+

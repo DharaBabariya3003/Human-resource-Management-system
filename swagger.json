@@ -1,0 +1,626 @@
+{
+  "swagger": "2.0",
+
+  "info": {
+    "version": "1.0.0",
+    "title": "Node Application API",
+    "description": "Node.js and Express.js Application API",
+    "license": {
+      "name": "Node",
+      "url": "https://node.com/"
+    }
+  },
+
+  "tags": [
+    { "name": "Auth" },
+    { "name": "Post" },
+    { "name": "Comment" }
+  ],
+
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+
+  "securityDefinitions": {
+    "jwt": {
+      "type": "apiKey",
+      "in": "header",
+      "name": "Authorization"
+    }
+  },
+  "security": [
+    {
+      "jwt": []
+    }
+  ],
+
+  "paths": {
+    "/auth/signup": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Signup API",
+        "security" : [],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Create new account",
+            "schema": {
+              "allOf":[
+                {
+                  "$ref": "#/definitions/SignUp"
+                }
+              ]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Create new post",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "data"    : {
+                      "type": "object",
+                      "properties": {
+                        "_id" : { "type" : "string"},
+                        "firstName" : { "type" : "string"},
+                        "lastName"  : { "type" : "string"},
+                        "email"     : { "type" : "string"},
+                        "token"     : { "type" : "string"}
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/auth/login": {
+      "post": {
+        "tags": ["Auth"],
+        "summary": "Login API",
+        "security" : [],
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Login account",
+            "schema": {
+              "type": "object",
+              "required"  : ["email", "password"],
+              "properties": {
+                "email"     : { "type": "string"},
+                "password"  : { "type": "string"}
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Login account",
+            "schema": {
+              "allOf": [
+                {
+                  "$ref": "#/definitions/LoginResponse"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/post": {
+      "get": {
+        "tags": ["Post"],
+        "summary": "Get all post",
+        "security" : [],
+        "responses": {
+          "200": {
+            "description": "Get all post",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "boolean"},
+                    "data": {
+                      "type" : "array",
+                      "items":{
+                        "allOf":[
+                          { "$ref": "#/definitions/Post" },
+                          {
+                            "type": "object",
+                            "properties":{
+                              "_id"   : { "type"  : "string"},
+                              "user"  : {
+                                "type"        : "object",
+                                "properties"  : {
+                                  "_id"       : { "type" : "string" },
+                                  "firstName" : { "type" : "string" },
+                                  "lastName"  : { "type" : "string" }
+                                }
+                              },
+                              "comments"      : {
+                                "type" : "array" ,
+                                "items": {
+                                  "type" : "object",
+                                  "properties": {
+                                    "_id"     : { "type" : "string"},
+                                    "message" : { "type": "string"},
+                                    "user"    : {
+                                      "type"        : "object",
+                                      "properties"  : {
+                                        "_id"       : { "type" : "string" },
+                                        "firstName" : { "type" : "string" },
+                                        "lastName"  : { "type" : "string" }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": ["Post"],
+        "summary": "Create new post",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Create new post",
+            "schema": {
+              "allOf":[
+                {
+                  "$ref": "#/definitions/Post"
+                },
+                {
+                  "type": "object",
+                  "required": ["title", "description"]
+                }
+              ]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Create new post",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "data": {
+                      "allOf":[
+                        { "$ref": "#/definitions/Post" },
+                        {
+                          "type": "object",
+                          "properties":{
+                            "_id"       : { "type": "string"}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/post/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of post",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Post"],
+        "summary": "Get post by id",
+        "responses": {
+          "200": {
+            "description": "Get post by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "boolean"},
+                    "data": {
+                      "allOf":[
+                        { "$ref": "#/definitions/Post" },
+                        {
+                          "type": "object",
+                          "properties":{
+                            "_id"   : { "type"  : "string"},
+                            "user"  : {
+                              "type"        : "object",
+                              "properties"  : {
+                                "_id"       : { "type" : "string" },
+                                "firstName" : { "type" : "string" },
+                                "lastName"  : { "type" : "string" }
+                              }
+                            },
+                            "comments"      : {
+                              "type" : "array" ,
+                              "items": {
+                                "type" : "object",
+                                "properties": {
+                                  "_id"     : { "type" : "string"},
+                                  "message" : { "type": "string"},
+                                  "user"    : {
+                                    "type"        : "object",
+                                    "properties"  : {
+                                      "_id"       : { "type" : "string" },
+                                      "firstName" : { "type" : "string" },
+                                      "lastName"  : { "type" : "string" }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Post"],
+        "summary": "Update post by id",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Update post by id",
+            "schema": {
+              "allOf":[
+                {
+                  "$ref": "#/definitions/Post"
+                }
+              ]
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Update post by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "data": {
+                      "allOf":[
+                        { "$ref": "#/definitions/Post" },
+                        {
+                          "type": "object",
+                          "properties":{
+                            "_id"       : { "type": "string"},
+                            "user"      : { "type": "string"},
+                            "comments"  : { "type": "array", "items": {"type" : "string"}}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Post"],
+        "summary": "Delete post by id",
+        "responses": {
+          "200": {
+            "description": "Delete post by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "message" : { "type": "string"}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/post/{id}/comments": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of post",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Comment"],
+        "summary": "Get all comment for given post",
+        "security" : [],
+        "responses": {
+          "200": {
+            "description": "Get all comment for given post",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "boolean"},
+                    "data": {
+                      "type" : "array",
+                      "items":{
+                        "allOf":[
+                          {
+                            "type": "object",
+                            "properties":{
+                              "_id"   : { "type"  : "string"},
+                              "user"  : {
+                                "type"        : "object",
+                                "properties"  : {
+                                  "_id"       : { "type" : "string" },
+                                  "firstName" : { "type" : "string" },
+                                  "lastName"  : { "type" : "string" }
+                                }
+                              },
+                              "message" : { "type" : "string"}
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/comment": {
+      "post": {
+        "tags": ["Comment"],
+        "summary": "Create new comment",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Create new comment",
+            "schema": {
+              "type"        :  "object",
+              "required"    : ["message", "post"],
+              "properties"  : {
+                "message" : { "type" : "string" },
+                "post"    : { "type" : "string" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Create new comment",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "data": {
+                      "allOf":[
+                        {
+                          "type": "object",
+                          "properties":{
+                            "_id"       : { "type": "string"},
+                            "post"      : { "type": "string"},
+                            "message"   : { "type": "string"}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+
+    "/comment/{id}": {
+      "parameters": [
+        {
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "ID of comment",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Comment"],
+        "summary": "Get comment by id",
+        "responses": {
+          "200": {
+            "description": "Get comment by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status": { "type": "boolean"},
+                    "data": {
+                      "type" : "array",
+                      "items":{
+                        "allOf":[
+                          {
+                            "type": "object",
+                            "properties":{
+                              "_id"   : { "type"  : "string"},
+                              "user"  : {
+                                "type"        : "object",
+                                "properties"  : {
+                                  "_id"       : { "type" : "string" },
+                                  "firstName" : { "type" : "string" },
+                                  "lastName"  : { "type" : "string" }
+                                }
+                              },
+                              "post"          : { "type" : "string" },
+                              "message"       : { "type" : "string"}
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": ["Comment"],
+        "summary": "Update comment by id",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "Update comment by id",
+            "schema": {
+              "type"        :  "object",
+              "properties"  : {
+                "message" : { "type" : "string" }
+              }
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Update post by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "data": {
+                      "allOf":[
+                        {
+                          "type": "object",
+                          "properties":{
+                            "_id"       : { "type": "string"},
+                            "post"      : { "type": "string"},
+                            "message"   : { "type": "string"}
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Comment"],
+        "summary": "Delete comment by id",
+        "responses": {
+          "200": {
+            "description": "Delete comment by id",
+            "schema": {
+              "allOf": [
+                {
+                  "type": "object",
+                  "properties": {
+                    "status"  : { "type": "boolean"},
+                    "message" : { "type": "string"}
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "definitions": {
+    "SignUp": {
+      "required"  : ["firstName", "lastName", "email", "password"],
+      "properties": {
+        "firstName" : { "type"  : "string" },
+        "lastName"  : { "type"  : "string" },
+        "email"     : { "type"  : "string" },
+        "password"  : { "type"  : "string" }
+      }
+    },
+    "LoginResponse": {
+      "properties": {
+        "firstName" : { "type"  : "string" },
+        "lastName"  : { "type"  : "string" },
+        "email"     : { "type"  : "string" },
+        "token"     : { "type"  : "string" },
+        "role"      : {
+                        "type"        : "object",
+                        "properties"  : {
+                          "_id"       : { "type"  : "string" },
+                          "name"      : { "type"  : "string" }
+                        }
+                      },
+        "_id"       : { "type"  : "string" }
+      }
+    },
+    "Post": {
+      "properties": {
+        "title"       : { "type"  : "string" },
+        "description" : { "type"  : "string" }
+      }
+    }
+  }
+
+}

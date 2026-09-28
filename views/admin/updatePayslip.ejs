@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<%- include('../layout/header') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+            <h1 class="app-page-title">Edit Payslip Details</h1>
+            <div class="row g-4 settings-section">
+              <div class="col-12 col-md-12">
+                <div class="app-card app-card-settings shadow-sm p-4">
+                  <div class="app-card-body">
+                    <form method="POST" action="/admin/attendance/<%= oldValues.salaryObject._id %>/paySlip/edit">	
+                      <div class="item py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-2">
+                            <label for="setting-input-1" class="form-label"><strong> Total Working Days:</strong></label>
+                            <input name="totalWorkingDays" class="form-control" placeholder="Basic Pay" readonly type="number" step="any" value=<%= oldValues.salaryObject.totalWorkingDays%>%>>
+                          </div><!--//col-->
+                          <div class="col-sm-2">
+                            <label for="setting-input-1" class="form-label"><strong> Total Present Days:</strong></label>
+                            <input name="totalPresentDays" class="form-control" placeholder="Basic Pay" type="number" readonly step="any" value=<%if(oldValues.salaryObject.totalPresentDays)
+                            {%>
+                              <%= oldValues.salaryObject.totalPresentDays%>
+                            <%}%>>
+                          </div><!--//col-->
+                          <div class="col-sm-2">
+                            <label for="setting-input-1" class="form-label"><strong> Total Leaves:</strong></label>
+                            <input name="totalLeaves" class="form-control" placeholder="Leave Encashment" type="number" readonly step="any" value=<%= (oldValues.salaryObject.totalLeaves)%>>																									
+                          </div><!--//col-->
+                          <div class="col-sm-2">																										
+                            <label for="setting-input-1" class="form-label"><strong> Total Overtime Minute:</strong></label>
+                            <input name="totalOvertimeMinutes" class="form-control" placeholder="Overtime Allowance" type="number" readonly step="any" value=<%= oldValues.salaryObject.totalOvertimeMinutes%>>																										
+                          </div>	
+                          <div class="col-sm-2">																										
+                            <label for="setting-input-1" class="form-label"><strong> Total Working Hours:</strong></label>
+                            <input name="totalWorkingHour" class="form-control" placeholder="Overtime Allowance" type="text" step="any" readonly value=<%= oldValues.salaryObject.totalWorkingHours%>>																										
+                          </div>																							
+                        </div><!--//row-->
+                      </div><!--//item-->                      
+                      <div class="item py-3">
+                        <div class="app-card-header p-2 bg-success cardHeader">
+                          <h4 class="app-card-title"><strong> Earnings:</strong></h4>
+                        </div><!--//app-card-header-->			
+                      </div>				
+                      <div class="item border-bottom py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Basic Pay:</strong></label>
+                              <input name="basicPay" class="form-control" placeholder="Basic Pay" type="number" step="any" readonly value=<%if(oldValues.salaryObject.basicPay)
+                              {%>
+                                <%= oldValues.salaryObject.basicPay%>
+                              <%}%>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Leave Encashment:</strong></label>
+                            <input name="leaveEncashment" class="form-control" placeholder="Leave Encashment" type="number" readonly step="any" value=<%= oldValues.salaryObject.leaveEncashment%>>                              
+                          </div><!--//col-->
+                          <div class="col-sm-4">																										
+                            <label for="setting-input-1" class="form-label"><strong> Overtime Allowance:</strong></label>
+                            <input name="overtimeAllowance" class="form-control" placeholder="Overtime Allowance" type="number" readonly step="any" value=<%= oldValues.salaryObject.overtimeAllowance%>>																										
+                          </div>																							
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <div class="item border-bottom py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Special Allowance:</strong></label>
+                            <input name="specialAllowance" id="editspecialAllowance" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" class="form-control" placeholder="Special Allowance" type="number" step="any" value=<%= oldValues.salaryObject.specialAllowance %>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Bonus:</strong></label>
+                            <input name="bonus" id="editbonus" class="form-control" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" placeholder="bonus" type="number" step="any" value=<%= oldValues.salaryObject.bonus %>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">																										
+                            <label for="setting-input-1" class="form-label"><strong> Petrol Allowance:</strong></label>
+                            <input name="petrolAllowance" id="editpetrolAllowance" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" class="form-control" placeholder="Petrol Allowance" type="number" step="any" value=<%= oldValues.salaryObject.petrolAllowance %> >																										
+                          </div>																							
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <div class="item py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Shift:</strong></label>
+                            <input name="shift" id="editshift" class="form-control" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" placeholder="Shift" type="number" step="any" value=<%= oldValues.salaryObject.shift %>>
+                          </div><!--//col-->																																															
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <div class="item py-3">
+                        <div class="app-card-header p-2 bg-success cardHeader">
+                          <h4 class="app-card-title"><strong> Deductions:</strong></h4>
+                        </div><!--//app-card-header-->			
+                      </div>	
+                      <div class="item border-bottom py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Professional Tax:</strong></label>
+                            <input name="professionalTax" id="editprofessionalTax" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" class="form-control" placeholder="Professional Tax" type="number" step="any" value=<%= oldValues.salaryObject.professionalTax %> >
+                          </div><!--//col-->
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Leaves:</strong></label>
+                            <input name="leaveDeduction" class="form-control" placeholder="Leave Encashment" type="number" readonly step="any" value=<%= oldValues.salaryObject.leaveDeduction%>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">																										
+                            <label for="setting-input-1" class="form-label"><strong> Security Deposit:</strong></label>
+                            <input name="securityDeposit" id="editsecurityDeposit" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" class="form-control" placeholder="Security Deposit" type="number" step="any" value=<%= oldValues.salaryObject.securityDeposit %>>																										
+                          </div>																							
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <div class="item py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> TDS:</strong></label>
+                            <input name="tds" id="edittds" class="form-control" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" placeholder="TDS" type="number" step="any" value=<%= oldValues.salaryObject.tds %>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> PF:</strong></label>
+                            <input name="pf" id="editpf" class="form-control" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" placeholder="PF" type="number" step="any" value=<%= oldValues.salaryObject.pf %>>
+                          </div><!--//col-->
+                          <div class="col-sm-4">																										
+                            <label for="setting-input-1" class="form-label"><strong> ESIC:</strong></label>
+                            <input name="esic" id="editesic" class="form-control" onkeyup="editchangeNetAmount(`<%= JSON.stringify(oldValues.salaryObject) %>`)" placeholder="ESIC" type="number" step="any" value=<%= oldValues.salaryObject.esic %>>																										
+                          </div>																							
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <div class="item py-3">
+                        <div class="app-card-header p-2 bg-success cardHeader">
+                          <h4 class="app-card-title"><strong> Total Salary:</strong></h4>
+                        </div><!--//app-card-header-->			
+                      </div>	
+                      <div class="item border-bottom py-3">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-4">
+                            <label for="setting-input-1" class="form-label"><strong> Net Amount:</strong></label>
+                            <input name="netAmount" id="editnetAmount" class="form-control" readonly placeholder="Net Amount" type="number" step="any" value=<%= oldValues.salaryObject.netAmount%>>
+                          </div><!--//col-->	
+                          <div class="col-sm-4">                              
+                            <input name="" id="editprenetAmount" class="form-control" readonly hidden placeholder="Net Amount" type="number" step="any" value=<%= oldValues.salaryObject.netAmount%>>
+                          </div><!--//col-->	
+                      																																											
+                        </div><!--//row-->
+                      </div><!--//item-->
+                      <input type="date" name="payDate" id="salaryPayDate" readonly hidden value="<%=  oldValues.moment(oldValues.salaryObject.payDate).format("YYYY-MM-DD") %>">		
+                      <div class="item py-3">
+                        <div class="row justify-content-md-end align-items-center row-6">
+                          <button type="submit" class="btn app-btn-primary col-2" style="border-radius: 0%; margin-right: 1%;" >Edit Details</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+					<!--//container-fluid-->
+				</div>
+				<!--//app-content-->
+			<%- include('../layout/footer') -%>
+		  </div>
+			<!--//app-wrapper-->
+    </div>
+    <%- include('../layout/script') -%>
+    <script src="/js/attendance.js"></script>
+	
+</body>
+</html>

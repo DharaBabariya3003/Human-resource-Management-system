@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<%- include('../layout/header') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Edit Documents Details</h1>
+						<hr class="mb-4">
+						<div class="row g-4 settings-section">
+							<div class="col-12 col-md-12">
+								<div class="app-card app-card-settings shadow-sm p-4">
+									<div class="app-card-body">
+										<form method="POST" action="/admin/documents/<%= oldValues.documentUpdateRecords._id %>/edit" enctype="multipart/form-data">
+											<div class="item border-bottom py-3">												
+												<div class=" item border-bottom py-3">
+													<div class="row justify-content-between align-items-center">
+														<div class="col-sm-6">
+															<label for="setting-input-1" class="form-label">Documents Taken Date:</label>
+														<input name="documentsTakenDate" class="form-control col-6"
+															placeholder="Training_Start_Date" type="date" style="margin-right: 10px;" min="1900-01-01"
+															max="9999-12-31" value=<%=oldValues.documentUpdateRecords.documentsTakenDate %>>
+														</div><!--//col-->
+														<div class="col-sm-4">
+															<label for="setting-input-1" class="form-label">Select Document:</label>
+															<select id="mySelect" name="values" onchange="selectDocumet(this)" class="form-control">																
+																<option>Offer Letter</option>
+																<option>Appoinment Letter</option>
+																<option>10th Marsheet</option>
+																<option>Diploma/12th Marsheet</option>
+																<option>Bachelor Certificate</option>
+																<option>Master Certificate</option>
+																<option>ID Proof</option>
+																<option>Other Document</option>
+															</select>									
+														</div><!--//col-->	
+														<div class="col-sm-2"></div>
+													</div><!--//row-->
+												</div><!--//item-->		
+											</div><!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center">																								
+													<div id="offerLetterSelect">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Offer Letter:</label>
+																</div><!--//col-->																
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="offerLetterRemark" class="form-control" placeholder="Remark"
+																		value=<%- JSON.stringify(oldValues.documentUpdateRecords.offerLetterRemark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="offerLetterDocumentSelect" name="offerLetterDocument">
+																			<%if(oldValues.documentUpdateRecords.offerLetterDocument) {%>
+																			<label style="color: green;">"File Already Uploaded"</label>
+																			<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="appointmentLetterSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Appointment Letter:</label>
+																</div><!--//col-->														
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="appoinmentLetterRemark" class="form-control" placeholder="Remark"
+																		value=<%- JSON.stringify(oldValues.documentUpdateRecords.appoinmentLetterRemark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="appoinmentLetterDocumentSelect" name="appoinmentLetterDocument">
+																			<%if(oldValues.documentUpdateRecords.appoinmentLetterDocument) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																				<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="10MarksheetSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">10th Marksheet:</label>
+																</div><!--//col-->															
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="marksheet10Remark" class="form-control" placeholder="Remark"
+																		value=<%- JSON.stringify(oldValues.documentUpdateRecords.marksheet10Remark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="marksheet10DocumentSelect" name="marksheet10Document">
+																				<%if(oldValues.documentUpdateRecords.marksheet10Document) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																				<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="12MarksheetSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Diploma / 12th Marksheet:</label>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	<div class="form-group row">
+																		<div class="col-sm-12">
+																			<div class="form-check form-check-inline">
+																				<input class="form-check-input" type="radio" name="marksheet12" id="nda"
+																					value="Diploma" <% if(oldValues.documentUpdateRecords.marksheet12=='Diploma' ) {%>
+																					<%= 'checked' %>
+																					<%}%>>
+																				<label class="form-check-label" for="inlineRadio1">Diploma</label>
+																			</div>
+																			<div class="form-check form-check-inline">
+																				<input class="form-check-input" type="radio" name="marksheet12" id="nda" value="12th"
+																					<% if(oldValues.documentUpdateRecords.marksheet12=='12th' ) {%>
+																					<%= 'checked' %>
+																					<%}%>>
+																				<label class="form-check-label" for="inlineRadio2">12th</label>
+																			</div>
+																			<div class="form-check form-check-inline">
+																				<input type="text" name="marksheet12Remark" class="form-control" placeholder="Remark"
+																				value=<%- JSON.stringify(oldValues.documentUpdateRecords.marksheet12Remark) %>>
+																			</div>
+																		</div>
+																	</div>
+																</div><!--//col-->															
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="marksheet12DocumentSelect" name="marksheet12Document">
+																			<%if(oldValues.documentUpdateRecords.marksheet12Document) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																			<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="bachelorSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Bachelor's Certificate:</label>
+																</div><!--//col-->																
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="bachelorsCertificateRemark" class="form-control"
+																		placeholder="Remark" value=<%- JSON.stringify(oldValues.documentUpdateRecords.bachelorsCertificateRemark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	 <div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="BECertificateDocumentSelect" name="bachelorsCertificateDocument">
+																			<%if(oldValues.documentUpdateRecords.bachelorsCertificateDocument) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																			<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="masterSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Master's Degree Marksheet:</label>
+																</div><!--//col-->															
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="mastersCertificateRemark" class="form-control"
+																		placeholder="Remark" value=<%- JSON.stringify(oldValues.documentUpdateRecords.mastersCertificateRemark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control"  id="mastersCertificateDocumentSelect" name="mastersCertificateDocument">
+																				<%if(oldValues.documentUpdateRecords.mastersCertificateDocument) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																				<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="IDproofSelect" style="display: none;">
+														<div class="item py-3">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">ID Proof:</label>
+																</div><!--//col-->															
+																<div class="col-sm-4">
+																	<div class="form-group">
+																		<input type="text" name="IDproofRemark" class="form-control" placeholder="Remark"
+																		value=<%- JSON.stringify(oldValues.documentUpdateRecords.IDproofRemark) %>>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-4">
+																		<div class="form-group">
+																		<div class="col-sm-10">
+																			<input type="file" class="form-control" id="IDproofDocumentSelect" name="IDproofDocument">
+																			<%if(oldValues.documentUpdateRecords.IDproofDocument) {%>
+																				<label style="color: green;">"File Already Uploaded"</label>
+																			<%}%>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+													<div id="otherDocumentSelect" style="display: none;">
+														<div class="item py-3" style="border-bottom: none !important;">
+															<div class="row justify-content-between align-items-center">
+																<div class="col-sm-2">
+																	<label class="form-label">Other Documents:</label>
+																</div><!--//col-->
+																<div class="col-sm-2">
+																	<div class="form-group row">
+																		<div class="col-sm-10">
+																			<div class="form-check form-check-inline"></div>
+																			<div class="form-check form-check-inline"></div>
+																		</div>
+																	</div>
+																</div><!--//col-->
+																<div class="col-sm-8">
+																	<div class="form-group">
+																		<div class="col-sm-10">
+																			<button type="button" id="addOtherDocument" class="btn btn-primary" style="border-radius: 50%;"><i class="fas fa-plus"></i></button>
+																		</div>
+																	</div>
+																</div><!--//col-->
+															</div><!--//row-->
+														</div><!--//item-->
+													</div>
+												</div>
+											</div>
+											<div class="documentForm"></div>
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-9">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-data">
+																	<button type="submit" class="btn app-btn-primary" style="border-radius: 0;">Edit
+																		Document Details</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div><!--//item-->
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div><!--//container-fluid-->
+				</div>
+				<%- include('../layout/footer') -%>
+			</div><!--//app-wrapper-->
+		</div><!-- Import Script -->
+		<%- include('../layout/script') -%>
+	<script src="/js/documentDelete.js"></script>
+</body>
+</html>

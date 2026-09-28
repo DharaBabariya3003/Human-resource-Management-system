@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+  <div class="app">
+    <div class="app-wrapper">
+      <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+          <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+              <h1 class="app-page-title mb-0">Attendance Settings</h1>
+            </div>
+            <div class="col-auto">
+              <div class="page-utilities">
+                <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                  <div class="col-auto">
+                    <input type="month" class="form-control" id="selectedMonthandYear" onchange='loadAttMonthYear(this)' value=<%if(oldValues){%>
+                      <%= oldValues.selectedMonth %>
+                    <%}%>>
+                  </div>                  
+                  <div class="col-auto">
+                    <a class="btn btn-success" href="/admin/attendance/settings/create" style="border-radius: 0;">
+                      Add New Setting
+                    </a>                    
+                  </div>
+                </div><!--//row-->
+              </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+          </div><!--//row-->          
+          <table class="table app-table-hover mb-0 text-left " id="example" width="100%">
+            <thead>
+              <tr>
+                <td class="cell">
+                  <div class="item-label" style="color: green;"><strong>Total employees:<%if(oldValues){
+                    if(oldValues.totalEMp){%>
+                      <%= oldValues.totalEMp %>
+                    <%}else{%>
+                      <%= '0' %>
+                    <%}
+                    }%>                    
+                    </strong>
+                  </div>
+                </td>
+                <td class="cell">
+                  <div class="item-label" style="color: green;"><strong>Attendance setting done for: 												
+                    <%if(oldValues){
+                      if(oldValues.settingDoneEmp){%>
+                        <%= oldValues.settingDoneEmp %>
+                      <%}else{%>
+                        <%= '0' %>
+                      <%}
+                    }%>
+                    </strong>
+                  </div>
+                </td>                                
+               </tr>
+            </thead>
+          </table>	
+              <div class="app-card app-card-orders-table shadow-sm mb-5">
+                <div class="app-card-body">
+                  <table class="table app-table-hover mb-0 text-left asc-data-table">
+                    <thead>
+                      <tr>
+                        <th class="cell">Attendance code</th>
+                        <th class="cell">Full name</th>
+                        <th class="cell">Office start time</th>
+                        <th class="cell">Office end time</th>
+                        <th class="cell">Total minutes</th>
+                        <th class="cell">Last updated</th>
+                        <th class="cell">Action</th>                        
+                      </tr>
+                    </thead>
+                    <tbody>                        
+                      <%if(oldValues){
+                        if(oldValues.attendanceSetting.length>0){
+                          for (let element of oldValues.attendanceSetting){%>
+                            <tr>
+                              <td>
+                                <%if(element.attendanceCode){%>
+                                  <%= element.attendanceCode %>
+                                <%}else{%>
+                                  <%= element.user.attendanceCode %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.firstName){%>
+                                  <%= element.firstName+" "+element.middleName+" "+element.lastName %>
+                                <%}else{%>
+                                  <%= element.user.firstName+" "+element.user.middleName+" "+element.user.lastName %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.officeStartTime){%>
+                                  <%= element.officeStartTime %>
+                                <%}else{%>
+                                  <%= "-" %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.officeEndTime){%>
+                                  <%= element.officeEndTime %>
+                                <%}else{%>
+                                  <%= "-" %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.totalMinutes){%>
+                                  <%= element.totalMinutes %>
+                                <%}else{%>
+                                  <%= "-" %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.lastUpdated){%>
+                                  <%= element.lastUpdated %>
+                                <%}else{%>
+                                  <%= "-" %>
+                                <%}%>
+                              </td>
+                              <td>
+                                <%if(element.officeStartTime){%>
+                                  <a href="/admin/attendance/settings/<%= element._id %>/edit" class="btn btn-outline-success" data-toggle="tooltip" title="Edit Attendance Setting" 
+                                    style="border-radius: 0%;">
+                                    <i class="fas fa-edit"></i> 
+                                  </a>
+                                <%}%>
+                              </td>
+                            </tr>
+                      <%}}}%>
+                    </tbody>
+                  </table>
+                </div><!--//app-card-body-->
+              </div><!--//app-card-->                
+        </div><!--//container-fluid-->
+      </div><!--//app-content-->
+    <%- include('../layout/footer') -%>
+  </div><!--//app-wrapper-->
+</div>
+<%- include('../layout/script') -%>
+<script src="/js/attendaceSetting.js"></script>
+
+</body>
+</html>
+

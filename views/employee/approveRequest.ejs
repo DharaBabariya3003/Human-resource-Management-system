@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/employeeHeader') -%>   
+<div class="app">   		
+  <div class="app-wrapper">
+	  <div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+			  <div class="position-relative mb-3">
+				  <div class="row g-3 justify-content-between">
+					  <div class="col-auto">
+					    <h1 class="app-page-title mb-0">Leave Request Status</h1>
+					  </div>
+				  </div>
+			  </div>
+				<%if(oldValues.leaveRecord){
+			   if(oldValues.leaveRecord.length >0){
+						  for(let i = (oldValues.leaveRecord.length-1); i >=0 ; i--){%>							
+							 <div class="app-card app-card-notification shadow-sm mb-4">
+								<div class="app-card-header px-4 py-3">
+									<div class="row g-3 align-items-center">
+										<div class="col-12 col-lg-auto text-center text-lg-left">						        
+											<h5><b>Leave reason</h5></b>
+										</div><!--//col-->		
+										<div class="col-12 col-lg-auto text-center text-lg-left">
+											<div class="notification-type mb-2"><span class="badge bg-info"></span></div>
+												<h4 class="notification-title mb-1"><%= oldValues.leaveRecord[i].leaveReason %></h4>
+													<ul class="notification-meta list-inline mb-0">
+														<li class="list-inline-item">
+															<%if(oldValues.leaveRecord[i].multiOrhalfDay){%>
+																<%= oldValues.leaveRecord[i].multiOrhalfDay +" "+"Day" %>
+															<%}%>
+														</li>
+														<li class="list-inline-item">|</li>
+														<li class="list-inline-item">
+															<%if(oldValues.leaveRecord[i].multiOrhalfDay=='Multiple'){%>
+																<%= "From "+oldValues.moment(oldValues.leaveRecord[i].multiFromDate).format('DD MMM YYYY')+" To "+oldValues.moment(oldValues.leaveRecord[i].multiToDate).format('DD MMM YYYY') %>
+															<%}else{%>
+																<%= "From "+oldValues.leaveRecord[i].halfDayFromTime+" To "+oldValues.leaveRecord[i].halfDayToTime %>
+																<%= "On Date "+oldValues.moment(oldValues.leaveRecord[i].halfDayDate).format('DD MMM YYYY') %>
+															<%}%>
+														</li>
+													</ul>
+										</div><!--//col-->
+									</div><!--//row-->
+								</div><!--//app-card-header-->
+								<div class="app-card-body p-4">
+									<div class="notification-content">
+											<%if(!oldValues.leaveRecord[i].approve && !oldValues.leaveRecord[i].decline && !oldValues.leaveRecord[i].isDeleted){%>
+												<h6 style="color: blue;">Your leave request is pending</h6>
+											<%}else if(oldValues.leaveRecord[i].approve){%>
+												<h6 style="color: green;">Your leave request is approved</h6>
+											<%}else if(oldValues.leaveRecord[i].decline){%>
+												<h6 style="color: red;">Your leave request is declined</h6>
+											<%}%>
+									</div>
+								</div><!--//app-card-body-->  
+							</div><!--//app-card-->						
+						<%}
+					}}%>
+				<div class="text-center mt-4"><a class="btn app-btn-secondary" href="#">Load more notifications</a></div>
+		  </div><!--//container-fluid-->
+	  </div><!--//app-content-->    
+	  <%- include('../layout/footer') -%>   
+  </div><!--//app-wrapper-->    					
+</div>
+<%- include('../layout/employeeScript') -%>
+</body>
+</html>

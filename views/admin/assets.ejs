@@ -1,0 +1,295 @@
+<html lang="en">
+<head>
+	<!-- Import Head -->
+  <%- include('../layout/head') -%>
+  <style>
+    .wrapper {
+    display: flex;
+    }
+  </style>  
+</head>
+<body>
+  <%if(oldValues.userRole.trim() == 'HR Recruiter'){%>
+    <%- include('../layout/employeeHeader') -%>
+  <%}else{%>
+    <%- include('../layout/header') -%>
+  <%}%>
+	<div class="app">
+		<div class="app-wrapper">
+			<div class="app-content pt-3 p-md-3 p-lg-4">
+				<div class="container-xl">
+					<div class="row g-3 mb-4 align-items-center justify-content-between">
+						<div class="col-auto">
+              <h1 class="app-page-title mb-0"></h1>
+            </div>
+					</div><!--//row-->
+					<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+            <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">Add Assets</a>
+						<a class="flex-sm-fill text-sm-center nav-link" id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Search Assets</a>
+            <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Search Employee's Assets</a>
+            <a class="flex-sm-fill text-sm-center nav-link" id="orders-cancelled-tab" data-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false">Download Xls Sheet</a>
+					</nav><!--//nav-->
+					<div class="tab-content" id="orders-table-tab-content">
+						<div class="tab-pane show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+							<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+								<div class="app-card-body">
+                  <form id="storeAssetDataForm" onsubmit="return false">
+                    <div class="item border-bottom py-3" style="border: none !important;">
+                      <div class="row justify-content-between align-items-center row-6">
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label">
+                                <strong>Asset Category:<span class="requiredField">*</span></strong>
+                              </div>
+                              <div class="item-data">
+                                <div class="wrapper">
+                                  <select id="assetType" name="assetType" required class="form-control form-select selectBorderAssetType editableBox" onchange="$.fn.getAssetNames('assetType','assetName');"></select>
+                                  <a class="btn btn-green-addAssetType" onclick="$.fn.addAssetTypeFuc()">
+                                    <i class="fas fa-plus"></i>
+                                  </a>
+                                  <a class="btn editAssetType" onclick="$.fn.editAssetTypeFuc()">
+                                    <i class="fas fa-pen"></i>
+                                  </a>
+                                </div>
+                              </div><!-- form-group// -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>Brand/Model:<span class="requiredField">*</span></strong></div>
+                              <div class="item-data">
+                                <div class="wrapper">
+                                  <select id="assetName" required name="assetName" class="form-control form-select selectBorderAssetType"></select>
+                                  <a class="btn btn-green-addAssetType" onclick="$.fn.addAssetNameFuc()">
+                                    <i class="fas fa-plus"></i>
+                                  </a>
+                                  <a class="btn editAssetType" onclick="$.fn.editAssetNameFuc()">
+                                    <i class="fas fa-pen"></i>
+                                  </a>                                  
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>Relate To:<span class="requiredField">*</span></strong></div>
+                              <div class="item-data">
+                                <input type="hidden" name="user" id="user">
+                                <input list="userIds" required id="userId" type="text" placeholder="Employee name" class="form-control form-select" >
+                                <datalist id="userIds"></datalist>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--//row-->
+                    </div>
+                    <div class="item border-bottom py-3" style="border: none !important;">
+                      <div class="row justify-content-between align-items-center row-6">
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label">
+                                <strong>Asset Issue Date:<span class="requiredField">*</span></strong>
+                              </div>
+                              <div class="item-data">
+                                <input type="date" id="givenDate" name="givenDate" class="form-control">
+                              </div><!-- form-group// -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>Remark:</strong></div>
+                              <div class="item-data">
+                                <textarea class="form-control" name="remark" id="remark" placeholder="Add Your Extra Notes" style="height: 87px !important;"></textarea>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>&nbsp;</strong></div>
+                              <div class="item-data">
+                                <button class="btn app-btn-primary btn-green-neumorpic" onclick="$.fn.storeAssetData();">Add Asset</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--//row-->
+                    </div>
+                  </form>                  
+								</div><!--//app-card-body-->
+							</div><!--//app-card-->
+						</div><!--//tab-pane-->
+						<div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
+              <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                <div class="app-card-body">
+									<div class="app-card-body">
+                  <form onsubmit="return false">
+                    <div class="item border-bottom py-3" style="border: none !important;">
+                      <div class="row justify-content-between align-items-center row-6">
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label">
+                                <strong>Asset Category:<span class="requiredField">*</span></strong>
+                              </div>
+                              <div class="item-data">
+                                <select id="assetTypeForSearch" class="form-control form-select" onchange="$.fn.getAssetNames('assetTypeForSearch','assetNameForSearch');"></select>
+                              </div><!-- form-group// -->
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>Brand/Model:</strong></div>
+                              <div class="item-data">
+                                <select id="assetNameForSearch" class="form-control form-select"></select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>&nbsp;</strong></div>
+                              <div class="item-data">
+                                <button class="btn app-btn-primary btn-green-neumorpic" onclick="$.fn.searchAssetData();">Search</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--//row-->
+                    </div>
+                  </form>
+                  <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                    <div class="app-card-body px-4 w-100">
+                      <table class="table app-table-hover mb-0 text-left data-table" id="searchAssetTable">
+                        <thead>
+                          <tr>
+                            <th class="cell">Sr.No</th>
+                            <th class="cell">Employee Code</th>
+                            <th class="cell">Employee Name</th>
+                            <th class="cell">Brand/Model</th>
+                            <th class="cell">Remark</th>
+                            <th class="cell">Asset Issue Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+								</div><!--//app-card-body-->
+                </div><!--//app-card-body-->
+            	</div><!--//app-card-->
+            </div><!--//tab-pane-->
+						<div class="tab-pane fade" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
+							<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                <div class="app-card-body">
+                  <form onsubmit="return false">
+                    <div class="item border-bottom py-3" style="border: none !important;">
+                      <div class="row justify-content-between align-items-center row-6">
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>Employee Name:<span class="requiredField">*</span></strong></div>
+                              <div class="item-data">
+                                <input type="hidden" id="assetUser">
+                                <input list="assetUserIds" id="assetUserId" type="text" placeholder="Employee name" class="form-control form-select">
+                                <datalist id="assetUserIds"></datalist>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>&nbsp;</strong></div>
+                              <div class="item-data">
+                                <button class="btn app-btn-primary btn-green-neumorpic" onclick="$.fn.searchEmployeesAssetData();">Search Record</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-4">
+                          <div class="col-auto">
+                            <div class="mb-3">
+                              <div class="item-label"><strong>&nbsp;</strong></div>
+                              <div class="item-data">
+                                &nbsp;
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div><!--//row-->
+                    </div>
+                  </form>
+                  <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                    <div class="app-card-body px-4 w-100">
+                      <table class="table app-table-hover mb-0 text-left data-table" id="searchEmpAssetTable">
+                        <thead>
+                          <tr>
+                            <th class="cell">Sr.No</th>
+                            <th class="cell">Asset Category</th>
+                            <th class="cell">Brand/Model</th>
+                            <th class="cell">Remark</th>
+                            <th class="cell">Asset Issue Date</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div><!--//app-card-body-->
+            	</div><!--//app-card-->
+            </div><!--//tab-pane-->
+            <div class="tab-pane fade" id="orders-cancelled" role="tabpanel" aria-labelledby="orders-cancelled-tab">
+							<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                <div class="app-card-body">
+                  <div class="item border-bottom py-3">
+										<div class="row justify-content-between align-items-center row-6">
+											<div class="col-sm-2">
+												<div class="col-auto">
+													<div class="mb-3">
+                            <div class="item-data">	
+															<button class="btn btn-primary btn-block btn-blue-neumorpic" onclick="$.fn.downloadAssetXlsSheet()"> Download Xls Sheet  </button>
+														</div>
+													</div>
+												</div>
+											</div>
+											<div class="col-sm-10">
+												<div class="col-auto">
+													<div class="mb-3">
+														<strong id="xlsStatus"></strong>
+													</div>
+												</div>
+											</div>
+										</div><!--//row-->
+									</div><!--//item-->									
+                </div><!--//app-card-body-->
+            	</div><!--//app-card-->
+            </div><!--//tab-pane-->            
+					</div><!--//orders-table-tab-content-->
+				</div><!--//container-xl-->
+			</div><!--//app-content-->
+		</div><!--//app-wrapper-->
+    <%- include('../layout/footer') -%>
+  </div><!--//app-->
+	<%if(oldValues.userRole.trim() == 'HR Recruiter'){%>
+    <%- include('../layout/employeeScript') -%> 
+  <%}else{%>
+    <%- include('../layout/script') -%>
+  <%}%>
+<script src="/js/asset.js"></script>
+</body>
+</html>

@@ -1,0 +1,154 @@
+<html lang="en">
+<head>
+    <%- include('../layout/head') -%>   
+</head>	
+<body>
+  <%- include('../layout/header') -%>   
+	<div class="app">   	
+    <div class="app-wrapper">
+	    <div class="app-content pt-3 p-md-3 p-lg-4">
+		    <div class="container-xl">
+			    <div class="row g-3 mb-4 align-items-center justify-content-between">
+				    <div class="col-auto">
+			        <h1 class="app-page-title mb-0">Monthly Records</h1>
+				    </div>
+				    <div class="col-auto" >
+              <div class="page-utilities">
+                <select class="form-select form-control form-select-sm w-auto" name="select2"  id='select2' onchange="load_month_content(this)">
+                  <option selected value="select" id="jan"><% if(oldValues.month){%> <%= oldValues.month %> <%}else{%> Select Month <%}%> </option>
+                  <option value="Jan" id="jan">January</option>
+                  <option value="Feb">February</option>
+                  <option value="mar">March</option>
+                  <option value="april">April</option>
+                  <option value="may">May</option>
+                  <option value="june">June</option>
+                  <option value="july">July</option>
+                  <option value="aug">August</option>
+                  <option value="sep">September</option>
+                  <option value="oct">October</option>
+                  <option value="nov">November</option>
+                	<option value="dec">December</option>
+                </select>
+              </div><!--//page-utilities-->
+            </div>
+			    </div><!--//row-->
+			    <nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+				    <a class="flex-sm-fill text-sm-center nav-link active" id="orders-all-tab" data-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">Birthdate</a>
+				    <a class="flex-sm-fill text-sm-center nav-link"  id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false">Increment</a>
+				    <a class="flex-sm-fill text-sm-center nav-link" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false">Marriage Anniversary</a>
+					</nav>
+					<div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+					    <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic ">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+                    <table class="table app-table-hover mb-0 text-left data-table">
+                      <thead>
+                        <tr>
+                          <th class="cell">Name</th>
+                          <th class="cell">Email</th>
+                          <th class="cell">Birthdate</th>
+                          <th class="cell">Contact Number</th>
+                        </tr>
+                      </thead>                                        
+                    	<tbody>
+                      	<%if(oldValues.birthdateRecord.length >0){
+                          oldValues.birthdateRecord.forEach(element=>{%>
+                          <tr>
+                            <td> <%= element.firstName +" "+element.middleName+" "+element.lastName %></td>
+                            <td> <%= element.email %> </td>
+                            <td> <%if(element.birthDate){%><%= oldValues.moment(element.birthDate).format("DD MMM YYYY"); %><%}%> </td>
+                          	<td> <%= element.contactNumber %> </td>
+                          </tr>
+                        <%}) 
+                      	}%>
+                      </tbody>
+                  	</table>
+						      </div><!--//table-responsive-->
+						    </div><!--//app-card-body-->		
+							</div><!--//app-card-->
+						</div><!--//tab-pane-->
+            <div class="tab-pane fade" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
+					    <div class="app-card app-card-orders-table mb-5 card-neumorphic ">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+								    <table class="table app-table-hover mb-0 text-left data-table">
+                      <thead>
+                        <tr>
+                          <th class="cell">Name</th>
+                          <th class="cell">Salary</th>
+                          <th class="cell">Bond Complete Date</th>
+                          <th class="cell">Joining Date</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <%if(oldValues.incrementRecord.length >0)
+                        {
+                        	oldValues.incrementRecord.forEach(element=>{%>
+                          <tr>
+                            <% for(var j=0; j < oldValues.userRecord.length; j++) {%>
+                              <% if(oldValues.userRecord[j].payrollID == element._id) {%>
+                                <td><%= oldValues.userRecord[j].firstName +" "+oldValues.userRecord[j].middleName+" "+oldValues.userRecord[j].lastName %> </td>
+                              <%}%>
+                            <%}%>                                                        
+                            <td> <%= element.salary %> </td>
+                            <td> <%if(element.bondCompletedDate){%><%= oldValues.moment(element.bondCompletedDate).format("DD MMM YYYY"); %><%}%> </td>
+                            <td> <%if(element.joiningDate){%><%= oldValues.moment(element.joiningDate).format("DD MMM YYYY"); %><%}%> </td>
+                          </tr>
+                          <%}) 
+                        }%>
+                      </tbody>
+                    </table>
+						      </div><!--//table-responsive-->
+						    </div><!--//app-card-body-->		
+							</div><!--//app-card-->
+            </div><!--//tab-pane-->
+            <div class="tab-pane fade" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
+					    <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+						    <div class="app-card-body">
+							    <div class="table-responsive">
+                  	<table class="table app-table-hover mb-0 text-left data-table">
+                      <thead>
+                        <tr>
+                      		<tr>
+                            <th class="cell">Name</th>
+                            <th class="cell">Email</th>
+                    				<th class="cell">Marriage Date</th>
+                            <th class="cell">Contact Number</th>
+                          </tr>
+                      	</tr>
+                      </thead>
+                      <tbody>
+                        <%if(oldValues.annevarsaryRecord.length >0)
+                        {
+                        	oldValues.annevarsaryRecord.forEach(element=>{%>
+                            <tr>
+                              <td> <%= element.firstName +" "+element.middleName+" "+element.lastName %></td>
+                              <td> <%= element.email %> </td>
+                              <td> <%if(element.marriageDate){%><%= oldValues.moment(element.marriageDate).format("DD MMM YYYY"); %><%}%> </td>
+                              <td> <%= element.contactNumber %> </td>
+                            </tr>
+                          <%})                                                 
+                        }%>
+                    	</tbody>
+                  	</table>
+						      </div><!--//table-responsive-->
+						    </div><!--//app-card-body-->		
+							</div><!--//app-card-->
+            </div><!--//tab-pane-->
+          </div><!--//tab-content-->
+				</div><!--//container-fluid-->
+	    </div><!--//app-content-->
+	  <%- include('../layout/footer') -%>   
+  </div><!--//app-wrapper-->    					
+ </div>   
+ <%- include('../layout/script') -%>
+ <script src="/js/leaveManagement.js"></script>
+    
+</body>
+</html>
+
+
+ 
+    
+

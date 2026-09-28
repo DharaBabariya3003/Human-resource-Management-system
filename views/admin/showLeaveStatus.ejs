@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>  
+<div class="app">
+	<div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+			  <div class="position-relative mb-3">
+				  <div class="row g-3 justify-content-between">
+					  <div class="col-auto">
+							<h1 class="app-page-title mb-0">Employee Leave Status</h1>
+					  </div>
+					  <div class="col-auto">
+					    <div class="page-utilities">
+								<select class="form-select form-select-sm w-auto" name="select1"  id='select1' onchange='load_new_contentStatus(this)'>
+								  <option selected value="all" id="all" href="#orders-all" ><%= oldValues.temp %></option>
+								  <option value="halfday">Halfday</option>
+								  <option value="Jan">January</option>
+								  <option value="Feb">February</option>
+								  <option value="Mar">March</option>
+								  <option value="Apr">April</option>
+								  <option value="May">May</option>
+								  <option value="Jun">June</option>
+								  <option value="Jul">July</option>
+								  <option value="Aug">August</option>
+								  <option value="Sep">September</option>
+								  <option value="Oct">October</option>
+								  <option value="Nov">November</option>
+								  <option value="Dec">December</option>
+								  <option value="all">All</option>
+								</select>
+							</div><!--//page-utilities-->
+					  </div>
+				  </div>
+				</div>				
+				<div class="tab-content" id="orders-table-tab-content">
+			    <div class="tab-pane fade show active" id="orders-paid" role="tabpanel" aria-labelledby="orders-all-tab">
+						<div class="app-card app-card-orders-table shadow-sm mb-5">
+						  <div class="app-card-body">							  
+								<table class="table app-table-hover mb-0 text-left data-table">
+									<thead>
+										<tr>
+											<th class="cell">Name</th>
+											<th class="cell">Leave Reason</th>
+											<th class="cell">Half/Full Day</th>
+											<th class="cell">Date/Time</th>
+											<th class="cell">Total days</th>
+											<th class="cell">Status</th>												
+										</tr>
+									</thead>
+									<tbody>
+										<% let queryString='all' %>		
+											<% if(oldValues.temp){ 
+												queryString=oldValues.temp %>		
+											<%}%>
+											<%if(oldValues.leaveRecord.length >0)
+												{%>
+													<% for(var i = (oldValues.leaveRecord.length-1); i >=0; i--) 
+													{%>
+														<% let counter1=0 %>
+														<% for(var k=0; k < oldValues.leaveRecord[i].Dates.length; k++) {%>
+															<% let dates=oldValues.leaveRecord[i].Dates[k].split('-'); %>	
+															
+															<% if(dates[1]==queryString) {%>
+																<% counter1++ %>
+															<%}%>
+														<%}%>
+														<tr>
+															<% if(counter1!=0 || queryString=='all' ) {%>																
+																<% for(var j = (oldValues.userRecord.length-1); j >=0; j--) 
+																{%>				
+																	<% if(oldValues.userRecord[j]._id.toString() == oldValues.leaveRecord[i].user.toString() ) {%>
+																	<td> <%= oldValues.userRecord[j].firstName+" "+oldValues.userRecord[j].lastName %> </td>																	
+																	<%}%>
+																<%}%>
+																<td> <%= oldValues.leaveRecord[i].leaveReason %> </td>
+																<td> <%= oldValues.leaveRecord[i].Days %> </td>																																
+																<% if(oldValues.leaveRecord[i].Dates.length) {%>
+																	<% if(queryString!='all') {%>
+																		<% let counter=0 %>
+																		<td>
+																			<% for(var k=(oldValues.leaveRecord[i].Dates.length-1); k >=0; k--) {%>
+																				<% let dates=oldValues.leaveRecord[i].Dates[k].split('-'); %>	
+																				
+																				<% if(dates[1]==queryString) {%>
+																					<% counter++ %>
+																					<%= oldValues.leaveRecord[i].Dates[k] %><br> 
+																				<%}%>
+																			<%}%>
+																		</td>		
+																		<td> <%= counter %> </td>																																				
+																	<%} else{%>
+																		<td> <%= oldValues.leaveRecord[i].Dates %> </td>
+																		<td> <%= oldValues.leaveRecord[i].Dates.length %> </td>																
+																	<%}%>
+																<%}else{%>
+																	<% if(queryString=='all'){%>
+																		<td> <%= oldValues.leaveRecord[i].time %> | <%= oldValues.leaveRecord[i].halfdayDate %></td>
+																		<td>-</td>
+																	<%}%>	
+																<%}%>
+																<td>																		
+																	<% if(oldValues.leaveRecord[i].approve==false && oldValues.leaveRecord[i].isDeleted==false) {%>																	
+																		<span class="badge badge-primary">Pending</span>																	
+																	<%} else if(oldValues.leaveRecord[i].approve==true){%>																			
+																		<span class="badge badge-success">Approve</span>
+																		<%} else if(oldValues.leaveRecord[i].approve==false && oldValues.leaveRecord[i].isDeleted==true) {%>																
+																		<span class="badge badge-danger">Diclined</span>
+                                  <%}%>
+																</td>																																
+															<%}%>
+															<% if(queryString=='halfday'){%>																
+																	<%if(oldValues.leaveRecord[i].Dates.length==0){%>
+																	<% for(var j = (oldValues.userRecord.length-1); j >=0; j--) 
+																	{%>				
+																		<% if(oldValues.userRecord[j]._id.toString() == oldValues.leaveRecord[i].user.toString() ) {%>
+																		<td> <%= oldValues.userRecord[j].firstName+" "+oldValues.userRecord[j].lastName %> </td>
+																		
+																		<%}%>
+																	<%}%>
+																	<td> <%= oldValues.leaveRecord[i].leaveReason %> </td>
+																	<td> <%= oldValues.leaveRecord[i].Days %> </td>
+																	<td> <%= oldValues.leaveRecord[i].time %> | <%= oldValues.leaveRecord[i].halfdayDate %> </td>
+																	<td>-</td>
+																	<td>																																																						
+                                    <% if(oldValues.leaveRecord[i].approve==false && oldValues.leaveRecord[i].isDeleted==false) {%>                                    																			
+																			<span class="badge badge-primary">Pending</span>		                                    
+                                    <%} else if(oldValues.leaveRecord[i].approve==true){%>																				
+																			<span class="badge badge-success">Approve</span>
+                                    <%} else if(oldValues.leaveRecord[i].approve==false && oldValues.leaveRecord[i].isDeleted==true) {%>																			
+																			<span class="badge badge-danger">Diclined</span>
+																		<%}%>
+                                  </td>																	
+																<%}%>
+															<%}%>
+														</tr>
+													<%}%>
+												<%}
+												%>
+									</tbody> 
+								</table>						      
+						  </div><!--//app-card-body-->		
+						</div><!--//app-card-->
+			    </div><!--//tab-pane-->
+			  </div><!--//tab-content-->
+			</div><!--//container-fluid-->
+	  </div><!--//app-content-->
+		<%- include('../layout/footer') -%>   
+	</div><!--//app-wrapper-->   				
+</div>
+<%- include('../layout/script') -%>   
+</body>
+</html>

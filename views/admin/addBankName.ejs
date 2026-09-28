@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<div id="load"></div>
+	<%- include('../layout/header') -%>
+	<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Add Bank</h1>
+						<hr class="mb-4">
+						<div class="row g-4 settings-section" id="appContents">
+							<div class="col-12 col-md-12">
+								<div class="app-card app-card-settings shadow-sm p-4 card-neumorphic">
+									<div class="app-card-body">
+										<form method="POST" action="/admin/store/bankdetails">
+                      <div class="item border-bottom py-3" style="border: none !important;">
+                        <div class="row justify-content-between align-items-center row-6">
+                          <div class="col-sm-6">
+                            <div class="col-auto">
+                              <div class="mb-3">
+                                <div class="item-label">
+                                  <strong>Bank Name:</strong>
+                                </div>
+                                <div class="item-data">
+                                  <input type="text" required class="form-control" name="bankName" placeholder="Bank name" value=<%if(oldValues.status === 'Yes'){%>
+                                    <%- JSON.stringify(oldValues.bankName) %>
+                                  <%}%>>
+                                  
+                                </div><!-- form-group// -->
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4">
+                            <div class="col-auto">
+                              <div class="mb-3">
+                                <div class="item-label"><strong>&nbsp;</strong></div>
+                                <div class="item-data">
+                                  <button type="submit" class="btn app-btn-primary btn-green-neumorpic" style="border-radius: 0;">Add Bank Name</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-2">
+                            <div class="col-auto">
+                              <div class="mb-3">															
+                              </div>
+                            </div>
+                          </div>
+                        </div><!--//row-->
+                      </div>
+                      <div class="item border-bottom py-3">
+                        <%if(oldValues.status === 'Yes'){%>
+                          <span style="color: red;">This bank name is already added !!!</span>    
+                        <%}else if(oldValues.status === 'No'){%>
+                          <span style="color: green;">Bank name is added !!!</span>
+                        <%}%>
+                      </div>
+                    </form>
+                    <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                      <div class="app-card-body px-4 w-100">
+                        <table class="table app-table-hover mb-0 text-left data-table">
+                          <thead>
+                            <tr>
+                              <th class="cell" style="display: none;">Sr.No</th>
+                              <th class="cell">Bank Name</th>
+                              <th class="cell"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% i=1;%>      
+                            <%if(oldValues.allBankNames){
+                              if(oldValues.allBankNames.length>0){
+                                oldValues.allBankNames.forEach(element=>{%>
+                                  <tr>
+                                    <td style="display: none;"><%= i %></td>
+                                    <td><%= element.bankName %></td>
+                                    <td><a onclick='deleteBankName("<%= element._id %>")'><button type="button" class="btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete bank name">
+                                      <i class="fas fa-trash"></i>
+                                    </button></a></td>
+                                    <% i=(i+1);%>
+                                  </tr>
+                              <%})
+                              }
+                            }%>
+                             
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+									</div><!--//row-->
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div><!--//container-fluid-->
+	</div>	<!--//app-content-->
+	<%- include('../layout/footer') -%>
+</div><!--//app-wrapper-->
+<%- include('../layout/script') -%>
+<script src="/js/deleteBankDetails.js"></script>
+</body>
+</html>

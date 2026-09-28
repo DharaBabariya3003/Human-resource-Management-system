@@ -1,0 +1,492 @@
+.demo {
+    color: blue;
+}
+
+#pretab {
+    background-color:lightgreen;
+}
+.activeTab{
+    
+    background-color:#32CD32 !important;
+}
+.activeTab:hover{
+    color:black !important;
+}
+.remove{
+    background-color:blue;
+}
+
+.dataTables_wrapper.dt-bootstrap5 {
+    padding: 12px;
+}
+img.profile-image{
+    height: 60;
+    width: 60;
+}
+.cardHeader
+{
+    color: #fff !important;
+    padding: 5px 0px 10px 20px !important;
+    box-shadow: 0px 1px 3px #000000;
+}
+
+.btn-primary:hover{
+    color: #32CD32;
+    background-color: aqua;
+}
+.requiredField
+{
+    color: red;
+}
+
+.modal .modal-dialog {
+    width: 70%;
+    max-width: none;
+}
+.modal .modal-content {
+    height: 100%;
+} 
+.modal .modal-body {
+    overflow-y: auto;
+}  
+#imagepreview, #imagepreviewofferLetter, #imagepreviewAppoinment, #imagepreview10, #imagepreview12, #imagepreviewBE,#imagepreviewME, #imagepreviewID,#otherDocument
+{
+    height: 39px;
+    width: 39px ;
+}
+
+.otherDocument{
+    height: 39px;
+    width: 39px ;
+}  
+
+.gj-textbox-md{
+    background-color: white !important;
+    border: 1px solid #ced4da !important;
+    border-radius: .25rem !important;
+    padding-left: 12px !important;
+}   
+.gj-icon {
+    padding:5px;    
+}
+.overTimeCheckBox {
+    margin-top: 7px !important;
+}
+/* for datatable view */
+
+.app {
+    background: #f4f6f9 !important;
+}
+
+.card-neumorphic {
+    box-shadow: 0 0 1px rgb(0 0 0 / 13%), 0 1px 3px rgb(0 0 0 / 20%);
+    margin-bottom: 1rem;
+    background: #f1f3f6;
+    border-radius: 20px;
+    box-shadow: inset 0 0 15px rgb(55 84 170 / 0%), inset 0 0 20px rgb(255 255 255 / 0%), 7px 7px 15px rgb(55 84 170 / 15%), -7px -7px 20px white, inset 0px 0px 4px rgb(255 255 255 / 20%) !important;
+}
+
+.btn-round-purple-neumorpic {
+    text-decoration: none ;
+    background: #6c6ada !important;
+    color: #fff !important;
+    border-radius: 50% !important;  
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.btn-round-purple-neumorpic:hover {
+    background: #5e5cc1 !important;
+}
+.btn-round-green-neumorpic {
+    text-decoration: none ;
+    background: #28a745 !important; 
+    color: #fff !important;
+    border-radius: 50% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;   
+}
+.btn-round-green-neumorpic:hover {
+    background: #24943e !important;
+}
+.btn-round-red-neumorpic {
+    text-decoration: none ;
+    background: #da6a6a !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;   
+}
+.btn-round-red-neumorpic:hover {
+    background:#d53343 !important;
+}
+.btn-round-cyan-neumorpic {
+    text-decoration: none ;
+    background: #6acbda !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;   
+}
+.btn-round-cyan-neumorpic:hover {
+    background:#61bbc9 !important;
+}
+.btn-round-mustered-neumorpic {
+    text-decoration: none ;
+    background: #daad6a !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;   
+}
+.btn-round-mustered-neumorpic:hover {
+    background: #cda05d !important;
+}
+
+.btn-round-blue-neumorpic {
+    text-decoration: none ;
+    background: #007bff !important;
+    color: #fff !important;
+    border-radius: 50% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.btn-round-blue-neumorpic:hover {
+    background: #1e59ff !important;
+}
+    
+
+.btn-ellipse-green-neumorpic {
+    text-decoration: none ;
+    background: #28a745 !important;
+    color: #fff !important;
+    border-radius: 45% !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) ;
+    padding: 20px !important; 
+    height: 20px;
+    width: 50px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.btn-ellipse-green-neumorpic:hover {
+    background: #24943e !important;
+}
+
+/* for addEmployee btn */
+.btn-green-neumorpic {
+    background-color: #28a745;
+    border-color: #28a745 ;
+    text-decoration: none ;
+    color: #fff;
+    border-radius: 5px !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) !important;
+    padding: 10px !important;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center ;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.btn-blue-neumorpic {
+    background-color: #007bff;
+    border-color:#007bff ;
+    text-decoration: none ;
+    color: #fff;
+    border-radius: 5px !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) !important;
+    padding: 10px !important;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center ;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.btn-red-neumorpic {
+    background-color: #dc3545;
+    border-color:#dc3545 ;
+    text-decoration: none ;
+    color: #fff;
+    border-radius: 5px !important;
+    font-weight: 600 !important;
+    box-shadow: 0px 5px 10px rgb(55 84 170 / 25%) !important;
+    padding: 10px !important;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center ;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.increment-row {
+    background-color: #d6a9a9;
+}
+
+.increment-row:hover{
+    background-color: #d6a9a9 !important;
+}
+.round-border{
+    border-radius: 50%;
+}
+.profileImage{
+    text-decoration: none !important;
+}
+.showAlertBox{
+    position: absolute;
+    right: 0;
+    margin-right: 15px;
+}
+.forgotPswBackground{
+    background-color: #d0f1d0;
+}
+.eyeFormat{
+    position: absolute;
+    top: 50%;
+    left: 89%;
+}
+.refreshFormat{
+    position: absolute;
+    top: 50%;
+    right: -2%;
+}
+.refreshFormatBank{
+    position: absolute;
+    top: 50%;
+    right:-1%;
+}
+.sideMenuNotificationCounter{
+    text-decoration: none ;
+    background:red !important;
+    color: #fff !important;
+    border-radius: 50% !important;  
+    font-weight: 600 !important;
+    padding: 10px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+    border: none !important;
+}
+.sideMenuNotificationFormat{
+    text-decoration: none ;
+    background:red !important;
+    color: #fff !important;
+    border-radius: 50% !important;  
+    font-weight: 600 !important;
+    padding: 10px !important; 
+    height: 20px;
+    width: 20px;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center;
+    align-items: center;
+    margin-left: -16px;
+    border: none !important;
+}
+.svgNotification{
+    font-size: 1.25rem !important;
+    width: 31px !important;
+    height: 24px !important;
+}
+.innerMenuFormat{
+    text-decoration: none !important;
+}
+.noNotification{
+    text-align: center;
+    color: #757b82;
+}
+tr.shown {
+    background: #dfe4f1 !important;
+}
+tr.shown + tr {
+    background: #dfe4f1 !important;
+}
+tr.shown + tr table tbody {
+    background: #dfe4f173 !important;
+}
+[list]::-webkit-calendar-picker-indicator {
+    opacity: 0;
+}
+.hideOverTimeMinutes{
+    display: none;
+}
+.showOverTimeMinutes{
+    display: block;
+}
+.overTimeFontColor{
+    color: red !important;
+    font-weight: bold !important;
+}
+.empAttendanceType{
+    color: gray !important;
+    padding-right: 40px !important;
+}
+.modeFontColor{
+    color: gray !important;
+}
+.modeFontColorEmp{
+    color: gray !important;
+    font-weight: bold !important;
+}
+.empDetails{
+    color: green;
+    margin-left: 15px;
+    font-size: 18px;
+}
+.logoFormat{
+    border-radius: 10px !important;
+    box-shadow: 0 0 10px #df2500 !important;    
+    height: 60px;
+}
+.loginFont{
+    color: rgba(37,41,48,.6) !important;
+    font-weight:500 !important;
+}
+.modal .salaryInfoModal {
+ height: 100%;
+}
+.overtimeCheckBtn{
+ height: 28px;
+}
+.totalSalarySpan{
+    width: 100px;
+    opacity: 0.8;
+}
+.totalEmployees{
+    color: green;
+    opacity: 0.8;
+    font-size: 16px;
+    margin-left: 20px;
+}
+.salaryInfoToolTip{
+    cursor: pointer;
+}
+.empActiveTab{
+    color:#fff !important;
+}
+.userInformationHeaderParams{
+    font-size: 10px;
+    color: red;
+    font-weight: 600;
+}
+.userInformationHeaderValue{
+    font-size: 12px;
+    margin-top: -16px;
+}
+.user-info{
+    color:#28a745;
+    font-weight:bold;
+}
+.logoFormatHealthray{
+    height: 60px;
+    border-radius: 50%;
+    z-index: 1;
+    box-shadow: -5px 0 5px 2px #ccc;
+}
+.xlsSheetBtn{
+    margin-top: 10px;
+    height: 40px;
+    padding-left: 20px;
+    margin-left: -10px;
+    box-shadow: 0px 2px 5px 2px #ccc !important;
+}
+.interviewXlsSheet{
+    margin-bottom: 18px !important;
+}
+.btn-green-addAssetType {
+    background-color: #007bff;
+    color: #fff !important;
+    border-radius: 0 !important;
+    margin: 0;
+    font-weight: 600 !important;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center ;
+    align-items: center;
+    border: none !important;
+}
+.selectBorderAssetType{
+    border-radius: 5px 0 0 5px !important;
+}
+.editAssetType {
+    background-color: #ee8814;
+    color: #fff !important;
+    border-radius: 0 !important;
+    margin: 0;
+    font-weight: 600 !important;
+    text-align: center;
+    display: inline-flex !important;
+    justify-content: center ;
+    align-items: center;
+    border: none !important;
+}
+.deleteAttendance{
+    padding: 15px !important;
+}
+input[type=file]{
+    padding: .2em .4em;
+}

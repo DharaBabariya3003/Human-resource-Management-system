@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Import Head -->
+    <%- include('../layout/head') -%>
+    <style>
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      a:hover {
+        color:#00A0C6; 
+        text-decoration:none; 
+        cursor:pointer;  
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="position-relative mb-3">
+              <div class="row g-3 justify-content-between">
+                <div class="col-auto">
+                  <h1 class="app-page-title mb-0">Notifications</h1>
+                </div>
+              </div>
+            </div>
+            <%
+              let currentYear=new Date().getFullYear();
+            %>
+            <%if(oldValues.notificationRecords){
+            if(oldValues.notificationRecords.length > 0){
+            oldValues.notificationRecords.forEach(element=>{%>
+            <div class="app-card app-card-notification shadow-sm mb-4 card-neumorphic">
+              <%if(element.notificationType === 'Leave Request') {%>
+                <a href="/admin/leaveRequests?year=<%= currentYear %>&option=All">
+              <%}%>
+              <div class="app-card-header px-4 py-3">
+                <div class="row g-3 align-items-center">
+                  <div class="col-12 col-lg-auto text-center text-lg-left">
+                    <%if(element.notificationType === 'Birthday') {%>
+                    <img
+                      class="profile-image"
+                      src="/assets/images/profiles/birthday.jpeg"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <%}else if(element.notificationType === 'Employee Anniversary') {%>
+                    <img
+                      class="profile-image"
+                      src="/assets/images/profiles/employeeAnni.jpg"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <%}else if(element.notificationType === 'Leave Request') {%>
+                    <img
+                      class="profile-image"
+                      src="/assets/images/profiles/leave.png"
+                      alt=""
+                      style="border-radius: 50%"/>
+                    <%}else if(element.notificationType === 'Marriage Anniversary'){%>
+                    <img
+                      class="profile-image"
+                      src="/assets/images/profiles/marriage.jpeg"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <% }else if(element.notificationType === 'Interview'){%>
+                      <img
+                      class="profile-image"
+                      src="/assets/images/profiles/interview.jpeg"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                     <%}else if(element.notificationType === 'Resignation Request'){%>
+                      <img
+                      class="profile-image"
+                      src="/assets/images/profiles/resignation.png"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <%}else if(element.notificationType === 'Employment'){%>
+                      <img
+                      class="profile-image"
+                      src="/assets/images/profiles/employment.jpeg"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <%}else if(element.notificationType === 'Bond Complete'){%>
+                      <img
+                      class="profile-image"
+                      src="/assets/images/profiles/bondCompletion.png"
+                      alt=""
+                      style="border-radius: 50%"
+                    />
+                    <%}%>
+                  </div>
+                  <!--//col-->
+                  <div class="col-12 col-lg-auto text-center text-lg-left">
+                    <h4 class="notification-title mb-1">
+                      <%= element.message %>
+                    </h4>
+                  </div>
+                  <!--//col-->
+                  <div class="col text-right">
+                    <div class="notification-content empAttendanceType">
+                      <%= oldValues.moment(element.createdAt).fromNow(); %>
+                    </div>
+                  </div>
+                </div>
+                <!--//row-->
+              </div>
+              <%if(element.notificationType === 'Leave Request') {%>
+                </a>
+              <%}%>
+              <!--//app-card-header-->
+            </div>
+            <!--//app-card-->
+            <%}) }else{%>
+            <h5 style="color: gray">
+              <strong>No more data to display.</strong>
+            </h5>
+            <%} }%>
+          </div>
+          <!--//container-fluid-->
+        </div>
+        <!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div>
+      <!--//app-wrapper-->
+    </div>
+    <%- include('../layout/script') -%>
+  </body>
+</html>

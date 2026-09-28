@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+  <style>    
+		.hideTd{
+			display: none;
+		}
+    .wrapper {
+    display: flex;
+    }
+  </style>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+  <div class="app">
+    <div class="app-wrapper">
+      <div class="app-content pt-3 p-md-3 p-lg-4">
+        <div class="container-xl">
+          <div class="row g-3 mb-4 align-items-center justify-content-between">
+            <div class="col-auto">
+              <h1 class="app-page-title mb-0">Letterhead</h1>
+            </div>
+            <div class="col-auto">
+              <div class="page-utilities">
+                <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                  <div class="col-auto">
+                    <a onclick="getAllLetterHeadTypesAdd()" data-toggle="modal" class="open-LetterModalDialog btn btn-success btn-green-neumorpic"
+                      href="#letterModalDialog" style="border-radius: 0%;"><strong>Add New Letterhead</strong></a>
+                  </div>
+                </div><!--//row-->
+              </div><!--//table-utilities-->
+            </div><!--//col-auto-->
+          </div><!--//row-->
+          <div class="tab-content" id="orders-table-tab-content">
+            <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+              <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+                <div class="app-card-body">
+                  <table class="table app-table-hover mb-0 text-left" id="letterHeadTable">
+                    <thead>
+                      <tr>
+                        <th class="cell" >Sr.No</th>
+                        <th class="cell">Letterhead Number</th>
+                        <th class="cell">Issuer Name</th>
+                        <th class="cell">Issue To</th>
+                        <th class="cell">Issue Date</th>
+                        <th class="cell">Letterhead Type</th>
+                        <th class="cell text-center" colspan="4"></th>                        
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!--//app-card-body-->
+              </div><!--//app-card-->
+            </div>            
+          </div><!--//tab-content-->
+        </div><!--//container-fluid-->
+      </div><!--//app-content-->
+      <%- include('../layout/footer') -%>
+    </div><!--//app-wrapper-->
+  </div>
+  <%- include('../layout/script') -%>
+  <script src="/js/letterHead.js"></script> 
+</body>
+</html>
+
+<!-- -------------------------------------------------------------------------------------------- -->
+
+<div class="modal modal-container1" tabindex="-1" role="dialog" id="letterModalDialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight: bold;">Add Letterhead</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form enctype="multipart/form-data" id="createLetterHeadForm">
+        <div class="item border-bottom py-3">
+          <div class="row justify-content-between align-items-center row-6">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Letterhead Number<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="letterHeadNumber" class="form-control" placeholder="Letterhead Number" required type="text">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Issuer Name<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="issuerName" class="form-control" placeholder="Issuer Name" required type="text">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong>Issue To<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="issueTo" class="form-control" placeholder="Issue To" required type="text">
+                  </div> <!-- form-group// -->
+              </div>
+              </div>
+            </div>		
+          </div><!--//row-->
+        </div><!--//item-->
+        <div class="item border-bottom py-3">
+          <div class="row justify-content-between align-items-center row-6">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Issue Date<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="issueDate" class="form-control" required type="date">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Letterhead Type<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <select id="letterheadType" required class="form-control form-select"></select>
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong>Reason</strong></div>
+                  <div class="item-data">
+                    <textarea id="reason" placeholder="Reason" style="height: 87px !important;" class="form-control"></textarea>
+                  </div> <!-- form-group// -->
+              </div>
+              </div>
+            </div>		
+          </div><!--//row-->
+        </div><!--//item-->
+        <div class="item border-bottom py-3">
+          <div class="row justify-content-between align-items-center row-6">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Upload Document<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input type="file" accept="image/*, .pdf" id="letterHeadDocument" class="form-control">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Note</strong></div>
+                  <div class="item-data">
+                    <textarea id="note" placeholder="Note" style="height: 87px !important;" class="form-control"></textarea>
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong></strong></div>
+              </div>
+              </div>
+            </div>		
+          </div><!--//row-->
+        </div><!--//item-->
+       </form>
+        <div class="modal-footer">
+          <button type="submit" onclick="$.fn.addLetterHeadFuc()" class="btn btn-primary">Save</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------------------------------------------------------------------------------- -->
+
+<div class="modal" tabindex="-1" role="dialog" id="letterViewModalDialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight: bold;">Letterhead Details:</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="app-card-body px-4 w-100">
+          <div class="item border-bottom py-3">
+            <div class="row justify-content-between align-items-center row-6">
+              <div class="col-sm-4">
+                <div class="item-label"><strong>Letterhead Number</strong></div>
+                <div class="item-data">
+                  <span id="show_letterHeadNumber"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Issuer Name</strong></div>
+                <div class="item-data">
+                  <span id="show_issuerName"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Issue To</strong></div>
+                <div class="item-data">
+                  <span id="show_issueTo"></span>
+                </div>
+              </div><!--//col-->
+            </div><!--//row-->
+          </div><!--//item-->
+
+          <div class="item border-bottom py-3">
+            <div class="row justify-content-between align-items-center row-6">
+              <div class="col-sm-4">
+                <div class="item-label"><strong>Issue Date</strong></div>
+                <div class="item-data">
+                  <span id="show_issueDate"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Letterhead Type</strong></div>
+                <div class="item-data">
+                  <span id="show_letterheadType"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Reason</strong></div>
+                <div class="item-data">
+                  <span id="show_reason"></span>
+                </div>
+              </div><!--//col-->
+            </div><!--//row-->
+          </div><!--//item-->
+
+          <div class="item border-bottom py-3" style="border-bottom: none !important;">
+            <div class="row justify-content-between align-items-center row-6">
+              <div class="col-sm-4">
+                <div class="item-label"><strong>Document</strong></div>
+                <div class="item-data">
+                  <span id="show_letterHeadDocument"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Note</strong></div>
+                <div class="item-data">
+                  <span id="show_note"></span>
+                </div>
+              </div><!--//col-->
+              <div class=" col-sm-4">
+                <div class="item-label"><strong>Created By</strong></div>
+                <div class="item-data">
+                  <span id="show_createdBy"></span>
+                </div>
+              </div><!--//col-->
+            </div><!--//row-->
+          </div><!--//item-->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- -------------------------------------------------------------------------------------------- -->
+
+<div class="modal" tabindex="-1" role="dialog" id="letterEditModalDialog" >
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" style="font-weight: bold;">Edit Letterhead Details</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="item border-bottom py-3">
+          <form enctype="multipart/form-data">
+          <div class="row justify-content-between align-items-center row-6">
+            <input type="hidden" id="edit_letterHeadID">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Letterhead Number<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="edit_letterHeadNumber" class="form-control" placeholder="Letterhead Number" required type="text">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Issuer Name<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="edit_issuerName" class="form-control" placeholder="Issuer Name" required type="text">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong>Issue To<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="edit_issueTo" class="form-control" placeholder="Issue To" required type="text">
+                  </div> <!-- form-group// -->
+              </div>
+              </div>
+            </div>
+          </div><!--//row-->
+        </form>
+        </div><!--//item-->
+        <div class="item border-bottom py-3">
+          <div class="row justify-content-between align-items-center row-6">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Issue Date<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <input id="edit_issueDate" class="form-control" required type="date">
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Letterhead Type<span class="requiredField">*</span></strong></div>
+                  <div class="item-data">
+                    <select id="edit_letterheadType" required class="form-control form-select"></select>
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong>Reason</strong></div>
+                  <div class="item-data">
+                    <textarea id="edit_reason" placeholder="Reason" style="height: 87px !important;" class="form-control"></textarea>
+                  </div> <!-- form-group// -->
+              </div>
+              </div>
+            </div>		
+          </div><!--//row-->
+        </div><!--//item-->
+        <div class="item border-bottom py-3">
+          <div class="row justify-content-between align-items-center row-6">
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Upload Document<span class="requiredField">*</span></strong></div>
+                  <div class="item-data wrapper">
+                    <input type="file" accept="image/*, .doc, .pdf" id="edit_letterHeadDocument" class="form-control">
+                    <span id="showEditLetterHeadImg"></span>
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+                <div class="mb-3">
+                  <div class="item-label"><strong>Note</strong></div>
+                  <div class="item-data">
+                    <textarea id="edit_note" placeholder="Note" style="height: 87px !important;" class="form-control"></textarea>
+                  </div> <!-- form-group// -->
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-4">
+              <div class="col-auto">
+              <div class="mb-3">
+                <div class="item-label"><strong></strong></div>
+              </div>
+              </div>
+            </div>		
+          </div><!--//row-->
+        </div><!--//item-->
+        <div class="modal-footer">
+          <button type="submit" onclick="$.fn.updateLetterHeadFuc()" class="btn btn-primary">Update</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

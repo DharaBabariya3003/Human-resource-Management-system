@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+<script src="/assets/jQuery/timepickerjs.min.js"></script>
+<script src="/assets/jQuery/timepicker.min.js"></script>
+
+</head>
+<body>
+	<%- include('../layout/header') -%>	
+		<div class="app">
+			<div class="app-wrapper">			
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<h1 class="app-page-title">Edit Employee Details</h1>
+						
+						
+							<form method="POST" action="/admin/<%if(oldValues.old){%>
+								<%= oldValues.old._id %>
+							<%}else{
+								if(oldValues){%>
+									<%= oldValues._id %>
+								<%}
+							}%>/employee" enctype="multipart/form-data">
+								<div class="app-card app-card-accordion shadow-sm mb-4 card-neumorphic">
+									<div class="app-card-header p-3 bg-success cardHeader">
+										<h4 class="app-card-title"><strong>Basic Details :</strong></h4>
+									</div>																		
+									<!--//app-card-header-->
+									<div class="app-card-body p-2 pt-0">
+										<div id="faq2-accordion" class="faq2-accordion faq-accordion accordion">
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>First Name:<span class="requiredField">*</span></strong>
+																</div>
+																<div class="item-data">
+																	<input name="firstName" class="form-control"
+																		placeholder="First Name" type="text" 
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify(oldValues.old.firstName)%>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify(oldValues.firstName)%>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Middle Name:</strong></div>
+																<div class="item-data">
+																	<input name="middleName" class="form-control"
+																		placeholder="Middle Name"  type="text"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify(oldValues.old.middleName)%>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify(oldValues.middleName)%>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Last Name:<span class="requiredField">*</span></strong>
+																</div>
+																<div class="item-data">
+																	<input name="lastName" class="form-control"
+																		placeholder="Last Name" type="text"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify(oldValues.old.lastName)%>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify(oldValues.lastName)%>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--//row-->
+											</div>
+											<!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Email Address:<span class="requiredField">*</span></strong>
+																</div>
+																<div class="item-data">
+																	<input name="email" class="form-control restrictSpace"
+																		placeholder="Email Address"
+																		type="email" value=<%if(oldValues.old){%>
+																			<%- JSON.stringify(oldValues.old.email)%>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify(oldValues.email)%>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Birth Date:<span class="requiredField">*</span></strong>
+																</div>
+																<div class="item-data">
+																	<input name="birthDate" class="form-control"
+																		placeholder="Birth" type="date" min="1900-01-01"
+																		max="9999-12-31" style="margin-right: 10px;"
+																		value=<%if(oldValues.old){%>
+																			<%= oldValues.old.moment(oldValues.old.birthDate).format("YYYY-MM-DD") %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%= oldValues.moment(oldValues.birthDate).format("YYYY-MM-DD") %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Gender:</strong></div>
+																<div class="item-data">
+																	<select name="gender" class="form-control form-select">
+																		<option value="Male" <%if(oldValues.old){
+																			if(oldValues.old.gender=='Male' ) {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.gender=='Male' ) {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Male</option>
+																		<option value="Female" <%if(oldValues.old){
+																			if(oldValues.old.gender=='Female' ) {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.gender=='Female' ) {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Female
+																		</option>
+																		<option value="Others" <%if(oldValues.old){
+																			if(oldValues.old.gender=='Others' ) {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.gender=='Others' ) {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Others
+																		</option>
+																	</select>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Your Contact
+																		Info:<span class="requiredField">*</span></strong></div>
+																<div class="item-data">
+																	<input name="contactNumber" class="form-control"
+																		placeholder="Contact Info."
+																		type="number"
+																		onKeyPress="if(this.value.length==10) return false;"
+																		value=<%if(oldValues.old){%>
+																			<%=oldValues.old.contactNumber %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%=oldValues.contactNumber %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Emergency Contact
+																		Info:</strong></div>
+																<div class="item-data">
+																	<input name="emergencyContactNumber"
+																		class="form-control"
+																		placeholder="Emrgency Contact Info."
+																		type="number"
+																		onKeyPress="if(this.value.length==10) return false;"
+																		value=<%if(oldValues.old){%>
+																			<%=oldValues.old.emergencyContactNumber %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%=oldValues.emergencyContactNumber %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Position:</strong></div>
+																<div class="item-data">
+																	<select name="position" class="form-control form-select">
+																		<option value="Trainee" <%if(oldValues.old){
+																			if(oldValues.old.position=='Trainee') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.position=='Trainee') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Trainee
+																		</option>
+																		<option value="Employee" <%if(oldValues.old){
+																			if(oldValues.old.position=='Employee') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.position=='Employee') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Employee
+																		</option>
+																	</select>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Correspondence
+																		Address:<span class="requiredField">*</span></strong></div>
+																<div class="item-data">
+																	<textarea name="correspondenceAddress"
+																		 placeholder="Correspondence Address" style="height: 87px !important;"
+																		class="form-control"><%if(oldValues.old){%>
+																			<%=oldValues.old.correspondenceAddress %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%= oldValues.correspondenceAddress %>
+																			<%}
+																		}%></textarea>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-6">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Permanent
+																		Address:</strong></div>
+																<div class="item-data">
+																	<textarea name="permanentAddress"
+																		 placeholder="Permanent Address" style="height: 87px !important;"
+																		class="form-control"><%if(oldValues.old){%>
+																			<%=oldValues.old.permanentAddress %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%= oldValues.permanentAddress %>
+																			<%}
+																		}%></textarea>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Department:</strong>
+																</div>
+																<div class="item-data">
+																<select id="combo"  onchange="getDepartment();"  name="department" class="form-control form-select">
+																	<%if(oldValues.old){
+																		if(oldValues.old.allDept){
+																			if(oldValues.old.allDept.length>0){
+																				oldValues.old.allDept.forEach(element=>{%>
+																					<option value=<%= element._id %> <%if(''+oldValues.old.department==''+element._id){%>
+																						selected
+																						<%}%>> <%= element.departmentName %></option>
+																				<%})
+																			}
+																		}
+																	}else{
+																	 if(oldValues) {
+																		if(oldValues.allDept){
+																			if(oldValues.allDept.length>0){
+																				oldValues.allDept.forEach(element=>{%>
+																					<option value=<%= element._id %> <%if(''+oldValues.department==''+element._id){%>
+																						selected
+																						<%}%>> <%= element.departmentName %></option>
+																						<%})
+																					}
+																			}
+																	 }
+																	}%>
+																</select>
+																<div class="item-data refreshFormat">
+																	<i class="fas fa-redo-alt" onclick="getDepartmentRefresh()" style="cursor: pointer;"></i>
+																</div>
+																	</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Designation:</strong>
+																</div>
+																<div class="item-data">																
+																	<select id="selectDeg" name="designation" class="form-control form-select">
+																		<%if(oldValues.old){
+																			if(oldValues.old.allDesg){
+																				if(oldValues.old.allDesg.length>0){
+																					oldValues.old.allDesg.forEach(element=>{%>
+																				<option value=<%= element._id %> <%if(''+oldValues.old.designation==''+element._id){%>
+																					selected
+																				<%}%>> <%= element.designationName %></option>
+																				<%})
+																				}
+																			}
+																		}else{
+																		 if(oldValues) {
+																			if(oldValues.allDesg){
+																				if(oldValues.allDesg.length>0){
+																					oldValues.allDesg.forEach(element=>{%>
+																				<option value=<%= element._id %> <%if(''+oldValues.designation==''+element._id){%>
+																					selected
+																				<%}%>> <%= element.designationName %></option>
+																				<%})
+																				}
+																			}
+																		 }
+																		}%>
+																	</select>
+																	<div class="item-data refreshFormat">
+																		<i class="fas fa-redo-alt" onclick="getDepartment()" style="cursor: pointer;"></i>
+																	</div>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Vehicle Number:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="vehicalNumber" class="form-control"
+																		placeholder="Vehicle Number" type="text"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.vehicalNumber) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify( oldValues.vehicalNumber) %>
+																			<%}
+																		}%>>
+																</div>
+															</div>
+														</div>
+													</div>												
+												</div>
+											</div>
+											<!--//item-->
+										
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Status:</strong></div>
+																<div class="item-data">
+																	<select id="statusSelector" name="status"
+																		class="form-control form-select">
+																		<option value="Single" <%if(oldValues.old){
+																			if(oldValues.old.status=='Single') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.status=='Single') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Single
+																		</option>
+																		<option value="Married" <%if(oldValues.old){
+																			if(oldValues.old.status=='Married') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.status=='Married') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Married
+																		</option>
+																	</select>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+														<div class="mb-3">
+																<div class="item-label"><strong>System Role:</strong></div>
+																<div class="item-data">
+																	<select name="role" class="form-control form-select">
+																		<option value="User" <%if(oldValues.old){
+																			if(oldValues.old.role.name=='user') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.role.name=='user') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>User
+																		</option>
+																		<option value="HR Recruiter" <%if(oldValues.old){
+																			if(oldValues.old.role.name=='HR Recruiter') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.role.name=='HR Recruiter') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>HR Recruiter</option>
+																		<option value="HR" <%if(oldValues.old){
+																			if(oldValues.old.role.name=='HR') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.role.name=='HR') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>HR
+																		</option>
+																	</select>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3" id="MarriageDateSelection">
+																<div class="item-label"><strong>Marriage Date:</strong></div>
+																<div class="item-data">
+																	<input name="marriageDate" class="form-control"
+																		type="date" style="margin-right: 10px;"
+																		min="1900-01-01" max="9999-12-31"
+																		value=<%if(oldValues.old){%>
+																			<%= oldValues.old.moment(oldValues.old.marriageDate).format("YYYY-MM-DD"); %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%= oldValues.moment(oldValues.marriageDate).format("YYYY-MM-DD"); %>
+																			<%}else{%>
+																				<%= oldValues.moment(new Date()).format("YYYY-MM-DD"); %>
+																			<%}
+																		}%>>
+																	</div> <!-- form-group// -->
+																</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+										</div>
+										<!--//faq2-accordion-->
+									</div>
+									<!--//app-card-body-->
+								</div>
+								<!--//app-card-->
+								<div class="app-card app-card-accordion shadow-sm mb-4 card-neumorphic">
+									<div class="app-card-header p-3 bg-success cardHeader">
+										<h4 class="app-card-title"><strong>Education Details :</strong></h4>
+									</div>
+									<!--//app-card-header-->
+									<div class="app-card-body p-2 pt-0">
+										<div id="faq2-accordion" class="faq2-accordion faq-accordion accordion">
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Degree:</strong></div>
+																<div class="item-data">
+																	<input name="degree"  class="form-control"
+																		placeholder="Degree" type="text" value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.degree) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify( oldValues.degree) %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>College Name:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="collegeName" class="form-control"
+																		placeholder="College Name"  type="text"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.collegeName) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify( oldValues.collegeName) %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">																
+																<div class="item-label"><strong>Year Of Passing:</strong></div>
+																<div class="item-data">
+																	<input name="YearOfPassing" 
+																		class="form-control" id="incrementDatePicker"
+																		placeholder="Year Of Passing" type="number"
+																		onKeyPress="if(this.value.length==4) return false;"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.YearOfPassing) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%= oldValues.YearOfPassing %>
+																			<%}
+																		}%>>
+																	</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--//row-->
+											</div>
+											<!--//item-->											
+										</div>
+										<!--//faq2-accordion-->
+									</div>
+									<!--//app-card-body-->
+								</div>
+								<!--//app-card-->
+								<div class="app-card app-card-accordion shadow-sm mb-4 card-neumorphic">
+									<div class="app-card-header p-3 bg-success cardHeader">
+										<h4 class="app-card-title"><strong>Bank Details :</strong></h4>
+									</div>
+									<!--//app-card-header-->
+									<div class="app-card-body p-2 pt-0">
+										<div id="faq2-accordion" class="faq2-accordion faq-accordion accordion">
+											<!--//card-->
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>IFSC Code:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="ifscCode" class="form-control restrictSpace"
+																		placeholder="IFSC Code" type="text" value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.ifscCode) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify( oldValues.ifscCode) %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Account Holder
+																		Name:</strong></div>
+																<div class="item-data">
+																	<input name="accountHolderName" class="form-control"
+																		placeholder="Account Holder Name" type="text"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify( oldValues.old.accountHolderName) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify( oldValues.accountHolderName) %>
+																			<%}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Bank Name:</strong>
+																</div>
+																<div class="item-data">
+																<input type="hidden" name="bankId" id="bankId" value=<%if(oldValues.old){
+																	if(oldValues.old.bankId){%>
+																		<%= oldValues.old.bankId._id%>
+																	<%}
+																}else{
+																	if(oldValues){
+																		if(oldValues.bankId){%>
+																			<%= oldValues.bankId._id%>
+																		<%}
+																	}
+																}%>
+																>
+																
+																<input list="encodings" name="bankName" type="text" id="bankName" placeholder="Select bank name" class="form-control form-select" value=<%if(oldValues.old){
+																	if(oldValues.old.bankId){%>
+																		<%- JSON.stringify(oldValues.old.bankId.bankName)%>
+																	<%}
+																}else{
+																	if(oldValues){
+																		if(oldValues.bankId){%>
+																			<%- JSON.stringify(oldValues.bankId.bankName)%>
+																		<%}
+																	}
+																}%>>
+																<datalist id="encodings" class="selectBankName">
+																	<%if(oldValues.old){
+																		if(oldValues.old.allBanks) {
+																				if(oldValues.old.allBanks.length>0){
+																					oldValues.old.allBanks.forEach(element=>{%>
+																						<option data-value='<%= element._id %>' value=<%- JSON.stringify(element.bankName) %>></option>
+																					<%})
+																				}
+																			}
+																	}else{
+																		if(oldValues.allBanks){
+																			if(oldValues.allBanks.length>0){
+																				oldValues.allBanks.forEach(element=>{%>
+																					<option data-value='<%= element._id %>' value=<%- JSON.stringify(element.bankName) %>></option>
+																			<%})
+																		}
+																	}
+																	}%>
+																</datalist>
+																		
+																	</div> <!-- form-group// -->
+																	<div class="item-data refreshFormatBank">
+																		<i class="fas fa-redo-alt" onclick="refreshBankName()" style="cursor: pointer;"></i>
+																	</div>
+																</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Account Number:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="accountNumber" class="form-control" onkeypress="return event.charCode >= 48" min="0"
+																		placeholder="Account Number" type="number"
+																		value=<%if(oldValues.old){%>
+																			<%- JSON.stringify(oldValues.old.accountNumber) %>
+																		<%}else{
+																			if(oldValues){%>
+																				<%- JSON.stringify(oldValues.accountNumber) %>
+																			<%}
+																		}%>>
+																	</div> <!-- form-group// -->
+																</div>
+														</div>
+													</div>
+												</div>
+												<!--//row-->
+											</div>
+											<!--//item-->
+										</div>
+										<!--//faq2-accordion-->
+									</div>
+									<!--//app-card-body-->
+								</div>
+								<div class="app-card app-card-accordion shadow-sm mb-4 card-neumorphic">
+									<div class="app-card-header p-3 bg-success cardHeader">
+										<h4 class="app-card-title"><strong>Attendance Setting :</strong></h4>
+									</div><!--//app-card-header-->
+									<div class="app-card-body p-2 pt-0">
+										<div id="faq2-accordion" class="faq2-accordion faq-accordion accordion">
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Office entry time:</strong></div>
+																<div class="item-data officeStartTime">
+																	<input class="form-control"  style="padding-left: 2%;"  name="officeStartTime" readonly onchange="officeStartTimeFunc(event)" id="officeStartTime" value=<%if(oldValues.old){%>
+																		<%- JSON.stringify(oldValues.old.officeStartTime) %>
+																	<%}else{
+																		if(oldValues){%>
+																			<%- JSON.stringify(oldValues.officeStartTime) %>
+																		<%}
+																	}%>>
+																	<script>
+																		$('#officeStartTime').timepicker({															
+																				uiLibrary: 'bootstrap5',																	
+																		});
+																		$("#officeStartTime").on("focus", function() {																
+																			$(".officeStartTime .clock").click()
+																		});
+																	</script>				
+																	<div id="startTime"></div>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Office exit time:</strong></div>
+																<div class="item-data officeEndTime">
+																	<input class="form-control"  style="padding-left: 2%;"  readonly name="officeEndTime" onchange="officeEndTimeFunc(event)" id="officeEndTime" value=<%if(oldValues.old){%>
+																		<%- JSON.stringify(oldValues.old.officeEndTime) %>
+																	<%}else{
+																		if(oldValues){%>
+																			<%- JSON.stringify(oldValues.officeEndTime) %>
+																		<%}
+																	}%>>
+																	<script>
+																		$('#officeEndTime').timepicker({															
+																				uiLibrary: 'bootstrap5',																	
+																		});
+																		$("#officeEndTime").on("focus", function() {																
+																			$(".officeEndTime .clock").click();
+																		});
+																	</script>		
+																	<div id="endTime"></div>
+																</div>  
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Total minutes:</strong></div>
+															<div class="item-data">
+																<input  class="form-control"  name="totalMinutes" id="totalMinutes" readonly type="text" value=<%if(oldValues.old){%>
+																	<%= oldValues.old.totalMinutes %>
+																<%}else{
+																	if(oldValues){%>
+																		<%= oldValues.totalMinutes %>
+																	<%}
+																}%>>
+															</div> 
+															</div>
+														</div>
+													</div>
+												</div>
+											</div><!--//item-->	
+											<div class="item border-bottom py-3" >
+												<div class="row justify-content-between">														
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Ask late entry reason from:</strong></div>
+																<div class="item-data lateEntryTime">
+																	<input class="form-control" style="padding-left: 2%;" name="lateReasonMinute" readonly onchange="lateTimeFunc(event)" id="lateEntryReason" value=<%if(oldValues.old){%>
+																		<%- JSON.stringify(oldValues.old.lateReasonMinute) %>
+																	<%}else{
+																		if(oldValues){%>
+																			<%- JSON.stringify(oldValues.lateReasonMinute) %>
+																		<%}
+																	}%>>
+																	<script>
+																		$('#lateEntryReason').timepicker({															
+																				uiLibrary: 'bootstrap5',																	
+																		});
+																		$("#lateEntryReason").on("focus", function() {																
+																			$(".lateEntryReason .clock").click();
+																		});
+																	</script>	
+																	<div id="lateTime"></div>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Attendance Type:</strong></div>
+																<div class="item-data">
+																	<select id="attendanceTypeSelector" name="attendanceType" class="form-control form-select" onchange="selectedLeaveCreditTypeChange()">
+																		<option value="Card" <%if(oldValues.old){
+																			if(oldValues.old.attendanceType=='Card') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.attendanceType=='Card') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Card
+																		</option>
+																		<option value="Tracker" <%if(oldValues.old){
+																			if(oldValues.old.attendanceType=='Tracker') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.attendanceType=='Tracker') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Tracker
+																		</option>
+																		<option value="Client Tracker" <%if(oldValues.old){
+																			if(oldValues.old.attendanceType=='Client Tracker') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.attendanceType=='Client Tracker') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>
+																		>Client Tracker
+																		</option>																		
+																	</select>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Consider Overtime?</strong></div>
+																<div class="item-data">
+																	<select name="overtime" class="form-control form-select" id="overTimeCheckOut" onchange="ShowHideDiv()">
+																			<option value="false" <%if(oldValues.old){
+																				if(oldValues.old.overtime === false) {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}else{
+																				if(oldValues){
+																					if(oldValues.overtime === false) {%>
+																						<%= 'selected' %>
+																					<%} 
+																				}
+																			}%>>No</option>
+																		<option value="true" <%if(oldValues.old){
+																			if(oldValues.old.overtime === true) {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.overtime === true) {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Yes</option>
+																	</select>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>	
+													<div class="col-sm-3">
+														<div class="col-auto <%if(oldValues.old){
+															if(oldValues.old){
+																if(oldValues.old.overtime === true){%>
+																	showOverTimeMinutes
+																<%}else{%>
+																	hideOverTimeMinutes
+																<%}
+															}else{%>
+																hideOverTimeMinutes
+															<%}
+														}else{
+															if(oldValues){
+																if(oldValues.overtime === true){%>
+																	showOverTimeMinutes
+																<%}else{%>
+																	hideOverTimeMinutes
+																<%}
+															}else{%>
+																hideOverTimeMinutes
+															<%}
+														}%>
+														" id="overTimeMinuteValue">
+															<div class="mb-3">
+																<div class="item-label"><strong>Consider over time after minutes:<span class="requiredField">*</span></strong></div>
+																<div class="item-data">
+																	<input class="form-control" min="0" step="1" name="overTimeMinute" onKeyPress="if(this.value.length==2) return false;"  type="number" value=<%if(oldValues.old){%>
+																		<%= oldValues.old.overTimeMinute %>
+																	<%}else{
+																		if(oldValues){%>
+																			<%= oldValues.overTimeMinute %>
+																		<%}
+																	}%>>
+																</div> 
+															</div>
+														</div>
+													</div>	
+												</div><!--//row-->
+											</div><!--//item-->
+											<div class="item border-bottom py-3" style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Leave Credit Type</strong></div>
+																<div class="item-data">
+																	<select id="leaveCreditSelector" name="leaveCreditType" class="form-control form-select" onchange="selectedLeaveCreditType()">
+																		<option value="Monthly" <%if(oldValues.old){
+																			if(oldValues.old.leaveCreditType=='Monthly') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.leaveCreditType=='Monthly') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Monthly</option>
+																		<option value="None" <%if(oldValues.old){
+																			if(oldValues.old.leaveCreditType=='None') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.leaveCreditType=='None') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>None</option>
+																	</select>
+																</div> <!-- form-group end.// -->
+															</div>
+															<div class="mb-3">																
+																<input type="hidden" id="tempAttendanceType" value='<%if(oldValues.old){%>
+																	<%= oldValues.old.attendanceType %>
+																<%}else{
+																	if(oldValues){%>
+																		<%= oldValues.attendanceType %>
+																	<%}
+																}%>'> 
+															</div>
+															<div class="mb-3">																
+																<input type="hidden"  id="tempLeaveMinute" value='<%if(oldValues.old){%>
+																	<%= oldValues.old.leaveTotalMinutes %>
+																<%}else{
+																	if(oldValues){%>
+																		<%= oldValues.leaveTotalMinutes %>
+																	<%}
+																}%>'> 
+															</div>
+														</div>	
+													</div>		
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3" >
+																<div class="item-label"><strong>Leave Credit Total Minutes</strong></div>
+																<div class="item-data" >
+																	<input  name="leaveTotalMinutes" id="leaveTotalMinutes" readonly class="form-control" type="text" value=<%if(oldValues.old){
+																		if(oldValues.old.leaveTotalMinutes){%>
+																			<%= oldValues.old.leaveTotalMinutes %>
+																		<%}
+																	}else{
+																		if(oldValues){
+																			if(oldValues.leaveTotalMinutes){%>
+																				<%= oldValues.leaveTotalMinutes %>
+																			<%}	
+																		}
+																	}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Organization Type</strong></div>
+																<div class="item-data">
+																	<select name="organizationType" class="form-control form-select">
+																		<option value="Bigscal" <%if(oldValues.old){
+																			if(oldValues.old.organizationType=='Bigscal') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.organizationType=='Bigscal') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Bigscal
+																		</option>
+																		<option value="Healthray" <%if(oldValues.old){
+																			if(oldValues.old.organizationType=='Healthray') {%>
+																				<%= 'selected' %>
+																			<%} 
+																		}else{
+																			if(oldValues){
+																				if(oldValues.organizationType=='Healthray') {%>
+																					<%= 'selected' %>
+																				<%} 
+																			}
+																		}%>>Healthray
+																		</option>
+																	</select>
+																</div>
+															</div>
+														</div>
+													</div>	
+												</div>		
+											</div><!--//item-->	
+										</div><!--//faq2-accordion-->
+									</div><!--//app-card-body-->
+								</div><!--//app-card-->
+								<!--//app-card-->
+								<div class="app-card app-card-accordion shadow-sm mb-4 card-neumorphic">
+									<div class="app-card-header p-3 bg-success cardHeader">
+										<h4 class="app-card-title"><strong>Resignation Details :</strong></h4>
+									</div>
+									<!--//app-card-header-->
+									<div class="app-card-body p-2 pt-0">
+										<div id="faq2-accordion" class="faq2-accordion faq-accordion accordion">
+											<div class="item border-bottom py-3">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Resignation
+																		Date:</strong></div>
+																<div class="item-data">
+																	<input name="resignationDate" class="form-control"
+																		id="resignDate" type="date" min="1900-01-01"
+																		onchange="noticePeriodChange()"
+																		max="9999-12-31"
+																		value=<%if(oldValues.old){
+																			if(oldValues.old.resignationDate){%>
+																				<%= oldValues.old.moment(oldValues.old.resignationDate).format("YYYY-MM-DD"); %>
+																			<%}
+																		}else{
+																			if(oldValues){
+																				if(oldValues.resignationDate){%>
+																					<%= oldValues.moment(oldValues.resignationDate).format("YYYY-MM-DD"); %>
+																				<%}
+																			}
+																		}%>>																		
+																	</div> <!-- form-group// -->
+																</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Notice Period:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="noticePeriod" onKeyPress="if(this.value.length==2) return false;" class="form-control"
+																		placeholder="Notice Period In Month" type="number" id="noticePeriod"
+																		onkeyup="noticePeriodChange()"
+																		value=<%if(oldValues.old){
+																			if(oldValues.old.noticePeriod){%>
+																				<%= oldValues.old.noticePeriod %>
+																			<%}
+																		}else{
+																			if(oldValues){
+																				if(oldValues.noticePeriod){%>
+																					<%= oldValues.noticePeriod %>
+																				<%}
+																			}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label"><strong>Last Date:</strong>
+																</div>
+																<div class="item-data">
+																	<input name="lastDate" class="form-control"
+																		type="date" id="resignLastDate" min="1900-01-01"
+																		max="9999-12-31"
+																		value=<%if(oldValues.old){
+																			if(oldValues.old.lastDate){%>
+																				<%= oldValues.old.moment(oldValues.old.lastDate).format("YYYY-MM-DD"); %>
+																			<%}
+																		}else{
+																			if(oldValues){
+																				if(oldValues.lastDate){%>
+																					<%= oldValues.moment(oldValues.lastDate).format("YYYY-MM-DD"); %>
+																				<%}
+																			}
+																		}%>>
+																</div> <!-- form-group// -->
+															</div>
+														</div>
+													</div>
+												</div>
+												<!--//row-->
+											</div>
+											<!--//item-->
+										
+											<!--//item-->
+											<!--//card-->
+											<%if(oldValues.old){
+												if(oldValues.old.photo) {%>
+													<script>
+														window.onload = function() {
+															$('.updatedProfilePhoto').load(document.URL +  ' .updatedProfilePhoto');
+														};
+													</script>	
+												<%}
+											}else{
+												if(oldValues){
+													if(oldValues.photo) {%>
+														<script>
+															window.onload = function() {
+																$('.updatedProfilePhoto').load(document.URL +  ' .updatedProfilePhoto');
+															};
+														</script>	
+													<%}
+												}
+											}%>
+											<div class="item border-bottom py-3"
+												style="border-bottom: none !important;">
+												<div class="row justify-content-between align-items-center row-6">
+													<div class="col-sm-4">
+														<div class="col-auto">
+															<div class="mb-3 updatedProfilePhoto">
+																<div class="item-label"><strong>Photo:</strong></div>
+																<div class="item-data row">
+																	<div class="col-10">
+																		<input type="file" onchange="imagePreview(this,'imagepreview')" class="form-control" name="photo" accept="image/*" style="overflow:hidden ;">
+																		<%if(oldValues.old){
+																			if(oldValues.old.photo){%>
+																				<label style="color: green;">"Photo Already Uploaded"</label>
+																			<%}
+																		}else{
+																			if(oldValues){
+																				if(oldValues.photo){%>
+																					<label style="color: green;">"Photo Already Uploaded"</label>
+																				<%}
+																			}
+																		}%>
+																	</div>
+																	<div class="col-2">																	
+																		<%if(oldValues.old){
+																			if(oldValues.old.photo) {%>
+																				<a data-fancybox="gallery" href="<%- oldValues.old.photo %>">
+																					<img id="imagepreview" class="img-thumbnail" src="<%= oldValues.old.photo %>"/>
+																				</a>	
+																			<%}else{%>
+																				<img id="imagepreview" class="img-thumbnail" style="display: none;"/>
+																			<%}
+																		}else{
+																			if(oldValues){
+																				if(oldValues.photo) {%>
+																					<a data-fancybox="gallery" href="<%- oldValues.photo %>">
+																						<img id="imagepreview" class="img-thumbnail" src="<%= oldValues.photo %>"/>
+																					</a>	
+																				<%}else{%>
+																					<img id="imagepreview" class="img-thumbnail" style="display: none;"/>
+																				<%}
+																			}
+																		}%>
+																		</div>
+																</div> <!-- form-group end.// -->
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-5">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label">&nbsp;</div>
+																<div class="item-data">
+																</div>
+															</div>
+														</div>
+													</div>
+													<div class="col-sm-3">
+														<div class="col-auto">
+															<div class="mb-3">
+																<div class="item-label">&nbsp;</div>
+																<div class="item-data">
+																	<button type="submit"
+																		class="btn btn-sucess btn-block btn-green-neumorpic"	
+																		style="border-radius: 0;"> Update Details
+																	</button>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+											<!--//item-->
+										</div>
+										<!--//faq2-accordion-->
+									</div>
+									<!--//app-card-body-->
+								</div>							
+								<!--//app-card-->
+							</form>
+					</div>					
+					<!--//container-fluid-->
+				</div>
+				<!--//app-content-->
+				<%- include('../layout/footer') -%>	
+			</div>
+			<!--//app-wrapper-->
+		</div>
+		<%- include('../layout/script') -%>
+		<script src="/js/addEmployeeAttendance.js"></script>
+		<script src="/js/utcToLocalConversionUpdateEmp.js"></script>
+		<script src="/js/checkPasswordMatch.js"></script>
+		<script src="/js/designationHandler.js"></script>
+		<script src="/js/dateHandler.js"></script>
+		<script src="/js/dropDownSelection.js"></script>
+		<script src="/js/payrollDateHandler.js"></script>
+		<script src="/js/imageFilePreview.js"></script>
+		
+		 
+		
+		
+		
+
+		
+		
+		
+		
+		
+
+
+
+
+		
+</body>
+<script>
+		
+	$(document).ready(function() {
+
+var data = {}; 
+$("#encodings option").each(function(i,el) {  
+	data[$(el).data("value")] = $(el).val();
+});
+ $('#bankName').change(function(){
+	var value = $('#bankName').val();
+	var userId = $('#encodings [value="' + value + '"]').data('value');
+	if(!userId){
+		$('#bankId').val("");
+		return false;
+	}else{
+		$('#bankId').val(userId);
+	}
+});
+$('#bankName').keydown(function(){
+	$('#bankId').val("");
+});
+
+});
+
+</script>
+</html>

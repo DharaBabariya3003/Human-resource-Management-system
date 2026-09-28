@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>
+	<style>
+    td.details-control {
+      background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center !important;
+      cursor: pointer;
+    }
+		tr.shown td.details-control {
+      background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center !important;
+    }
+		.hideTd {
+      display: none;
+    }
+    .userName {
+      text-transform: capitalize;
+    }
+    table{
+      width:100%;
+      table-layout:fixed;
+    }
+	</style>
+</head>
+<body>
+<%- include('../layout/header') -%>
+<div class="app">
+	<div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+			  <div class="row g-3 mb-4 align-items-center justify-content-between">
+					<div class="col-auto">
+						<h1 class="app-page-title mb-0">Logs Detail</h1>
+          </div>
+          
+          <div class="col-auto">
+            <div class="page-utilities">
+              <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                <div class="col-auto">
+                  <select class="form-select form-select-sm w-auto form-control empAttendanceType" id="selectedOption">
+                    <option value="All" selected>All Users</option>
+                    <%
+                      if(oldValues.hrAndadminObject){
+                        oldValues.hrAndadminObject.forEach(element=>{
+                          var firstName = '',middleName = '',lastName = '';
+                          if(element.firstName){
+                          firstName = element.firstName;
+                          }
+                          if(element.middleName){
+                            middleName = element.middleName;
+                          }
+                          if(element.lastName){
+                            lastName = element.lastName;
+                          }%>
+                          <option value=<%= element._id %>><%= firstName+" "+middleName+" "+lastName %></option>
+                        <%})
+                      }
+                    %>
+                  </select>
+                </div>
+                								
+                <div class="col-auto">
+                  <div class="page-utilities">
+                    <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                      <div class="col-auto">						    
+                        <input type="text" class="form-control" name="daterangeForLog" id="daterangeForLog" value='<%if(oldValues.dateRangePickerDateForLog){%>
+                          <%= oldValues.dateRangePickerDateForLog %>
+                        <%}%>'>
+                      </div>						
+                    </div>
+                  </div><!--//table-utilities-->
+                </div><!--//col-auto-->
+              </div>
+            </div><!--//table-utilities-->
+						
+				  </div><!--//col-auto-->
+        </div><!--//row-->
+        <table class="table app-table-hover mb-0 text-left " id="example" width="100%">
+				
+				</table>
+			  <div class="tab-content" id="orders-table-tab-content">
+			    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+						<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+							<div class="app-card-body">
+                <table id="logTable" class="table app-table-hover mb-0 text-left">
+                  <thead>
+                    <tr>
+                      <th class="cell">User Name</th>
+                      <th class="cell">Table Name</th>
+                      <th class="cell">Action</th>
+                      <th class="cell">Time</th>
+                      <th class="cell"></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+						  </div><!--//app-card-body-->
+						</div><!--//app-card-->
+			    </div><!--//tab-pane-->
+				</div><!--//tab-content-->
+		  </div><!--//container-fluid-->
+	  </div><!--//app-content-->
+		<%- include('../layout/footer') -%>
+	</div><!--//app-wrapper-->   
+</div>
+<%- include('../layout/script') -%>
+<script src="/js/attendance.js"></script>
+<script>
+$(function() {
+  $('input[name="daterangeForLog"]').daterangepicker({
+    opens: 'left',
+    maxDate: new Date(),
+    locale: {
+      format: 'DD/MM/YYYY'
+    }
+  });
+});
+
+</script>
+<script>
+  function format(oldAndnewRecord) {
+      let start = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;background-color:#f6f8fe;width: 100%;"%>';
+      let end = '</table>';
+
+      var leftQ = 'left_'+Math.floor(Math.random() * 1000000000);
+      var rightQ = 'right_'+Math.floor(Math.random() * 1000000000);
+
+      var cols =
+      `<tr>
+        <th><strong>oldRecord</strong></th>
+        <th><strong>newRecord</strong></th>
+      </tr>
+      <tr style="border-bottom:1px solid gray">
+        <td class="oldRecord"><pre class="left-json-holder" id=${leftQ}>${JSON.stringify(oldAndnewRecord.oldRecord)}</pre></td>
+        <td class="newRecord"><pre class="right-json-holder" id=${rightQ}>${JSON.stringify(oldAndnewRecord.newRecord)}</pre></td> 
+      </tr>`;
+
+      let childTable = start + cols + end;
+      return childTable;
+    }
+  
+    $(function () {
+      var table;
+      $("#daterangeForLog").change(function () {
+        table.ajax.reload(null, false);
+      });
+      $("#selectedOption").change(function(){
+        table.ajax.reload(null, false);
+      });
+      table = $("#logTable").DataTable({
+        "autoWidth": false,
+        "scrollX": true,
+        "order": [[0, 'asc']],
+        "serverSide": true,
+        "ordering": false,
+        "serverMethod": 'get',
+        'ajax': {
+          'url': '/admin/api/logTable',
+          'data': function (data) {
+            data.selectedOption = $('#selectedOption').val();
+            data.daterangeForLog = $('#daterangeForLog').val();
+          }
+        },
+        "columns": [{
+          data: null,
+          "defaultContent": "-",
+          "className": "userName",
+          "render": function (data, type, row) {
+            if(row.user){
+              let firstName = "", middleName = "", lastName = "";
+              if (row.user.firstName) {
+                firstName = row.user.firstName;
+              }
+              if (row.user.middleName) {
+                middleName = row.user.middleName;
+              }
+              if (row.user.lastName) {
+                lastName = row.user.lastName;
+              }
+              return `${firstName + " " + middleName + " " + lastName}`;
+            }
+          }
+        }, {
+          data: "tableName",
+          "defaultContent": "-"
+        }, {
+          data: "action",
+          "defaultContent": "-"
+        }, {
+          data: "createdAt",
+          "defaultContent": "-",
+          "render": function (data, type, row) {
+            return `<strong>${moment(row.createdAt).format("DD-MM-YYYY hh:mm A")}</strong>`;
+          }
+        }, {
+          data: "",
+          "defaultContent": "-",
+          "className": "details-control",
+          "render": function (data, type, row) {
+            return "";
+          },
+        }
+      ]
+      });
+
+      $('#logTable').on('click', 'td.details-control', function () {
+        var tr = $(this).closest('tr');
+        var row = table.row(tr);
+        if (row.child.isShown()) {
+          // This row is already open - close it
+          row.child.hide();
+          tr.removeClass('shown');
+        } else {
+          // Open this row
+          row.child(format(row.data())).show();
+
+          $(".left-json-holder").each(function(i, obj) {                
+            var leftBlockId = $(obj).attr("id");
+            var rightBlockId = $(obj).closest("table").find(".right-json-holder").attr('id'); 
+            $(document).jdd(leftBlockId, rightBlockId);
+          });
+
+          tr.addClass('shown');
+        }
+      });
+    });
+  
+</script>
+
+</body>
+</html>

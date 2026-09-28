@@ -1,0 +1,652 @@
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+<style>
+	td.details-control {
+	 background: url('http://www.datatables.net/examples/resources/details_open.png') no-repeat center center;
+	 cursor: pointer;
+ }
+ tr.shown td.details-control {
+		 background: url('http://www.datatables.net/examples/resources/details_close.png') no-repeat center center;
+ }
+</style>
+</head>		
+<body>
+<%- include('../layout/header') -%>   
+<div class="app">	
+	<div class="app-wrapper">
+	  <div class="app-content pt-3 p-md-3 p-lg-4">	
+		  <div class="container-xl">
+				<input type="hidden" id="useroverTimeStatusValue" value=<%if(oldValues){%>
+					<%= oldValues.useroverTimeStatus%>
+					<%}%>>
+			  <div class="row g-3 mb-4 align-items-center justify-content-between">
+				  <div class="col-auto">
+						<input type="hidden" id="loggedUser" value="<%= oldValues.loggedUser %>">
+						<h1 class="app-page-title mb-0">Monthly attendance record of employee</h1>
+						<h6 style="color: green;"><strong>
+							<%if(oldValues.name){%>
+								Name: <%= oldValues.name %>
+							<%}%>		
+						</strong></h6>
+					</div>
+					<div class="col-auto">		
+							<input type="text" id="userID" hidden value="<%= oldValues.user %>" />	
+					</div>
+					<div class="col-auto">																	    
+						<input type="month" max='<%if(oldValues.current_month){%><%= oldValues.current_month%><%}%>' 
+						name="attendancemonth" id="attendanceMonth" class="form-control"  onchange="attendanceMonthHandler(event,'<%= oldValues.user %>')" value=<%if(oldValues.attendanceMonth)
+						{%><%= oldValues.attendanceMonth%><%}%>>	
+					</div>	
+				</div><!--//col-auto-->		
+				<table class="table app-table-hover mb-0 text-left" id="example" width="100%">
+					<thead>
+						<tr>
+							<td class="cell">
+								<div class="item-label" style="color: green;"><strong>Total Present Days:  
+										<% if(oldValues.presentDays) {%>
+											<%= oldValues.presentDays %>
+										<%}else{%>
+											0
+										<%}%>									
+									</strong>
+								</div>
+							</td>							
+							<td class="cell">
+								<div class="item-label" style="color: green;"><strong>Over Time(Minutes): 
+									<% if(oldValues.overTime) {%>
+										<%= oldValues.overTime %>
+									<%}else{%>
+										0
+									<%}%>	
+								</strong>
+								</div>
+							</td>
+							<td class="cell">
+								<div class="item-label" style="color: green;"><strong>Deducted Minute: 
+									<% if(oldValues.halfLeaveMinute) {%>
+										<%= oldValues.halfLeaveMinute %>
+									<%}else{%>
+										0
+									<%}%>	
+								</strong></div>
+							</td>
+							<td class="cell">
+								<div class="item-label" style="color: green;"><strong>Full Day Leave: 
+									<% if(oldValues.fullDayLeave) {%>
+										<%= oldValues.fullDayLeave %>
+									<%}else{%>
+										0
+									<%}%>	
+								</strong></div>
+							</td>
+						</tr>
+					</thead>
+				</table>	
+				<div class="tab-content" id="orders-table-tab-content">
+			    <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+					  <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+						  <div class="app-card-body">		
+								<span id="attendanceLogsRecord" style="display: none;"> <%= oldValues.attendanceLogs %> </span>					
+								<span id="attendanceLogCapture" style="display: none;"> <%= oldValues.attendanceLogCapture %> </span>
+								<input type="hidden" id="holidayOfMonth" value=<%= oldValues.holidayOfMonth %>>
+								<input type="hidden" id="monthSundays" value=<%= oldValues.monthSundays %>>
+								
+								 
+								<table class="table app-table-hover mb-0 text-left" id="monthlyAttendanceTable" width="100%">
+									<thead>
+									  <tr>									
+											<th class="cell">Sr.No.</th>
+											<th class="cell">Date</th>
+											<th class="cell">In Time</th>
+											<th class="cell">Out Time</th>
+											<th class="cell">Over Time(In Minutes)</th>
+											<th class="cell">Extra Minutes</th>
+											<th class="cell">Total Time</th>
+											<th class="cell">Extra Reason</th>
+											<th class="cell">Mode</th>
+											<th class="cell">Total Minutes</th>																		
+											<th class="cell"></th>
+											<th class="cell"></th>
+											<th class="cell">Day</th>
+											<th class="cell"></th>
+										</tr>
+									</thead>	
+									<tbody>
+
+									</tbody>
+									</table>																
+						  </div><!--//app-card-body-->		
+						</div><!--//app-card-->					
+			    </div><!--//tab-pane-->					        			        
+				</div><!--//tab-content-->										    
+		  </div><!--//container-fluid-->
+	  </div><!--//app-content-->	    
+		<%- include('../layout/footer') -%>   			    
+	</div><!--//app-wrapper-->   		
+</div>
+<%- include('../layout/script') -%> 
+<script src="/js/attendance.js"></script>
+<script src="/js/showAttendanceDatetable.js"></script>
+<script src="/js/deleteAttendanceRecord.js"></script>
+<script>
+	function getTimeDiff(startTime,endTime){
+  let workingHours;
+  let entryTime = moment.duration(startTime, "HH:mm ");
+  let exitTime = moment.duration(endTime, "HH:mm ");
+  let diff = exitTime.subtract(entryTime);
+  let diffH = diff.hours();
+  let diffM = diff.minutes();
+  if(diffH<0 || diffM<0){
+    workingHours = "-";
+  }else{
+    diffH = format_two_digits(diff.hours());
+    diffM = format_two_digits(diff.minutes());
+    workingHours = diffH + ":" + diffM;
+  }
+  return workingHours ;
+	}
+	function format_two_digits(n) {
+		return n < 10 ? '0' + n : n;
+	}
+	function getLocalTime(dateAndTime) {
+		let localTime = moment.utc(dateAndTime).local().format(); 
+		let localHours = new Date(localTime).getHours();
+		let localMinutes = new Date(localTime).getMinutes();
+		let localH = format_two_digits(localHours);
+		let localM = format_two_digits(localMinutes);
+		
+		let localHnM = localH+":"+localM ;	
+		return localHnM ;
+	}
+	(function() {
+    'use strict';
+    // Your code here...
+    $("tbody").find("tr").each(function() {
+
+		var startTd = $(this).find('td.startTimeClass');
+		var endTd = $(this).find('td.endTimeClass');
+		var totalTime = $(this).find('td.totalTimeClass');
+
+		var s = startTd.text();
+		var e = endTd.text();
+		var t = totalTime.text();
+		
+		s = s.trim();
+		e = e.trim();
+		t = t.trim();
+
+		let startLocalTime;
+			if(s !== "-"){
+				startLocalTime = getLocalTime(s);
+				startTd.text(interviewTimeToHours(getLocalTime(s)));
+			}else{
+				startTd.text("-")
+			}
+
+			if(e !== "-"){
+				endTd.text(interviewTimeToHours(getLocalTime(e)));
+			}else{
+				endTd.text("-");
+			}
+
+			var hours,minutes;
+			if(t !== "-"){
+				if(e !== "-"){
+				t=t.split(":");
+
+				if(t[0].length==1){
+					hours = format_two_digits(parseInt(t[0]));
+				}else{
+					hours = t[0];
+				}
+
+				if(t[1].length==1){
+					minutes = format_two_digits(parseInt(t[1]));
+				}else{
+					minutes = t[1];
+				}
+				totalTime.text(hours+":"+minutes)
+				}else{
+					let currentTime = moment().format("HH:mm");
+					let workingHourss = getTimeDiff(startLocalTime,currentTime);
+					totalTime.text(workingHourss)
+				}
+			}else{
+				totalTime.text('-');
+			}
+		});
+})();
+
+</script>
+
+<script>
+	$(function () {	
+		var table;
+
+		let loggedUser = $("#loggedUser").val();
+		
+		$.fn.loadAttendancePage = function(){
+			table.ajax.reload(null, false);
+		}
+
+		table = $("#monthlyAttendanceTable").DataTable({
+			"autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'desc' ]],
+			"serverSide": true,
+			"ordering": false,
+      "serverMethod": 'get',
+			'ajax': {
+				'url': '/admin/api/monthlyAttendanceTable',						
+				'data' : function (data) {
+					let userID = document.getElementById("userID").value;					
+					data.userId = userID;
+					let attendanceMonth = document.getElementById("attendanceMonth").value;
+					data.attendanceMonth = attendanceMonth;
+				}
+			},  
+			"columns": [{
+				data: "",
+				className: 'hideTd',
+				"defaultContent": "-"		
+			},{
+				data: "date",
+				className:"attendanceDate",
+				"defaultContent": "-"
+			},{
+				data: "startTime",
+				"className": "startTimeClass",
+				"defaultContent": "-",
+				"render":function(data, type, row){											
+									let inTime =	convertIntime(row.startTime);
+									return `<span>  ${inTime} </span>`;
+				}	
+			},{
+				data: "endTime",
+				"className": "endTimeClass",
+				"defaultContent": "-",
+				"render":function(data, type, row){											
+									let outTime =	convertOuttime(row.endTime);
+									return `<span>  ${outTime} </span>`;
+				}	
+			},{
+				data: "overTime",
+				"defaultContent": "-"
+			},{
+				data: "extraMinutes",
+				"defaultContent": "-"
+			},{
+				data: "totalTime",
+				"className": "totalTimeClass",
+				"defaultContent": "-",	
+				"render":function(data, type, row){											
+									let totalTime =	convertTotaltime(row.totalTime, row.endTime, row.startTime);
+									return `<span>  ${totalTime} </span>`;
+				}	
+			},{
+				data: "extraMinutesReason",
+				"defaultContent": "-"
+			},{
+				data: "attendanceType",
+				"defaultContent": "-",	
+				"render":function(data, type, row){
+						return `<strong class="modeFontColor">  ${row.attendanceType} </strong>`;
+				}
+			},{
+				data: "totalMinutes",
+				"defaultContent": "-",	
+				"render":function(data, type, row){
+						return `<strong class="modeFontColor">  ${row.totalMinutes} </strong>`;
+				}
+			},{
+				data: "",
+				"defaultContent": "-"	,
+				"className": "details-control",
+				"render" : function(data, type, row){
+									return "";
+				},
+			},{
+						data: "",						
+						"render":function (data, type, row) {
+							var status = document.getElementById("useroverTimeStatusValue").value;
+							status = status.trim();
+							var columnData;
+							if(status === 'true'){
+								if(row.overtimeCheckout){
+									columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled checked onclick="perDateOvertimeCheck('${this}','${row._id}');" >
+										<label class="form-check-label" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`				
+								}else{
+									columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled onclick="perDateOvertimeCheck('${this}','${row._id}');" >
+										<label class="form-check-label" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`				
+								}
+							}
+							else{
+								if(row.overtimeCheckout){
+									columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled checked >
+										<label class="form-check-label overTimeFontColor" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`
+								}else{
+								columnData= `
+									<div class="form-check overTimeCheckBox">
+										<input class="form-check-input" type="checkbox" value="" id="overtimeCheckout" disabled  >
+										<label class="form-check-label overTimeFontColor" for="flexCheckDefault">
+											Overtime
+										</label>
+									</div>
+								`
+								}
+							}	
+							return columnData;
+					},            
+				},{
+				data: "",
+				"defaultContent": "-"	,
+				"render" : function(data, type, row){
+					let status;
+					var holidayOfMonth = $('#holidayOfMonth').val();
+					let monthSundays = $('#monthSundays').val();
+					const holidayResult = holidayOfMonth.includes(moment(new Date(row.date)).format("YYYY-MM-DD").toString());
+					const sundayResult = monthSundays.includes(moment(new Date(row.date)).format("YYYY-MM-DD").toString());
+					if(holidayResult){ 
+						status = 'Holiday';
+					}else if(sundayResult){
+						status = 'Sunday';
+					}else{
+						status = '-';
+					}
+					return `
+					<div class="overTimeCheckBox">
+						<strong class="modeFontColor">  ${status} </strong>
+					</div>	
+					`;
+				},
+			},{
+				data: "",
+				"defaultContent": ""	,
+				"render" : function(data, type, row){
+					if(loggedUser == 'admin'){
+						return `<button onclick="$.fn.deleteAttendance('${row._id}','${row.user}','${row.date}');" type="button" class="deleteAttendance btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete"><i class="fas fa-trash-alt"></i></button>`;
+					}
+				},
+			}
+						 			
+		],
+		
+			"fnRowCallback": function(nRow, aData, iDisplayIndex) {
+				var oSettings = table.settings()[0];
+				$("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+				return nRow;
+			},		
+		});
+
+  // Add event listener for opening and closing details
+  $('#monthlyAttendanceTable').on('click', 'td.details-control', function () {
+    var tr = $(this).closest('tr');
+    let a = document.getElementById("attendanceLogsRecord").textContent;		
+		let b =  tr.find(".attendanceDate").text(); 
+		let c = document.getElementById("attendanceLogCapture").textContent;
+		a = JSON.parse(a);    
+		
+    var row = table.row(tr);               
+    if (row.child.isShown()) {
+        // This row is already open - close it
+        row.child.hide();
+        tr.removeClass('shown');
+    } else {
+        // Open this row
+        row.child(format(a,b,c)).show(); 
+        tr.addClass('shown');
+    }
+  });
+	
+	});
+	function format(attendancelogs,date,attendanceLogCapture) {
+	let loggedUserInfo = document.getElementById('loggedUser').value;
+	
+  let a = 0;
+  let j = 0;
+  let start = '<table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;background-color:#f6f8fe;width: 100%;font-size:13px">';
+  let end = '</table>' ;
+	let flag = 0; 
+	let convert =	JSON.parse(JSON.stringify(attendanceLogCapture));
+	attendanceLogCapture = JSON.parse(convert);
+
+	let tableHeader;
+	let tableHeaderUp = `<tr>
+            <th><strong>Sr No.</strong></th>
+            <th><strong>In Time</strong></th>
+            <th><strong>Out Time</strong></th>
+            <th><strong>Total Time</strong></th>
+            <th><strong>Late Reason</strong></th>
+            <th><strong>Leave Reason</strong></th>
+            <th><strong>Overtime Reason</strong></th>
+            <th><strong>Updated Reason</strong></th>
+	<th><strong>Action</strong></th>`;
+	let tableHeaderMiddle = `<th><strong>Delete</strong></th>`;
+	let tableHeaderBottom = `<th><strong>Entry</strong></th>
+	<th><strong>Exit</strong></th>
+        </tr>`
+
+	if(loggedUserInfo == 'admin'){
+		tableHeader = tableHeaderUp + tableHeaderMiddle + tableHeaderBottom;
+	}else{
+		tableHeader = tableHeaderUp +  tableHeaderBottom;
+	}
+
+  for(i = 0; i < attendancelogs.length; i++){  
+
+		let startCapture;
+		let endCapture;
+		for(let j = 0; j < attendanceLogCapture.length; j++){			
+			if((attendanceLogCapture[j].attendanceLogId == attendancelogs[i]._id) && attendanceLogCapture[j].captureType == "Entry"){				
+				startCapture = attendanceLogCapture[j].key;
+			}else if((attendanceLogCapture[j].attendanceLogId == attendancelogs[i]._id) && attendanceLogCapture[j].captureType == "Exit"){
+				endCapture = attendanceLogCapture[j].key;
+			}
+		}
+		if(!startCapture){
+			startCapture = "/assets/images/no-capture.png";
+		}	
+		if(!endCapture){
+			endCapture = "/assets/images/no-capture.png";
+		}
+    let logDate = new Date(attendancelogs[i].createdAt).toDateString();
+    if(logDate.trim() === date.trim()){
+			let totalTime = "-";
+      let printEndTime = '-';
+      let lateReason ="-";      
+      let leaveReason="-";
+      let overtimeReason="-";
+			let updateReson ="-";
+			let mode ="-";
+      if(attendancelogs[i].updateRecord[0]){
+        updateReson = attendancelogs[i].updateRecord[0].updateReason;
+        for(let j = 1;j < attendancelogs[i].updateRecord.length ;j++)
+        {
+          updateReson = updateReson +"<br>"+ attendancelogs[i].updateRecord[j].updateReason;
+        }      
+      }
+      if(attendancelogs[i].lateReason){
+        lateReason = attendancelogs[i].lateReason;
+      }
+      if(attendancelogs[i].leaveReason){
+        leaveReason = attendancelogs[i].leaveReason;
+      }
+      if(attendancelogs[i].overtimeReason){
+        overtimeReason = attendancelogs[i].overtimeReason;
+      }
+      if(attendancelogs[i].endTime) {
+				printEndTime = interviewTimeToHours(getLocalTime(attendancelogs[i].endTime));
+				let endTime,startTime;
+				if(attendancelogs[i].attendanceMode.trim() == 'Card'){
+					startTime = moment.duration(getUtcHnM(attendancelogs[i].startTime), "HH:mm ");
+					endTime = moment.duration(getUtcHnM(attendancelogs[i].endTime), "HH:mm ");
+					let diff = endTime.subtract(startTime);
+					let diffH = diff.hours(); 
+					let diffM = diff.minutes();
+					totalTime =  diffH + ":" + diffM;
+				}else{
+					endTime = moment(attendancelogs[i].endTime);
+					startTime = moment(attendancelogs[i].startTime);
+					let minuteDiffBtnLog = endTime.diff(startTime, 'minutes');
+					let minutesToHours = ((Math.floor(minuteDiffBtnLog / 60) + ':' + minuteDiffBtnLog % 60));
+					totalTime =  minutesToHours;
+				}
+			}
+			
+			let trRowsVal;
+
+			let trRowsUpVal = `<tr style="border-bottom:2px solid gray">
+            <td><strong>${(j=j+1)}</strong></td>
+            <td>${interviewTimeToHours(getLocalTime(attendancelogs[i].startTime))}</td>
+            <td>${printEndTime}</td>
+            <td>${formatTotalTime(totalTime)}</td>
+            <td>${lateReason}</td>
+            <td>${leaveReason}</td> 
+            <td>${overtimeReason}</td>
+            <td>${updateReson}</td>
+			<td> <button type="button" onclick='attendanceDateHandlerEmployeeShowupdate(${JSON.stringify(attendancelogs[i]._id)})' class="btn btn-outline-success btn-round-green-neumorpic" data-toggle="tooltip" title="Edit" style="border-radius: 0%;" data-id=id><i class="fas fa-edit"></i></button> </td> `;
+			let trRowsMiddleVal = `<td> <button type="button" onclick="$.fn.deleteAttendanceLog('${attendancelogs[i]._id}','${attendancelogs[i].user}','${date}');" class="btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete"><i class="fas fa-trash-alt"></i></button> </td>`;
+			let trRowsBottomVal = `<td>
+							<a data-fancybox="gallery" href="${startCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${startCapture}"/>	
+							</a>
+						</td>
+						<td>
+							<a data-fancybox="gallery" href="${endCapture}">																									
+								<img id="imagepreviewofferLetter" class="round-border" src="${endCapture}"/>	
+							</a>
+						</td>
+					</tr>`;
+			if(loggedUserInfo == 'admin'){
+				trRowsVal = trRowsUpVal + trRowsMiddleVal + trRowsBottomVal;
+			}else{
+				trRowsVal = trRowsUpVal  + trRowsBottomVal;
+			}
+      if(flag == 0){
+				a = trRowsVal;
+				flag = 1;
+      }else{
+        a = a + trRowsVal;
+      }                   
+    }
+  }
+  if(a == 0) return start + "<h6><strong>No logs found...</strong></h6>" + end;
+  let finalTable = start + tableHeader + a + end;
+  return finalTable;
+}
+	function convertIntime(intime){
+	let result ;
+	if(intime){	
+		var s = intime.trim();		
+		if(s !== "-"){
+			result= (interviewTimeToHours(getLocalTime(s)));
+		}else{
+			result = "-";
+		}
+	}else{
+		result = "-";
+	}
+	return result;
+	
+}
+	function convertOuttime(outtime){
+	let result ;
+	if(outtime){
+		var e = outtime.trim();	
+		if(e !== "-"){
+			result= (interviewTimeToHours(getLocalTime(e)));
+		}else{
+			result = "-";
+		}
+	}else{
+		result = "-";
+	}
+	
+	return result;
+}
+function convertTotaltime(totaltime, endTime, inTime){	
+	let result;
+	let startLocalTime;
+	//for inTime
+	if(inTime){
+		var s = inTime.trim();			
+		if(s !== "-"){
+			startLocalTime = getLocalTime(s);		
+		}
+	}
+	
+	//for outTime	
+	let e ;
+	if(endTime){
+		e = endTime.trim();	
+		if(e !== "-"){
+			e = (interviewTimeToHours(getLocalTime(e)));
+		}else{
+			e = "-";
+		}
+	}else{
+		e = "-";
+	}
+	
+	//for totalTime
+	let t = totaltime.trim();
+	var hours,minutes;
+			if(t !== "-"){
+				if(e !== "-"){
+				t=t.split(":");
+
+				if(t[0].length==1){	
+					hours = format_two_digits(parseInt(t[0]));
+				}else{
+					hours = t[0];
+				}
+
+				if(t[1].length==1){
+					minutes = format_two_digits(parseInt(t[1]));
+				}else{
+					minutes = t[1];
+				}
+			  result = (hours+":"+minutes)
+				}else{
+					let currentDate = moment(inTime).isSame(moment(), 'day');
+					if(currentDate){
+					let currentTime = moment().format("HH:mm");
+					let workingHourss = getTimeDiff(startLocalTime,currentTime);
+					result = workingHourss;
+					}else{
+						return "-";
+					}
+				}
+			}else{
+				result = '-';
+			}
+			return result;
+}
+
+</script>
+
+
+</body>
+</html>
+
+

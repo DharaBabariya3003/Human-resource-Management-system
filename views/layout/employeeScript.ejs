@@ -1,0 +1,63 @@
+<script src="/assets/jQuery/jquery.min.js"></script>
+<script src="/assets/jQuery/bootstrap-datepicker.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="/assets/jQuery/sweetalert.min.js"></script>
+<script src="/assets/plugins/fontawesome/js/all.min.js"></script>
+<script src="/assets/jQuery/popper.min.js"></script>
+<script src="/assets/jQuery/jquery.dataTables.min.js"></script>
+<script src="/assets/jQuery/dataTables.bootstrap5.min.js"></script>
+<script src="/assets/jQuery/moment.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="/assets/jQuery/daterangepicker.min.js"></script>
+<script src="/assets/jQuery/jquery.fancybox.min.js"></script>
+
+
+
+
+<!-- Page Specific JS -->
+<script src="/assets/js/app.js"></script>  
+
+<!-- Toaster files -->
+<script src="/assets/toastr/toastr.min.js"></script>      
+
+<script>
+$(document).ready(function(){
+	
+		$('[data-toggle="tooltip"]').tooltip();
+	
+		$(".data-table").DataTable({
+        "responsive": true,
+        "order": [[ 0, "desc" ]], 
+        "autoWidth": false,
+		});
+		
+    $(".asc-data-table").DataTable({
+        "responsive": true,
+        "order": [[ 0, "asc" ]], 
+        "autoWidth": false
+		});
+		
+});
+
+</script>
+<% if (error) { %>
+	<script>
+		toastr.error('<%- error.message %>');
+	</script>
+<% } %>
+
+<script src="/js/headerNotification.js"></script>
+<script>
+	$(document).ready(function () {
+		$.fn.employeeSideNotificationModule();
+	});
+	$.fn.empNotificationClickedFunc = function(pageName){
+		$.fn.empNotificationPageName(pageName);
+ }
+ $.fn.headerEmpnotificationClickedFunc = function(){
+	$.fn.viewedEmpHeadernotification();
+ }
+</script>
+
+
+

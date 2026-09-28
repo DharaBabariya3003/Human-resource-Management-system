@@ -1,0 +1,30 @@
+# This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: Node.js CI
+
+on:
+  push:
+    branches: [ stage ]
+
+jobs:
+  build:
+
+    runs-on: self-hosted
+
+    strategy:
+      matrix:
+        node-version: [14.x]
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - run: npm install
+    - run: npm run build --if-present
+    - run: cd /var/www/actions-runner/hrms/BigscalHRMS
+    - run: DB_URI=mongodb://localhost:27017/BS-HRMS migrate-mongo up
+    - run: pm2 delete HRMS
+    - run: PORT=${{ secrets.PORT }} NODE_ENV=${{ secrets.NODE_ENV }} DB_URI=${{ secrets.DB_URI }} SALT=${{ secrets.SALT }} SECRET=${{ secrets.SECRET }} JWT=${{ secrets.JWT }} AWS_ID=${{ secrets.AWS_ID }} AWS_SECRET=${{ secrets.AWS_SECRET }} AWS_S3_REGION=${{ secrets.AWS_S3_REGION }} AWS_BUCKET=${{ secrets.AWS_BUCKET }} EMAILID=${{ secrets.EMAILID }} SENDGRID_KEY=${{ secrets.SENDGRID_KEY }} BASEURL=${{ secrets.BASEURL }} JWT_SECRET=${{ secrets.JWT_SECRET }} REDISHOST=${{ secrets.REDISHOST }} REDISPORT=${{ secrets.REDISPORT }} ACCOUNTNUMBER=${{ secrets.ACCOUNTNUMBER }} TDS_AMOUNT=${{ secrets.TDS_AMOUNT }} AIRBRAKE_PROJECTID=${{ secrets.AIRBRAKE_PROJECTID }} AIRBRAKE_PROJECTKEY=${{ secrets.AIRBRAKE_PROJECTKEY }} pm2 start ./bin/www --name HRMS --log-date-format 'DD-MM HH:mm:ss.SSS'

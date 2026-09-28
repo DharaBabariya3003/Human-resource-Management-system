@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+	<%- include('../layout/header') -%>
+		<div class="app">
+			<div class="app-wrapper">
+				<div class="app-content pt-3 p-md-3 p-lg-4">
+					<div class="container-xl">
+						<div class="row g-3 mb-4 align-items-center justify-content-between">
+							<div class="col-auto">
+								<h1 class="app-page-title mb-0">Bond Completed Employees<span>:&nbsp;<span id="totalEmployees" style="color: green;"></span></span></h1>
+							</div>
+							<div class="col-auto">
+								<div class="page-utilities">
+									<div class="row g-2 justify-content-start justify-content-md-end align-items-center"></div><!--//row-->
+								</div><!--//table-utilities-->
+							</div><!--//col-auto-->
+						</div><!--//row-->
+						<div class="tab-content" id="orders-table-tab-content">
+							<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+								<div class="app-card-body">
+									<table id="bondCompletedUsers" class="table app-table-hover mb-0 text-left">
+										<thead>
+											<tr>
+												<th class="cell">Employee Code</th>
+												<th class="cell">Employee Name</th>
+												<th class="cell">Bond Completed Date</th>
+											</tr>
+										</thead>
+										<tbody>
+										</tbody>
+									</table>
+								</div><!--//app-card-body-->
+							</div><!--//app-card-->
+						</div><!--//tab-content-->
+					</div><!--//container-fluid-->
+				</div><!--//app-content-->
+				<%- include('../layout/footer') -%>
+			</div><!--//app-wrapper-->
+		</div>
+    <%- include('../layout/script') -%>
+    <script>
+			$(function () {
+				var table;
+			
+				table = $("#bondCompletedUsers").DataTable({
+					"searching": false,
+					"autoWidth": false,
+					"pageLength": 25,
+					"scrollX": true,
+					"order": [[ 0, 'asc' ]],
+					"serverSide": true,
+					"ordering": false,
+					"serverMethod": 'get',
+					"lengthMenu": [[25, 50,100], [25, 50,100]],
+					'ajax': {
+						'url': '/admin/api/bondCompletedUsers',
+					},
+					"columns": [{
+						data: "attendanceCode",
+						"defaultContent": "-"
+					},{
+						data: "",
+						"defaultContent": "-"	,
+						"render" : function(data, type, row){							
+							return `${row.firstName} ${row.middleName} ${row.lastName}`
+						}
+				},{
+						data: "bondCompletedDate",
+						"defaultContent": "-",
+						"render" : function(data, type, row){							
+							return `${moment(row.bondCompletedDate).format("DD MMM YYYY")}`
+						}
+					}
+				], "fnDrawCallback": function () {				
+          let rowCount = $("#bondCompletedUsers tr").length;					
+          rowCount = this.api().page.info().recordsTotal;				
+          document.getElementById("totalEmployees").textContent = rowCount;
+			}
+					
+				});
+			});
+		</script>    
+</body>
+</html>

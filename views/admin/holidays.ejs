@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Import Head -->
+  <%- include('../layout/head') -%>
+</head>
+<body>
+  <%- include('../layout/header') -%>
+    <div class="app">
+      <div class="app-wrapper">
+        <div class="app-content pt-3 p-md-3 p-lg-4">
+          <div class="container-xl">
+            <div class="row g-3 mb-4 align-items-center justify-content-between">
+              <div class="col-auto">
+                <h1 class="app-page-title mb-0">Holidays <span style="color: green;">( Total holidays in <%=
+                      oldValues.moment().month(oldValues.noOfmonth).format("MMMM"); %> : <%=
+                        oldValues.monthAllHolidays.length %> )</span></h1>
+              </div>
+              <div class="col-auto">
+                <div class="page-utilities">
+                  <div class="row g-2 justify-content-start justify-content-md-end align-items-center">
+                    <div class="col-auto">
+                      <input type="month" class="form-control" onchange="selectMonthForHoliday(event)"
+                        value=<%if(oldValues.selectedMonth) {%>
+                      <%= oldValues.selectedMonth%>
+                        <%}%>>
+                    </div>
+                    <div class="col-auto">
+                      <a class="btn btn-success btn-green-neumorpic" style="border-radius: 0;" href="/admin/holidays/create">Add
+                        Holidays</a>
+                    </div>  
+                  </div><!--//row-->
+                </div><!--//table-utilities-->
+              </div><!--//col-auto-->
+            </div><!--//row-->
+            <div class="tab-content" id="orders-table-tab-content">
+              <div class="tab-pane fade show active" id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+                <div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+                  <div class="app-card-body">
+                    <table class="table app-table-hover mb-0 text-left asc-data-table" width="100%">
+                      <thead>
+                        <tr>
+                          <th class="cell">Sr.No</th>
+                          <th class="cell">Holiday Date</th>
+                          <th class="cell">Holiday Reason</th>
+                          <th class="cell">Action</th>
+                        </tr>
+                      </thead>
+                      <% let count=0; %>
+                      <tbody>
+                        <%if(oldValues.monthAllHolidays.length>0){
+                          oldValues.monthAllHolidays.forEach(element=>{%>
+                          <tr>
+                            <td>
+                              <%= ++count; %>
+                            </td>
+                            <td>
+                              <%= element.holidayDate %>
+                            </td>
+                            <td>
+                              <%= element.holidayReason%>
+                            </td>
+                            <td> <button type="button"
+                              onclick="deleteMonthyHoliday('<%= oldValues.selectedMonth%>','<%= element._id %>')"
+                              class="btn btn-outline-danger btn-round-red-neumorpic" data-toggle="tooltip" title="Delete" style="border-radius: 0%;">
+                              <i class="fas fa-trash"></i>
+                            </button> </td>
+                          </tr>
+                        <%})}%>
+                      </tbody>
+                    </table>
+                  </div><!--//app-card-body-->
+                </div><!--//app-card-->
+              </div><!--//tab-pane-->
+            </div><!--//tab-content-->
+          </div><!--//container-fluid-->
+        </div><!--//app-content-->
+        <%- include('../layout/footer') -%>
+      </div><!--//app-wrapper-->
+    </div>
+    <%- include('../layout/script') -%>
+    <script src="/js/deleteEmployee.js"></script>
+    <script src="/js/holidayHandler.js"></script>    
+</body>
+</html>

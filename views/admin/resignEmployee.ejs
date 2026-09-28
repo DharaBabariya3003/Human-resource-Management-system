@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Import Head -->
+<%- include('../layout/head') -%>   
+</head>	
+<body>
+<%- include('../layout/header') -%>  
+<div class="app">
+	<div class="app-wrapper">
+		<div class="app-content pt-3 p-md-3 p-lg-4">
+		  <div class="container-xl">
+			  <div class="position-relative mb-3">
+				  <div class="row g-3 justify-content-between">
+					  <div class="col-auto">
+							<h1 class="app-page-title mb-0">Employee Resignation Details</h1>
+					  </div>
+				  </div>
+				</div>							    
+				<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+					<div class="app-card-body">
+						<div class="table-responsive">
+							<table class="table app-table-hover mb-0 text-left" id="resignEmployee">
+								<thead>
+									<tr>
+										<th class="cell">Sr No.</th>
+										<th class="cell">Name</th>
+										<th class="cell">Resignation Date</th>
+                    <th class="cell">Last Date</th>
+                    <th class="cell">Notice Period</th>
+										<th class="cell">Contact Number</th>                    
+                    <th class="cell">Remaining Days</th>												
+									</tr>
+								</thead>
+								<tbody>
+								</tbody>              
+							</table>
+						</div><!--//table-responsive-->   
+					</div><!--//app-card-body-->		
+				</div><!--//app-card-->			    			  
+			</div><!--//container-fluid-->
+	  </div><!--//app-content-->
+		<%- include('../layout/footer') -%>   
+	</div><!--//app-wrapper-->   					
+</div>
+<%- include('../layout/script') -%>  
+<script>
+  $(function () {
+    var table;  
+    table = $("#resignEmployee").DataTable({
+      "autoWidth": false,
+      "scrollX": true,
+      "order": [[ 0, 'desc' ]],
+      "serverSide": true,
+      "serverMethod": 'get',
+      'ajax': {
+        'url': '/admin/api/resignEmployeeTable',        
+      },  
+      "columns": [{
+        data: "",
+        className: 'hideTd',
+        "defaultContent": "-"
+      },{
+        data: "firstName",
+        "defaultContent": "-"
+      }, {
+        data: "resignationDate",
+        "defaultContent": "-"
+      }, {
+        data: "lastDate",
+				"defaultContent": "-",
+				"render":function(data, type, row){																				
+						return `<span>  ${moment(row.lastDate).format("YYYY-MM-DD")} </span>`;
+			  }	
+        
+      },{
+        data: "noticePeriod",
+        "defaultContent": "-"
+      },{
+        data: "contactNumber",
+        "defaultContent": "-"
+      },{
+        data: "remainingDay",
+				"defaultContent": "-",
+				"render":function(data, type, row){																			
+					let a = moment(row.lastDate);
+      		let b = moment().format("YYYY-MM-DD");
+      		let diff = a.diff(b, "days");
+					return `<span>  ${ diff } </span>`;
+			  }	
+      },
+      ],
+      "fnRowCallback": function(nRow, aData, iDisplayIndex) {
+        var oSettings = table.settings()[0];
+        $("td:first", nRow).html(oSettings._iDisplayStart + iDisplayIndex + 1);
+        nRow.id = aData.id;
+        return nRow;
+      }
+    });
+  });	
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,414 @@
+<html lang="en">
+<head>
+	<!-- Import Head -->
+	<%- include('../layout/head') -%>
+</head>
+<body>
+<%- include('../layout/header') -%>
+	<div class="app">
+		<div class="app-wrapper">
+			<div class="app-content pt-3 p-md-3 p-lg-4">
+				<div class="container-xl">
+					<div class="row g-3 mb-4 align-items-center justify-content-between">
+						<div class="col-auto">
+							<h1 class="app-page-title mb-0"></h1>
+						</div>
+					</div><!--//row-->
+					<nav id="orders-table-tab" class="orders-table-tab app-nav-tabs nav shadow-sm flex-column flex-sm-row mb-4">
+						<a class="flex-sm-fill text-sm-center nav-link <%if(oldValues.selectedTab){if(oldValues.selectedTab.status==='department'){%><%= 'active' %><%}}%>" id="orders-all-tab" data-toggle="tab" href="#orders-all" role="tab" aria-controls="orders-all" aria-selected="true">Add Department</a>
+						<a class="flex-sm-fill text-sm-center nav-link <%if(oldValues.selectedTab){if(oldValues.selectedTab.status==='designation'){%><%= 'active' %><%}}%>" id="orders-paid-tab" data-toggle="tab" href="#orders-paid" role="tab" aria-controls="orders-paid" aria-selected="false" onclick="openDesignation()">Add Designation</a>
+						<a class="flex-sm-fill text-sm-center nav-link <%if(oldValues.selectedTab){if(oldValues.selectedTab.status==='search'){%><%= 'active' %><%}}%>" id="orders-pending-tab" data-toggle="tab" href="#orders-pending" role="tab" aria-controls="orders-pending" aria-selected="false" onclick="seachDesignation()">Search Designation</a>
+						<a class="flex-sm-fill text-sm-center nav-link <%if(oldValues.selectedTab){if(oldValues.selectedTab.status==='searchEmployee'){%><%= 'active' %><%}}%>" id="orders-cancelled-tab" data-toggle="tab" href="#orders-cancelled" role="tab" aria-controls="orders-cancelled" aria-selected="false" onclick="seachEmployeeDesignation()">Search Employees</a>
+					</nav><!--//nav-->
+					<div class="tab-content" id="orders-table-tab-content">
+						<div class="tab-pane <%if(oldValues.selectedTab){
+              if(oldValues.selectedTab.status==='department'){%>
+              <%= 'show active' %>
+              <%}}%> " id="orders-all" role="tabpanel" aria-labelledby="orders-all-tab">
+								<div class="app-card app-card-orders-table shadow-sm mb-5 card-neumorphic">
+									<div class="app-card-body">
+										<div class="table-responsive">
+											<div class="col-12 col-lg-12">
+                          <div class="app-card-body">
+														<form method="POST" action="/admin/store/department">
+															<div class="item border-bottom py-3" style="border: none !important;">
+																<div class="row justify-content-between align-items-center row-6">
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label">
+																					<strong>Department Name:</strong>
+																				</div>
+																				<div class="item-data">
+																					<input type="text" required class="form-control" name="departmentName" placeholder="Department name" maxlength = "50" onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+																					
+																				</div><!-- form-group// -->
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>&nbsp;</strong></div>
+																				<div class="item-data">
+																					<button type="submit" class="btn app-btn-primary btn-green-neumorpic" style="border-radius: 0;">Add Department</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">															
+																			</div>
+																		</div>
+																	</div>
+																</div><!--//row-->
+															</div>
+														</form>
+														<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+															<div class="app-card-body px-4 w-100">
+																<table class="table app-table-hover mb-0 text-left data-table">
+																	<thead>
+																		<tr>
+																			<th class="cell" style="display: none;">Sr.No</th>
+																			<th class="cell">
+																				Department Name
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<% i=1;%>      
+																		<%if(oldValues.allDepartments){
+																			if(oldValues.allDepartments.length>0){
+																				oldValues.allDepartments.forEach(element=>{%>
+																					<tr>
+																						<td style="display: none;"><%= i %></td>
+																						<td>
+																							<%= element.departmentName %>
+																						</td>
+																					 
+																						<% i=(i+1);%>
+																					</tr>
+																			<%})
+																			}
+																		}%>
+																		 
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+											</div><!--//col-->
+										</div><!--//table-responsive-->
+									</div><!--//app-card-body-->
+								</div><!--//app-card-->
+						</div><!--//tab-pane-->
+						<div class="tab-pane fade <%if(oldValues.selectedTab){
+              if(oldValues.selectedTab.status==='designation'){%>
+                <%= 'show active' %>
+              <%}}%>" id="orders-paid" role="tabpanel" aria-labelledby="orders-paid-tab">
+                <div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                  <div class="app-card-body">
+										<div class="table-responsive">
+											<div class="col-12 col-lg-12">
+                          <div class="app-card-body">
+														<form method="POST" action="/admin/store/designation">
+															<div class="item border-bottom py-3" style="border: none !important;">
+																<div class="row justify-content-between align-items-center row-6">
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label">
+																					<strong>Select Department:</strong>
+																				</div>
+																				<div class="item-data">
+																					<select required name="departmentId" class="form-control form-select">
+																						<%if(oldValues.allDepartments){
+																								if(oldValues.allDepartments.length>0){
+																									oldValues.allDepartments.forEach(element=>{%>
+																								<option value=<%= element._id %>> <%= element.departmentName %></option>
+																								<%})
+																							}
+																						}%>
+																						</select>
+																				</div><!-- form-group// -->
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label">
+																					<strong>Designation:</strong>
+																				</div>
+																				<div class="item-data">
+																					<input type="text" required class="form-control" name="designationName" placeholder="Designation" maxlength = "50"
+																					onkeypress='return ((event.charCode >= 65 && event.charCode <= 90) || (event.charCode >= 97 && event.charCode <= 122) || (event.charCode == 32))'>
+																				</div><!-- form-group// -->
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>&nbsp;</strong></div>
+																				<div class="item-data">
+																					<button type="submit" class="btn app-btn-primary btn-green-neumorpic" style="border-radius: 0;">Add Designation</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>																
+																</div><!--//row-->
+															</div>
+														</form>
+														<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+															<div class="app-card-body px-4 w-100">
+																<table class="table app-table-hover mb-0 text-left data-table">
+																	<thead>
+																		<tr>
+																			<th class="cell" style="display: none;">Sr.No</th>
+																			<th class="cell">
+																				Department Name
+																			</th>
+																			<th class="cell">
+																				Designation
+																			</th>
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<% i=1;%>      
+																		<%if(oldValues.allRenderDesignation){
+																			if(oldValues.allRenderDesignation.length>0){
+																				oldValues.allRenderDesignation.forEach(element=>{%>
+																					<tr>
+																						<td style="display: none;"><%= i %></td>
+																						<td>
+																							<%= element.deptName %>
+																						</td>
+																						<td>
+																							<%= element.designation %>
+																						</td>
+																						<% i=(i+1);%>
+																					</tr>
+																			<%})
+																			}
+																		}%>
+																		 
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+											</div><!--//col-->
+										</div><!--//table-responsive-->
+                  </div><!--//app-card-body-->
+            		</div><!--//app-card-->
+            </div><!--//tab-pane-->
+						<div class="tab-pane fade <%if(oldValues.selectedTab){
+              if(oldValues.selectedTab.status==='search'){%>
+              	<%= 'show active' %>
+              <%}}%>" id="orders-pending" role="tabpanel" aria-labelledby="orders-pending-tab">
+								<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                  <div class="app-card-body">
+										<div class="table-responsive">
+											<div class="col-12 col-lg-12">
+                          <div class="app-card-body">
+														<form method="POST" action="/admin/view/designation">
+															<div class="item border-bottom py-3" style="border: none !important;">
+																<div class="row justify-content-between align-items-center row-6">
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label">
+																					<strong>Select Department:</strong>
+																				</div>
+																				<div class="item-data">
+																					<select required name="departmentId" class="form-control form-select">
+																						<option value="" disabled selected>--select department--</option>
+																						<%if(oldValues.allDepartments){
+																								if(oldValues.allDepartments.length>0){
+																									oldValues.allDepartments.forEach(element=>{%>
+																								<option value=<%= element._id %> <%if(''+oldValues.selectedDept==''+element._id){%>
+																									selected
+																								<%}%>> <%= element.departmentName %></option>
+																								<%})
+																							}
+																						}%>
+																						</select>
+																				</div><!-- form-group// -->
+																			</div>
+																		</div>
+																	</div>																	
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>&nbsp;</strong></div>
+																				<div class="item-data">
+																					<button type="submit" class="btn app-btn-primary btn-green-neumorpic" style="border-radius: 0;">Search Designation</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>&nbsp;</strong></div>
+																				<div class="item-data"></div>
+																			</div>
+																		</div>
+																	</div>																
+																</div><!--//row-->
+															</div>
+														</form>
+														<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+															<div class="app-card-body px-4 w-100">
+																<table class="table app-table-hover mb-0 text-left data-table">
+																	<thead>
+																		<tr>
+																			<th class="cell">Designation</th>																		 
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<%if(oldValues.allDesignation){
+																			if(oldValues.allDesignation.length>0){
+																				oldValues.allDesignation.forEach(element=>{%>
+																					<tr>
+																						<td>
+																							<%= element.designationName %>
+																						</td>																					
+																					</tr>
+																			<%})
+																			}
+																		}%>																		 
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													</div>
+											</div><!--//col-->
+										</div><!--//table-responsive-->
+                  </div><!--//app-card-body-->
+            		</div><!--//app-card-->
+						</div><!--//tab-pane-->
+						<div class="tab-pane fade <%if(oldValues.selectedTab){
+              if(oldValues.selectedTab.status==='searchEmployee'){%>
+              	<%= 'show active' %>
+              <%}}%>" id="orders-cancelled" role="tabpanel" aria-labelledby="orders-cancelled-tab">
+								<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+                  <div class="app-card-body">
+										<div class="table-responsive">
+											<div class="col-12 col-lg-12">
+												<%if(oldValues){
+													if(oldValues.selectedDesignation){%>
+														<script>
+															window.onload = function() {
+																getDesignation(`<%= oldValues.selectedDesignation %>`);
+															};
+														</script>
+													<%}
+												}%>
+                          <div class="app-card-body">
+														<form method="POST" action="/admin/view/designation/employees">
+															<div class="item border-bottom py-3" style="border: none !important;">
+																<div class="row justify-content-between align-items-center row-6">
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>Select Department:</strong></div>
+																				<div class="item-data">
+																					<select required id="combo"  onchange="getDepartment();" name="department" class="form-control form-select" required>
+																						<option value="" disabled selected>--select department--</option>
+																						<%if(oldValues.allDepartments){
+																								if(oldValues.allDepartments.length>0){
+																									oldValues.allDepartments.forEach(element=>{%>
+																								<option value=<%= element._id %> <%if(''+oldValues.selectedDept==''+element._id){%>
+																									selected
+																								<%}%>> <%= element.departmentName %></option>
+																								<%})
+																							}
+																						}%>
+																						</select>
+																				</div><!-- form-group// -->
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>Select Designation</strong></div>
+																				<div class="item-data">
+																					<select id="selectDeg" required name="designation" class="form-control form-select">
+																					</select>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																	<div class="col-sm-4">
+																		<div class="col-auto">
+																			<div class="mb-3">
+																				<div class="item-label"><strong>&nbsp;</strong></div>
+																				<div class="item-data">
+																					<button type="submit" class="btn app-btn-primary btn-green-neumorpic" style="border-radius: 0;">Search Employee</button>
+																				</div>
+																			</div>
+																		</div>
+																	</div>
+																</div><!--//row-->
+															</div>
+														</form>
+														<div class="app-card app-card-orders-table mb-5 card-neumorphic">
+															<div class="app-card-body px-4 w-100">
+																<table class="table app-table-hover mb-0 text-left asc-data-table">
+																	<thead>
+																		<tr>
+																			<th class="cell" style="display: none;">Sr.No</th>
+																			<th class="cell">
+																				Employee Code
+																			</th>
+																			<th class="cell">
+																				Employee Name
+																			</th>
+																		 
+																		</tr>
+																	</thead>
+																	<tbody>
+																		<% i=1;%>      
+																		<%if(oldValues.employees){
+																			if(oldValues.employees.length>0){
+																				oldValues.employees.forEach(element=>{%>
+																					<tr>
+																						<td style="display: none;"><%= i %></td>
+																						<td>
+																							<%= element.attendanceCode %>
+																						</td>
+																						<td>
+																							<%= element.firstName+" "+element.middleName+" "+element.lastName %>
+																						</td>
+																						<% i=(i+1);%>
+																					</tr>
+																			<%})
+																			}
+																		}%>
+																		 
+																	</tbody>
+																</table>
+															</div>
+														</div>
+													
+													</div>
+											</div><!--//col-->
+										</div><!--//table-responsive-->
+                  </div><!--//app-card-body-->
+            		</div><!--//app-card-->
+            </div><!--//tab-pane-->							
+					</div><!--//orders-table-tab-content-->
+				</div><!--//container-xl-->
+			</div><!--//app-content-->
+		</div><!--//app-wrapper-->
+		<%- include('../layout/footer') -%>
+  </div><!--//app-->
+	<%- include('../layout/script') -%>
+	<script src="/js/designationHandler.js"></script>
+	
+</body>
+</html>

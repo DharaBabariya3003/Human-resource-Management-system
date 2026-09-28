@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            /* border: 1px solid black; */
+            font-size: 10px;
+        }
+        table, th, td {
+             border: 1px solid black;       
+             border-collapse: collapse;
+        }
+        table{  
+             border-right-style:none;
+             border-left-style:none;
+        }
+        th {
+            text-align: left;    
+        }
+        
+        footer {
+        text-align: right;
+        padding-top:120px;
+        padding-right:10px;            
+        }
+        #align{
+            text-align: right;
+            padding-right: 2%;
+        }
+        th.from{
+            width: 20%;
+            text-align: center;
+        } 
+        th.to{
+            width: 30%;
+            text-align: center;
+        }  
+        #test{
+            padding-left:10px;   
+            width:25%;
+        }
+        #demo{
+            padding-left:2%;   
+        }
+        #demoTest{
+            padding-left:2%;   
+        }
+        .signatureBox{
+            padding-top: 25px;   
+        }
+    </style>
+</head>
+<body>
+    <table style="width:100%">
+        {{#each users}}
+        <tr>
+            <th colspan="4" style="text-align: center;">
+                <h3>BIGSCAL TECHNOLOGIES PVT.LTD</h3>
+                <h4>502-Jivandeep Complex, Unapani Raod, Laldarwaja, Surat- 395003<br>
+                    Ph No.:8000800110, wwww.bigscal.com<br>
+                </h4>
+            </th>
+        </tr>
+        <tr>
+            <th colspan="4" style="text-align: center;">
+                <h3>Pay Slip </h3><h4>{{this.headerDate}}</h4>
+            </th>
+        </tr>
+        <h3>
+            
+        <tr>
+            <td style='border-right:none;border-bottom: none;' id="test">Employee ID:</td>
+            <td style='border-right:none;border-left: none;border-bottom: none;'>{{this.employeeCode}}</td>
+            <td style='border-right:none;border-left: none;border-bottom: none;' id="test">Name:</td>
+            <td style='border-left: none;border-bottom: none;'>{{this.firstName}}</td>
+        </tr>    
+        <tr>    
+            <td style='border-right:none;border-top: none;border-bottom: none;' id="test">Department:</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;'> {{this.department}}</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;'  id="test">Date of Birth:</td>
+            <td style='border-left: none;border-top: none;border-bottom: none;'>{{this.birthDate}}</td> 
+        </tr>    
+        <tr>
+            <td style='border-right:none;border-top: none;border-bottom: none;' id="test">Designation:</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;'>{{this.designation}}</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;' id="test">Pay Date:</td>
+            <td style='border-left: none;border-top: none;border-bottom: none;'>{{this.payDate}}</td>
+        </tr>
+        <tr>
+            <td style='border-right:none;border-top: none;border-bottom: none;' id="test">Days Worked:</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;'>{{this.daysWorked}}</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;' id="test">Date of Joining:</td>
+            <td style='border-left: none;border-top: none;border-bottom: none;'>{{this.joiningDate}}</td>
+        </tr>    
+        <tr>
+            <td style='border-right:none;border-top: none;border-bottom: none;' id="test">Bank Name:</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;'>{{this.bankName}}</td>
+            <td style='border-right:none;border-left: none;border-top: none;border-bottom: none;' id="test">Bank A/C Number:</td>
+            <td style='border-left: none;border-top: none;border-bottom: none;'>{{this.accountNumber}}</td>
+        </tr> 
+        {{/each}}
+    </table>
+    <table style="width:100%">
+        {{#each users}}        
+        <tr>
+            <th class="to">Earnings</th>
+            <th class="from">Gross Salary</th>
+            <th class="to">Deductions</th>
+            <th class="from">Gross Salary</th>
+        </tr>
+        <tr>
+            <td id="demo">Basic Pay</td>
+            <td id="align">{{this.basicPayAmount}}</td>
+            <td id="demo">Professional Tax</td>
+            <td id="align">{{this.professionalTax}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Special Allowance</td>
+            <td id="align">{{this.specialAllowane}}</td>
+            <td id="demo">ESIC</td>
+            <td id="align">{{this.esic}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Leave Encashment</td>
+            <td id="align">{{this.leaveEncashmentAmount}}</td>  
+            <td id="demo">Security Deposit[0%]</td>
+            <td id="align">{{this.securityDeposit}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Bonus</td>
+            <td id="align">{{this.bonus}}</td>  
+            <td id="demo">TDS</td>
+            <td id="align">{{this.tds}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Overtime Allowance</td>
+            <td id="align">{{this.overtimeAllowanceAmnount}}</td>
+            <td id="demo">PF</td>
+            <td id="align">{{this.pf}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Petrol Allowance</td>
+            <td id="align">{{this.patrol}}</td>
+            <td id="demo">Other</td>
+            <td id="align">{{this.other}}</td>
+        </tr>
+        <tr>
+            <td id="demo">Shift</td>
+            <td id="align">{{this.shift}}</td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td style="border-right:none"></td>
+            <td style="border-left: none;"></td>
+            <th id="demo">Net Amount</th>
+            <td id="align">{{this.netPay}}</td>
+        </tr>
+        {{/each}}
+    
+        <tr>
+            <th colspan="4" rowspan="2" class="signatureBox">&emsp;RECEIVER'S SIGNATURE  &emsp;&emsp; &emsp; &emsp; &emsp;  &emsp;  &emsp; &emsp; &emsp; BIGSCAL TECHNOLOGIES PVT.LTD</th>
+        </tr>
+            
+      </h3>
+      </table>
+</body>
+</html>
